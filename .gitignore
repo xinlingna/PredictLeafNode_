@@ -1,0 +1,6 @@
+input/**
+output/**
+src/model/__pycache__/**
+src/preprocess/__pycache__
+idea.bak
+.vscode
