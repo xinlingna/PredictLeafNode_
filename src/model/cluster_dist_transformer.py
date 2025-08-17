@@ -171,12 +171,30 @@ class ClusterDistTransformer(nn.Module):
         return logits  # raw logits; apply log_softmax/softmax outside as needed
 
 
+def topk_recall(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
+    """
+    Compute Top-K recall over a batch.
+    pred_prob: (B, K)
+    label_prob: (B, K)
+    Returns average recall@k in [0,1].
+    """
+    topk_pred = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
+    top_true = torch.topk(label_prob, k, dim=1).indices  # (B, k)
+    recall_sum = 0.0
+    B = pred_prob.size(0)
+    for i in range(B):
+        intersect = len(set(topk_pred[i].tolist()) & set(top_true[i].tolist()))
+        recall_sum += intersect / float(k)
+    return recall_sum / float(B)
+
+
 @torch.no_grad()
-def evaluate(model: nn.Module, loader: DataLoader, device: torch.device) -> Tuple[float, float, float]:
+def evaluate(model: nn.Module, loader: DataLoader, device: torch.device, topk: int = 10) -> Tuple[float, float, float, float]:
     model.eval()
     kldiv = nn.KLDivLoss(reduction="batchmean")
     mae_meter, mse_meter, kld_meter = 0.0, 0.0, 0.0 # 
     total = 0
+    recall_meter = 0.0
     for x, y in loader:
         x = x.to(device)
         y = y.to(device)
@@ -186,12 +204,14 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device) -> Tupl
         loss_kld = kldiv(log_probs, y)
         mae = torch.mean(torch.abs(preds - y))
         mse = torch.mean((preds - y) ** 2)
+        recall = topk_recall(preds, y, k=topk)
         bs = x.size(0)
         kld_meter += loss_kld.item() * bs
         mae_meter += mae.item() * bs
         mse_meter += mse.item() * bs
+        recall_meter += recall * bs
         total += bs
-    return kld_meter / total, mae_meter / total, mse_meter / total
+    return kld_meter / total, mae_meter / total, mse_meter / total, recall_meter / total
 
 
 def train(
@@ -205,6 +225,7 @@ def train(
     grad_clip: float = 1.0,
     amp: bool = True,
     save_dir: Optional[str] = None,
+    save_name: str = "best.pt",
 ):
     model.train()
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
@@ -239,19 +260,19 @@ def train(
         train_loss = running / n
 
         if val_loader is not None:
-            val_kld, val_mae, val_mse = evaluate(model, val_loader, device)
-            print(f"epoch {ep:03d} | train_kld={train_loss:.6f} | val_kld={val_kld:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f}")
+            val_kld, val_mae, val_mse, val_recall = evaluate(model, val_loader, device, topk=10)
+            print(f"epoch {ep:03d} | train_kld={train_loss:.6f} | val_kld={val_kld:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f} | recall@10={val_recall:.4f}")
             if val_kld < best_val and save_dir:
                 best_val = val_kld
                 torch.save(
                     {"model": model.state_dict(), "epoch": ep, "val_kld": val_kld},
-                    os.path.join(save_dir, "best.pt"),
+                    os.path.join(save_dir, save_name),
                 )
         else:
             print(f"epoch {ep:03d} | train_kld={train_loss:.6f}")
 
     if val_loader is not None and save_dir:
-        print(f"best val_kld: {best_val:.6f} (saved to {os.path.join(save_dir, 'best.pt')})")
+        print(f"best val_kld: {best_val:.6f} (saved to {os.path.join(save_dir, save_name)})")
 
 
 def build_loaders(
@@ -325,7 +346,6 @@ def parse_args():
     p.add_argument("--grad_clip", type=float, default=1.0, help="Gradient clipping (max norm)")
     p.add_argument("--num_workers", type=int, default=4, help="DataLoader workers")
     p.add_argument("--seed", type=int, default=42, help="Random seed")
-    p.add_argument("--save_dir", type=str, default="./runs/cluster_dist_transformer", help="Directory to save checkpoints and logs")
     # model
     p.add_argument("--d_model", type=int, default=256, help="Transformer hidden size")
     p.add_argument("--nhead", type=int, default=8, help="Number of attention heads")
@@ -335,6 +355,7 @@ def parse_args():
     p.add_argument("--max_len", type=int, default=4096, help="Maximum supported sequence length")
     p.add_argument("--score_type", type=str, default="bilinear", choices=["bilinear", "mlp"], help="Scoring function type")
     p.add_argument("--no_amp", action="store_true", help="Disable mixed precision")
+    p.add_argument("--topk", type=int, default=10, help="Top-K for recall metric")
     return p.parse_args()
 
 
@@ -342,7 +363,6 @@ def main():
     args = parse_args()
     set_seed(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    os.makedirs(args.save_dir, exist_ok=True)
 
     if args.gen_synth:
         queries, centroids, targets = make_synth_dataset(args.synth_n, args.synth_K, args.synth_D)
@@ -373,6 +393,9 @@ def main():
     # Determine dimensions solely from centroids
     K, D = C.shape
     print(f"Detected K={K}, D={D}")
+    # Save checkpoints next to the centroids file
+    ckpt_dir = os.path.dirname(args.centroids_path)
+    os.makedirs(ckpt_dir, exist_ok=True)
 
     train_loader, val_loader = build_loaders(
         args.train_npz,
@@ -396,6 +419,12 @@ def main():
         score_type=args.score_type,
     ).to(device)
 
+    # Build a descriptive checkpoint name using key hyperparameters
+    ckpt_name = (
+        f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}"
+        f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}.pt"
+    )
+
     train(
         model=model,
         train_loader=train_loader,
@@ -406,13 +435,14 @@ def main():
         weight_decay=args.weight_decay,
         grad_clip=args.grad_clip,
         amp=not args.no_amp,
-        save_dir=args.save_dir,
+        save_dir=ckpt_dir,
+        save_name=ckpt_name,
     )
 
     # Evaluation (if test set is provided)
     if args.test_npz:
         # Reload the best checkpoint if available
-        best_path = os.path.join(args.save_dir, "best.pt")
+        best_path = os.path.join(ckpt_dir, ckpt_name)
         if os.path.exists(best_path):
             ckpt = torch.load(best_path, map_location=device)
             model.load_state_dict(ckpt["model"])
@@ -429,8 +459,8 @@ def main():
 
         test_ds = NPZClusterDataset(args.test_npz, normalize=args.normalize, mean=mean, std=std, centroids=C)
         test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers, pin_memory=True)
-        kld, mae, mse = evaluate(model, test_loader, device)
-        print(f"[TEST] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f}")
+        kld, mae, mse, recall = evaluate(model, test_loader, device, topk=args.topk)
+        print(f"[TEST] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | recall@{args.topk}={recall:.4f}")
 
 
 if __name__ == "__main__":
@@ -444,8 +474,15 @@ python -m src.model.cluster_dist_transformer \
   --train_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/train_gist.npz \
   --centroids_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/centroids.npy \
   --val_split 0.1 \
-  --normalize \
-  --epochs 20 \
+  --topk 10 \
+  --epochs 150 \
   --batch_size 256 \
-  --save_dir /home/xln/PycharmProjects/PredictLeafNode/runs/gist_cluster_transformer
+  --lr 1e-3 \
+  --weight_decay 1e-2 \
+  --d_model 512 \
+  --nhead 8 \
+  --num_layers 4 \
+  --dim_ff 1024 \
+  --dropout 0.1 \
+  --score_type bilinear
 """
