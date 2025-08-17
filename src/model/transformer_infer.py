@@ -160,7 +160,7 @@ python -m src.model.transformer_infer \
   --query_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/sift_query.txt \
   --centroids_path  /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize10K/leaf_center.txt \
   --model_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/model_hd512_nl4_lp_proportional_weight.pth \
-  --output_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/pred_probs.txt \
+  --output_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/model_hd512_nl4_lp_proportional_weight_pred_probs.txt \
   --hidden_dim 512 \
   --num_layers 4 \
   --dropout 0.3 \
