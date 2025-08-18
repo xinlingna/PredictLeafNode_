@@ -211,6 +211,7 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device, topk: i
         mse_meter += mse.item() * bs
         recall_meter += recall * bs
         total += bs
+        print(f"kld={loss_kld.item():.6f} | mae={mae.item():.6f} | mse={mse.item():.6f} | recall@{topk}={recall:.4f}")
     return kld_meter / total, mae_meter / total, mse_meter / total, recall_meter / total
 
 
@@ -479,10 +480,11 @@ python -m src.model.cluster_dist_transformer \
   --batch_size 256 \
   --lr 1e-3 \
   --weight_decay 1e-2 \
-  --d_model 512 \
+  --d_model 256 \
   --nhead 8 \
   --num_layers 4 \
-  --dim_ff 1024 \
+  --dim_ff 512 \
   --dropout 0.1 \
-  --score_type bilinear
+  --score_type bilinear \
+  --save_dir /home/xln/PycharmProjects/PredictLeafNode/runs/gist_cluster_transformer
 """
