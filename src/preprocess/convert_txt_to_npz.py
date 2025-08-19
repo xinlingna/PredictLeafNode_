@@ -91,4 +91,16 @@ python -m src.preprocess.convert_txt_to_npz \
   --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/train_gist.npz \
   --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/test_gist.npz \
   --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/centroids.npy
+
+
+python -m src.preprocess.convert_txt_to_npz \
+  --learn_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/sift_learn.txt \
+  --learn_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize20K/knn_distributions.txt \
+  --query_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/sift_query.txt \
+  --query_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize20K/knn_distributions_query.txt \
+  --centroids_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize20K/leaf_center.txt \
+  --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize20K/train_sift.npz \
+  --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize20K/test_sift.npz \
+  --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize20K/centroids.npy
+
 """

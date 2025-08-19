@@ -1,7 +1,7 @@
 
 <!-- sift1M -->
-conda activate elpis_torch
 cd ~/PycharmProjects/PredictLeafNode
+conda activate elpis_torch
 python -m src.model.transformer \
   --query_path input/Training_data/sift1M/sift_query.txt \
   --centroids_path input/Training_data/sift1M/leafsize10000/leaf_centroids.txt \

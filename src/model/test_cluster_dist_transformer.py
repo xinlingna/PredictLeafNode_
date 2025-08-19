@@ -144,3 +144,24 @@ python -m src.model.test_cluster_dist_transformer \
   --seed 42
 '''
 
+
+
+
+# gist1M-leafsize10K
+'''
+python -m src.model.test_cluster_dist_transformer \
+  --ckpt_path input/Training_data/gist1M_learn/leafsize10K/model_d256_L4_H8_ff512_bs256_ep150_lr0.001_wd0.01_bilinear.pt\
+  --test_npz input/Training_data/gist1M_learn/leafsize10K/test_gist.npz \
+  --centroids_path input/Training_data/gist1M_learn/leafsize10K/centroids.npy \
+  --topk 10 \
+  --seed 42
+'''# sift1M-leafsize20K
+'''
+python -m src.model.test_cluster_dist_transformer \
+  --ckpt_path input/Training_data/sift1M_learn/leafsize10K/model_d256_L4_H8_ff512_bs256_ep150_lr0.001_wd0.01_bilinear.pt \
+  --test_npz input/Training_data/sift1M_learn/leafsize10K/test_sift.npz \
+  --centroids_path input/Training_data/sift1M_learn/leafsize10K/centroids.npy \
+  --topk 10 \
+  --seed 42
+'''
+

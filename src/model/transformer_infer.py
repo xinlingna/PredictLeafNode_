@@ -21,6 +21,18 @@ def compute_cosine_similarity_matrix(query_sift: torch.Tensor, centroids: torch.
     return torch.matmul(query_sift, centroids.t())
 
 
+def compute_l2_similarity_matrix(query_sift: torch.Tensor, centroids: torch.Tensor) -> torch.Tensor:
+    # 与训练数据加载器一致：先 L2 行归一化，再取 -cdist
+    query_sift = F.normalize(query_sift, p=2, dim=1)
+    centroids = F.normalize(centroids, p=2, dim=1)
+    return -torch.cdist(query_sift, centroids, p=2)
+
+
+def compute_dot_similarity_matrix(query_sift: torch.Tensor, centroids: torch.Tensor) -> torch.Tensor:
+    # 与训练数据加载器一致：直接点积（不再缩放）
+    return torch.matmul(query_sift, centroids.t())
+
+
 def load_trained_model(
     model_path: str,
     input_dim: int,
@@ -29,6 +41,7 @@ def load_trained_model(
     num_layers: int = 4,
     dropout: float = 0.3,
     dual_branch_fusion: bool = True,
+    sim_only: bool = False,
     device: str = "cuda",
 ):
     """构建模型并加载已训练权重，切换为 eval 模式。"""
@@ -39,6 +52,7 @@ def load_trained_model(
         num_layers=num_layers,
         dropout=dropout,
         dual_branch_fusion=dual_branch_fusion,
+        sim_only=sim_only,
     ).to(device)
     state = torch.load(model_path, map_location=device)
     model.load_state_dict(state)
@@ -50,6 +64,7 @@ def predict_probabilities(
     model: torch.nn.Module,
     query_sift: torch.Tensor,
     centroids: torch.Tensor,
+    similarity_type: str = "cosine",
     device: str = "cuda",
     batch_size: int = 128,
 ) -> torch.Tensor:
@@ -68,7 +83,14 @@ def predict_probabilities(
     centroids = centroids.to(device)
 
     # 预先计算所有查询与所有中心的相似度，避免重复计算
-    all_sim = compute_cosine_similarity_matrix(query_sift, centroids)
+    if similarity_type == "cosine":
+        all_sim = compute_cosine_similarity_matrix(query_sift, centroids)
+    elif similarity_type == "l2":
+        all_sim = compute_l2_similarity_matrix(query_sift, centroids)
+    elif similarity_type == "dot":
+        all_sim = compute_dot_similarity_matrix(query_sift, centroids)
+    else:
+        raise ValueError("similarity_type must be one of {'cosine','l2','dot'}")
 
     probs_chunks = []
     with torch.no_grad():
@@ -95,6 +117,8 @@ def main():
     parser.add_argument("--num_layers", type=int, default=4, help="Transformer 编码层数 (需与训练时一致)")
     parser.add_argument("--dropout", type=float, default=0.3, help="dropout (需与训练时一致)")
     parser.add_argument("--dual_branch_fusion", type=bool, default=True, help="是否启用双分支融合 (需与训练时一致)")
+    parser.add_argument("--sim_only", action="store_true", help="与训练一致：仅使用 similarity 向量作为输入")
+    parser.add_argument("--similarity_type", type=str, default="cosine", choices=["cosine","l2","dot"], help="与训练一致：相似度计算方式")
 
     parser.add_argument("--device", type=str, default="cuda", choices=["cpu", "cuda"], help="推理设备")
     parser.add_argument("--infer_batch_size", type=int, default=1024, help="推理 batch size")
@@ -120,7 +144,7 @@ def main():
         )
 
     num_classes = centroids.shape[0]
-    input_dim = query_sift.shape[1] + num_classes
+    input_dim = num_classes if args.sim_only else (query_sift.shape[1] + num_classes)
 
     # 加载模型
     model = load_trained_model(
@@ -131,6 +155,7 @@ def main():
         num_layers=args.num_layers,
         dropout=args.dropout,
         dual_branch_fusion=args.dual_branch_fusion,
+        sim_only=args.sim_only,
         device=args.device,
     )
 
@@ -139,6 +164,7 @@ def main():
         model=model,
         query_sift=query_sift,
         centroids=centroids,
+        similarity_type=args.similarity_type,
         device=args.device,
         batch_size=args.infer_batch_size,
     )
@@ -157,15 +183,17 @@ if __name__ == "__main__":
 conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode
 python -m src.model.transformer_infer \
-  --query_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/sift_query.txt \
-  --centroids_path  /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/leafsize10K/leaf_center.txt \
-  --model_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/model_hd512_nl4_lp_proportional_weight.pth \
-  --output_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/sift1M_learn/model_hd512_nl4_lp_proportional_weight_pred_probs.txt \
-  --hidden_dim 512 \
+  --query_path input/Training_data/sift1M_learn/sift_query.txt \
+  --centroids_path  input/Training_data/sift1M_learn/leafsize10K/leaf_center.txt \
+  --model_path input/Training_data/sift1M_learn/leafsize10K/model_hd256_nl4_lp_proportional_weight_st_l2_so_True.pth \
+  --output_path input/Training_data/sift1M_learn/leafsize10K/model_hd256_nl4_lp_proportional_weight_st_l2_so_True_pred_probs.txt \
+  --hidden_dim 256 \
   --num_layers 4 \
   --dropout 0.3 \
   --dual_branch_fusion True \
   --device cuda \
-  --infer_batch_size 128
+  --infer_batch_size 128 \
+  --similarity_type l2 \
+  --sim_only
 
 """

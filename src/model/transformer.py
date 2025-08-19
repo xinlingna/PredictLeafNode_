@@ -24,13 +24,15 @@ class DistributionPredictor(nn.Module):
                  input_dim,
                  dropout, 
                  hidden_dim=256, 
-                 num_classes=183, 
+                 num_classes=187, 
                  num_layers=4, 
                  alpha_Exists=False,
-                 dual_branch_fusion=True):
+                 dual_branch_fusion=True,
+                 sim_only=False):
         super().__init__()
 
         self.hidden_dim=hidden_dim
+        self.sim_only = sim_only
         self.sim_scale = nn.Parameter(torch.tensor(1.0))  # sim温度
         self.film = nn.Sequential(
             nn.Linear(self.hidden_dim // 2, self.hidden_dim // 2),
@@ -44,11 +46,15 @@ class DistributionPredictor(nn.Module):
         self.alpha_Exists=alpha_Exists
         self.alpha = nn.Parameter(torch.tensor(1.0))  # 标量
         # 输入投影层：将拼接向量映射到 transformer 的 d_model
-        if self.dual_branch_fusion==True:
-                self.vector_dim=input_dim-num_classes
-                self.sift_proj=nn.Linear(self.vector_dim,hidden_dim//2)
-                self.sim_proj=nn.Linear(num_classes,hidden_dim//2)
-                self.input_proj = nn.Linear(hidden_dim, hidden_dim)
+        if self.sim_only:
+            # 仅使用 sim 分支
+            self.sim_proj = nn.Linear(num_classes, hidden_dim)
+            self.input_proj = nn.Linear(hidden_dim, hidden_dim)
+        elif self.dual_branch_fusion==True:
+            self.vector_dim=input_dim-num_classes
+            self.sift_proj=nn.Linear(self.vector_dim,hidden_dim//2)
+            self.sim_proj=nn.Linear(num_classes,hidden_dim//2)
+            self.input_proj = nn.Linear(hidden_dim, hidden_dim)
         else:
             self.input_proj = nn.Linear(input_dim, hidden_dim)
         self.norm = nn.LayerNorm(hidden_dim)
@@ -78,17 +84,27 @@ class DistributionPredictor(nn.Module):
         similarity_vec = (similarity_vec - similarity_vec.mean(dim=1, keepdim=True)) / (similarity_vec.std(dim=1, keepdim=True) + 1e-6)
         similarity_vec = similarity_vec * F.softplus(self.sim_scale)
 
-        sift_vec = self.sift_proj(sift_vec)
-        sim_vec  = self.sim_proj(similarity_vec)
+        if self.sim_only:
+            # 仅 sim 分支
+            sim_vec = self.sim_proj(similarity_vec)
+            x = self.input_proj(sim_vec).unsqueeze(1)
+        else:
+            if self.dual_branch_fusion:
+                sift_vec = self.sift_proj(sift_vec)
+                sim_vec  = self.sim_proj(similarity_vec)
 
-        # FiLM: 用 sift 生成 gamma,beta 调制 sim
-        film_params = self.film(sift_vec)              # [B, hidden_dim]
-        gamma, beta = torch.chunk(film_params, 2, dim=-1)
-        sim_vec = (1 + torch.tanh(gamma)) * sim_vec + beta
+                # FiLM: 用 sift 生成 gamma,beta 调制 sim
+                film_params = self.film(sift_vec)              # [B, hidden_dim]
+                gamma, beta = torch.chunk(film_params, 2, dim=-1)
+                sim_vec = (1 + torch.tanh(gamma)) * sim_vec + beta
 
-        # x = torch.cat([sift_vec, sim_vec], dim=-1)
-        x = torch.cat([sim_vec,sift_vec], dim=-1)
-        x = self.input_proj(x).unsqueeze(1)
+                # x = torch.cat([sift_vec, sim_vec], dim=-1)
+                x = torch.cat([sim_vec, sift_vec], dim=-1)
+                x = self.input_proj(x).unsqueeze(1)
+            else:
+                # 不做双分支投影，直接拼接原始输入后投影
+                x_in = torch.cat([sift_vec, similarity_vec], dim=-1)
+                x = self.input_proj(x_in).unsqueeze(1)
         x = self.norm(x)
 
         residual = x
@@ -260,13 +276,12 @@ def train_model(model, train_loader, val_loader, num_epochs=500, lr=1e-3, device
             elif label_process=="softmax":
                 soft_labels = F.softmax(label_dist, dim=1)
             elif label_process=="proportional_weight":
-                topk=10
-                weight_factor = 0.5
-                weighted_label = label_dist.clone()
-                topk_indices = torch.topk(weighted_label, k=topk, dim=1).indices
-                mask = torch.zeros_like(weighted_label).scatter(1, topk_indices, 1.0)
-                weighted_label = weighted_label * (1 - mask * (1 - weight_factor))
-                label_dist = label_dist + weighted_label
+                # 与验证阶段保持一致：强调 top-k
+                topk = 10
+                weight_factor = 0.8
+                topk_indices = torch.topk(label_dist, k=topk, dim=1).indices
+                mask = torch.zeros_like(label_dist).scatter(1, topk_indices, 1.0)
+                label_dist = label_dist * (1 + weight_factor * mask)
                 soft_labels = label_dist / label_dist.sum(dim=1, keepdim=True)
             else:
                 soft_labels = label_dist / label_dist.sum(dim=1, keepdim=True)
@@ -396,8 +411,10 @@ def main():
     parser.add_argument('--dropout', type=float, default=0.3, help='dropout of the model')
     parser.add_argument('--dual_branch_fusion', type=bool, default=True, help='ddual_branch_fusion of  the model')
     parser.add_argument('--label_process', type=str, default="proportional", help='the way label_process')
+    parser.add_argument('--sim_only', action='store_true', help='Use only similarity vector as input (ignore sift_vec)')
+    parser.add_argument('--similarity_type', type=str, default='cosine', choices=['cosine','l2','dot'], help='How to compute similarity vector in dataloader')
     
-    parser.add_argument('--early_stop_patience', type=int, default=10, help='Number of epochs with no Recall@10 improvement to stop early')
+    parser.add_argument('--early_stop_patience', type=int, default=20, help='Number of epochs with no Recall@10 improvement to stop early')
 
 
     # Parse arguments
@@ -410,15 +427,19 @@ def main():
         label_path=args.label_path,
         batch_size=args.batch_size,
         val_ratio=args.val_ratio,
-        shuffle=args.shuffle
+        shuffle=args.shuffle,
+        similarity_type=args.similarity_type
     )
 
     # Dynamically set input_dim and num_classes based on the data
     # input_dim is the size of sift_vec (e.g., 128 for the SIFT feature size)
-    input_dim = train_loader.dataset.query_sift.shape[1] + train_loader.dataset.label.shape[1]  # (SIFT + similarity)
+    if args.sim_only:
+        input_dim = train_loader.dataset.label.shape[1]  # only similarity dimension
+    else:
+        input_dim = train_loader.dataset.query_sift.shape[1] + train_loader.dataset.label.shape[1]  # (SIFT + similarity)
     
     # num_classes is the number of unique classes in the label dataset
-    num_classes = train_loader.dataset.label.shape[1]  # This assumes label is one-hot encoded
+    num_classes = train_loader.dataset.label.shape[1]
 
     # Initialize the model with the dynamically determined input_dim and num_classes
     model = DistributionPredictor(
@@ -427,15 +448,24 @@ def main():
         num_classes=num_classes,
         num_layers=args.num_layers,
         dropout=args.dropout,
-        dual_branch_fusion=args.dual_branch_fusion
+        dual_branch_fusion=args.dual_branch_fusion,
+        sim_only=args.sim_only
     )
 
     # Train the model
-    train_model(model, train_loader, val_loader, num_epochs=args.num_epochs, lr=args.lr, device=args.device, label_process=args.label_process)
+    train_model(model, 
+                train_loader, 
+                val_loader, 
+                num_epochs=args.num_epochs, 
+                lr=args.lr, 
+                device=args.device, 
+                label_process=args.label_process,
+                early_stop_patience=args.early_stop_patience
+                )
     
     
     # save the model to the same directory as query_path
-    model_name = f"model_hd{args.hidden_dim}_nl{args.num_layers}_lp_{args.label_process}.pth"
+    model_name = f"model_hd{args.hidden_dim}_nl{args.num_layers}_lp_{args.label_process}_st_{args.similarity_type}_so_{args.sim_only}.pth"
     save_dir = os.path.dirname(os.path.abspath(args.centroids_path))
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, model_name)
@@ -449,5 +479,24 @@ if __name__ == '__main__':
     main()
 
 
-      
-
+'''    
+conda activate elpis_torch
+cd /home/xln/PycharmProjects/PredictLeafNode 
+python -m src.model.transformer \
+--query_path input/Training_data/sift1M_learn/sift_learn.txt \
+--centroids_path input/Training_data/sift1M_learn/leafsize10K/leaf_center.txt \
+--label_path input/Training_data/sift1M_learn/leafsize10K/knn_distributions.txt \
+--batch_size 256 \
+--val_ratio 0.15 \
+--num_epochs 150 \
+--lr 0.0003 \
+--device cuda \
+--hidden_dim 256 \
+--num_layers 4 \
+--dropout 0.2 \
+--dual_branch_fusion True \
+--label_process proportional_weight \
+--early_stop_patience 20 \
+--similarity_type l2 \
+--sim_only
+'''

@@ -472,8 +472,8 @@ if __name__ == "__main__":
 conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.model.cluster_dist_transformer \
-  --train_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/train_gist.npz \
-  --centroids_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/centroids.npy \
+  --train_npz input/Training_data/gist1M_learn/leafsize10k/train_gist.npz \
+  --centroids_path input/Training_data/gist1M_learn/leafsize10k/centroids.npy \
   --val_split 0.1 \
   --topk 10 \
   --epochs 150 \
@@ -485,6 +485,40 @@ python -m src.model.cluster_dist_transformer \
   --num_layers 4 \
   --dim_ff 512 \
   --dropout 0.1 \
-  --score_type bilinear \
-  --save_dir /home/xln/PycharmProjects/PredictLeafNode/runs/gist_cluster_transformer
+  --score_type bilinear
+'''
+
+
+'''
+python -m src.model.cluster_dist_transformer \
+  --train_npz input/Training_data/sift1M_learn/leafsize10K/train_sift.npz \
+  --centroids_path input/Training_data/sift1M_learn/leafsize10K/centroids.npy \
+  --val_split 0.1 \
+  --topk 10 \
+  --epochs 150 \
+  --batch_size 256 \
+  --lr 1e-3 \
+  --weight_decay 1e-2 \
+  --d_model 256 \
+  --nhead 8 \
+  --num_layers 4 \
+  --dim_ff 512 \
+  --dropout 0.1 \
+  --score_type bilinear
+
+python -m src.model.cluster_dist_transformer \
+  --train_npz input/Training_data/sift1M_learn/leafsize20K/train_sift.npz \
+  --centroids_path input/Training_data/sift1M_learn/leafsize20K/centroids.npy \
+  --val_split 0.1 \
+  --topk 10 \
+  --epochs 150 \
+  --batch_size 256 \
+  --lr 1e-3 \
+  --weight_decay 1e-2 \
+  --d_model 256 \
+  --nhead 8 \
+  --num_layers 4 \
+  --dim_ff 512 \
+  --dropout 0.1 \
+  --score_type bilinear
 """
