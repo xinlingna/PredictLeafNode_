@@ -9,6 +9,11 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
 
+try:
+    import optuna  # hyperparameter tuning
+except Exception:
+    optuna = None
+
 
 def set_seed(seed: int = 42):
     random.seed(seed)
@@ -227,12 +232,19 @@ def train(
     amp: bool = True,
     save_dir: Optional[str] = None,
     save_name: str = "best.pt",
+    trial: Optional[object] = None,
 ):
     model.train()
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs)
     scaler = torch.amp.GradScaler(enabled=amp)
     kldiv = nn.KLDivLoss(reduction="batchmean")
+
+    print(
+        f"Start training | epochs={epochs} | lr={lr} | weight_decay={weight_decay} | "
+        f"grad_clip={grad_clip} | amp={'on' if amp else 'off'} | "
+        f"save_dir={save_dir} | save_name={save_name}"
+    )
 
     best_val = float("inf")
     if save_dir:
@@ -241,6 +253,12 @@ def train(
         model.train()
         running = 0.0
         n = 0
+        # show current learning rate (first param group)
+        try:
+            current_lr = opt.param_groups[0].get("lr", lr)
+        except Exception:
+            current_lr = lr
+        print(f"[Epoch {ep}/{epochs}] lr={current_lr:.6g}")
         for x, y in train_loader:
             x = x.to(device)
             y = y.to(device)
@@ -255,7 +273,7 @@ def train(
                 nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
             scaler.step(opt)
             scaler.update()
-            running += loss.item() * x.size(0) # 累积训练损失总和
+            running += loss.item() * x.size(0) # accumulate training loss
             n += x.size(0)
         sched.step()
         train_loss = running / n
@@ -263,17 +281,25 @@ def train(
         if val_loader is not None:
             val_kld, val_mae, val_mse, val_recall = evaluate(model, val_loader, device, topk=10)
             print(f"epoch {ep:03d} | train_kld={train_loss:.6f} | val_kld={val_kld:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f} | recall@10={val_recall:.4f}")
-            if val_kld < best_val and save_dir:
+            if val_kld < best_val and save_dir: # save_dir =None when tuning
                 best_val = val_kld
                 torch.save(
                     {"model": model.state_dict(), "epoch": ep, "val_kld": val_kld},
                     os.path.join(save_dir, save_name),
                 )
+                print(f"Saved checkpoint: {os.path.join(save_dir, save_name)} (val_kld={val_kld:.6f})")
+            # report to Optuna and prune
+            if trial is not None:
+                trial.report(val_kld, step=ep)
+                if trial.should_prune():
+                    print(f"Trial #{getattr(trial, 'number', '?')} pruned at epoch {ep} (val_kld={val_kld:.6f})")
+                    raise optuna.TrialPruned()
         else:
             print(f"epoch {ep:03d} | train_kld={train_loss:.6f}")
 
     if val_loader is not None and save_dir:
         print(f"best val_kld: {best_val:.6f} (saved to {os.path.join(save_dir, save_name)})")
+    return best_val if val_loader is not None else train_loss
 
 
 def build_loaders(
@@ -357,6 +383,13 @@ def parse_args():
     p.add_argument("--score_type", type=str, default="bilinear", choices=["bilinear", "mlp"], help="Scoring function type")
     p.add_argument("--no_amp", action="store_true", help="Disable mixed precision")
     p.add_argument("--topk", type=int, default=10, help="Top-K for recall metric")
+    # tuning
+    p.add_argument("--tune", action="store_true", help="Enable Optuna hyperparameter tuning")
+    p.add_argument("--tune_trials", type=int, default=30, help="Number of Optuna trials")
+    p.add_argument("--tune_timeout", type=int, default=0, help="Timeout seconds for tuning (0 means no timeout)")
+    p.add_argument("--tune_epochs", type=int, default=50, help="Epochs per trial during tuning")
+    p.add_argument("--tune_sampler", type=str, default="tpe", choices=["tpe", "random", "grid"], help="Optuna sampler")
+    p.add_argument("--tune_pruner", type=str, default="median", choices=["median", "hb", "none"], help="Optuna pruner")
     return p.parse_args()
 
 
@@ -398,43 +431,228 @@ def main():
     ckpt_dir = os.path.dirname(args.centroids_path)
     os.makedirs(ckpt_dir, exist_ok=True)
 
+    # optional: Optuna hyperparameter tuning
+    best_hparams = {
+        "d_model": args.d_model,
+        "nhead": args.nhead,
+        "num_layers": args.num_layers,
+        "dim_ff": args.dim_ff,
+        "dropout": args.dropout,
+        "score_type": args.score_type,
+        "batch_size": args.batch_size,
+        "lr": args.lr,
+        "weight_decay": args.weight_decay,
+        "grad_clip": args.grad_clip,
+    }
+
+    if args.tune:
+        if optuna is None:
+            raise RuntimeError("Optuna is required for --tune. Please install it via: pip install optuna")
+
+        # Sampler & Pruner
+        is_grid = args.tune_sampler == "grid"
+        if is_grid:
+            # Define discrete grid for exhaustive combinations
+            grid_space = {
+                "d_model": [128, 256, 384],
+                "nhead": [4, 6, 8, 10],
+                "num_layers": [2, 3, 4, 5, 6],
+                "dim_ff": [256, 512, 768, 1024],
+                "dropout": [0.0, 0.1, 0.2, 0.3],
+                "score_type": ["bilinear", "mlp"],
+                "batch_size": [128, 256, 512],
+                "lr": [1e-5, 3e-5, 1e-4, 3e-4, 1e-3, 3e-3],
+                "weight_decay": [0.0, 1e-6, 1e-5, 1e-4, 1e-3],
+                "grad_clip": [0.5, 1.0, 2.0],
+            }
+            sampler = optuna.samplers.GridSampler(search_space=grid_space)
+            # Disable pruning to enumerate all combinations deterministically
+            pruner = optuna.pruners.NopPruner()
+            # Compute total combinations for n_trials
+            try:
+                import numpy as _np
+                total_trials = int(_np.prod([len(v) for v in grid_space.values()]))
+            except Exception:
+                total_trials = None
+        else:
+            if args.tune_sampler == "tpe":
+                sampler = optuna.samplers.TPESampler(seed=args.seed)
+            else:
+                sampler = optuna.samplers.RandomSampler(seed=args.seed)
+            if args.tune_pruner == "median":
+                pruner = optuna.pruners.MedianPruner()
+            elif args.tune_pruner == "hb":
+                pruner = optuna.pruners.HyperbandPruner()
+            else:
+                pruner = optuna.pruners.NopPruner()
+
+        if is_grid:
+            print(
+                "Tuning enabled (Grid Search) | "
+                f"epochs_per_trial={args.tune_epochs} | sampler=grid | pruner=none | "
+                f"total_combinations={total_trials}"
+            )
+        else:
+            print(
+                "Tuning enabled | "
+                f"trials={args.tune_trials} | timeout={args.tune_timeout}s | epochs_per_trial={args.tune_epochs} | "
+                f"sampler={args.tune_sampler} | pruner={args.tune_pruner}"
+            )
+
+        # minimize val_kld
+        study = optuna.create_study(direction="minimize", sampler=sampler, pruner=pruner)
+
+        def objective(trial):
+            print(f"\n==== Trial #{trial.number} ====")
+            if is_grid:
+                # Use categorical suggestions consistent with grid definitions
+                t_d_model = trial.suggest_categorical("d_model", grid_space["d_model"])
+                t_nhead = trial.suggest_categorical("nhead", grid_space["nhead"])
+                t_layers = trial.suggest_categorical("num_layers", grid_space["num_layers"])
+                t_dim_ff = trial.suggest_categorical("dim_ff", grid_space["dim_ff"])
+                t_dropout = trial.suggest_categorical("dropout", grid_space["dropout"])
+                t_score = trial.suggest_categorical("score_type", grid_space["score_type"]) 
+                t_batch = trial.suggest_categorical("batch_size", grid_space["batch_size"])
+                t_lr = trial.suggest_categorical("lr", grid_space["lr"])
+                t_wd = trial.suggest_categorical("weight_decay", grid_space["weight_decay"])
+                t_clip = trial.suggest_categorical("grad_clip", grid_space["grad_clip"])
+            else:
+                t_d_model = trial.suggest_categorical("d_model", [128, 256, 512,1024])
+                t_nhead = trial.suggest_categorical("nhead", [4, 6, 8])
+                t_layers = trial.suggest_categorical("num_layers", [2, 3, 4, 5, 6])
+                t_dim_ff = trial.suggest_categorical("dim_ff", [256, 512, 768, 1024])
+                t_dropout = trial.suggest_float("dropout", 0.0, 0.3)
+                t_score = trial.suggest_categorical("score_type", ["bilinear", "mlp"]) 
+                t_batch = trial.suggest_categorical("batch_size", [128, 256, 512])
+                t_lr = trial.suggest_float("lr", 1e-5, 3e-3, log=True)
+                t_wd = trial.suggest_float("weight_decay", 1e-6, 3e-3, log=True)
+                t_clip = trial.suggest_categorical("grad_clip", [0.5, 1.0, 2.0])
+
+            print(
+                "Trial params | "
+                f"d_model={t_d_model}, nhead={t_nhead}, num_layers={t_layers}, dim_ff={t_dim_ff}, dropout={float(t_dropout):.3f}, "
+                f"score_type={t_score}, batch_size={t_batch}, lr={float(t_lr):.2e}, weight_decay={float(t_wd):.2e}, grad_clip={t_clip}"
+            )
+
+            # Validate constraints early to avoid runtime assertion
+            if int(t_d_model) % int(t_nhead) != 0:
+                print(
+                    f"Skip invalid combo: d_model % nhead != 0 (d_model={t_d_model}, nhead={t_nhead}) -> objective=inf"
+                )
+                try:
+                    trial.set_user_attr("invalid_combo", "d_model % nhead != 0")
+                except Exception:
+                    pass
+                return float("inf")
+
+            tr_loader, vl_loader = build_loaders(
+                args.train_npz,
+                args.val_npz, # optional,if none, split from training set
+                batch_size=t_batch,
+                num_workers=args.num_workers,
+                normalize=args.normalize,
+                val_split=args.val_split,
+                seed=args.seed,
+                centroids=C,
+            )
+
+            mdl = ClusterDistTransformer(
+                input_dim=D,
+                d_model=t_d_model,
+                nhead=t_nhead,
+                num_layers=t_layers,
+                dim_feedforward=t_dim_ff,
+                dropout=t_dropout,
+                max_len=args.max_len,
+                score_type=t_score,
+            ).to(device)
+
+            best_val_kld = train(
+                model=mdl,
+                train_loader=tr_loader,
+                val_loader=vl_loader,
+                device=device,
+                epochs=args.tune_epochs,
+                lr=t_lr,
+                weight_decay=t_wd,
+                grad_clip=t_clip,
+                amp=not args.no_amp,
+                save_dir=None,
+                save_name="_",
+                trial=trial,
+            )
+            return best_val_kld
+
+        if is_grid:
+            n_trials_to_run = total_trials
+        else:
+            n_trials_to_run = args.tune_trials
+        study.optimize(
+            objective,
+            n_trials=n_trials_to_run,
+            timeout=None if args.tune_timeout <= 0 else args.tune_timeout,
+        )
+        print("\nBest trial:")
+        print(f"  value (val_kld): {study.best_value:.6f}")
+        print("  params:")
+        for k, v in study.best_trial.params.items():
+            print(f"    {k}: {v}")
+        # merge best parameters
+        best_hparams.update(study.best_trial.params)
+
+    # train with best (or default) hyperparameters and save
     train_loader, val_loader = build_loaders(
         args.train_npz,
         args.val_npz,
-        batch_size=args.batch_size,
+        batch_size=best_hparams["batch_size"],
         num_workers=args.num_workers,
         normalize=args.normalize,
         val_split=args.val_split, # split ratio from training set when no val_npz is provided
         seed=args.seed,
         centroids=C,
     )
+    # dataset summary
+    try:
+        train_count = len(train_loader.dataset)
+    except Exception:
+        train_count = None
+    try:
+        val_count = None if val_loader is None else len(val_loader.dataset)
+    except Exception:
+        val_count = None
+    print(
+        "Dataset summary | "
+        f"train_samples={train_count} | val_samples={val_count} | batch_size={best_hparams['batch_size']} | device={device}"
+    )
 
     model = ClusterDistTransformer(
         input_dim=D,
-        d_model=args.d_model,
-        nhead=args.nhead,
-        num_layers=args.num_layers,
-        dim_feedforward=args.dim_ff,
-        dropout=args.dropout,
+        d_model=best_hparams["d_model"],
+        nhead=best_hparams["nhead"],
+        num_layers=best_hparams["num_layers"],
+        dim_feedforward=best_hparams["dim_ff"],
+        dropout=best_hparams["dropout"],
         max_len=args.max_len,
-        score_type=args.score_type,
+        score_type=best_hparams["score_type"],
     ).to(device)
 
     # Build a descriptive checkpoint name using key hyperparameters
     ckpt_name = (
-        f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}"
-        f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}.pt"
+        f"model_d{best_hparams['d_model']}_L{best_hparams['num_layers']}_H{best_hparams['nhead']}_ff{best_hparams['dim_ff']}"
+        f"_bs{best_hparams['batch_size']}_ep{args.epochs}_lr{best_hparams['lr']}_wd{best_hparams['weight_decay']}_{best_hparams['score_type']}"
+        + ("_tuned.pt" if args.tune else ".pt")
     )
 
+    print("\nStart final training with best hyperparameters...")
     train(
         model=model,
         train_loader=train_loader,
         val_loader=val_loader,
         device=device,
         epochs=args.epochs,
-        lr=args.lr,
-        weight_decay=args.weight_decay,
-        grad_clip=args.grad_clip,
+        lr=best_hparams["lr"],
+        weight_decay=best_hparams["weight_decay"],
+        grad_clip=best_hparams["grad_clip"],
         amp=not args.no_amp,
         save_dir=ckpt_dir,
         save_name=ckpt_name,
@@ -469,27 +687,25 @@ if __name__ == "__main__":
 
 
 """
+##### 已经测试过的指令
 conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
-python -m src.model.cluster_dist_transformer \
-  --train_npz input/Training_data/gist1M_learn/leafsize10k/train_gist.npz \
-  --centroids_path input/Training_data/gist1M_learn/leafsize10k/centroids.npy \
+python -m src.model.cluster_dist_transformer_optuna \
+  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
+  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
   --val_split 0.1 \
-  --topk 10 \
-  --epochs 150 \
-  --batch_size 256 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
-  --d_model 256 \
-  --nhead 8 \
-  --num_layers 4 \
-  --dim_ff 512 \
-  --dropout 0.1 \
-  --score_type bilinear
-'''
+  --tune \
+  --tune_sampler grid \
+  --tune_pruner none \
+  --tune_epochs 100 \
+  --tune_timeout 0 \
+  --epochs 150
+screen1:leafsize10K
+screen2:leafsize20K
+"""
 
 
-'''
+"""
 python -m src.model.cluster_dist_transformer \
   --train_npz input/Training_data/sift1M_learn/leafsize10K/train_sift.npz \
   --centroids_path input/Training_data/sift1M_learn/leafsize10K/centroids.npy \
