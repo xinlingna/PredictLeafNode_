@@ -46,6 +46,7 @@ def main():
     assert D == Dc, f"D mismatch: query={D}, centroids={Dc}"
     assert K == Kc, f"K mismatch: query_labels={K}, centroids={Kc}"
 
+    # 对标签learn_labels 和 query_labels 进行归一化
     if not args.no_norm_labels:
         rs = learn_labels.sum(axis=1, keepdims=True) + 1e-12
         learn_labels = learn_labels / rs

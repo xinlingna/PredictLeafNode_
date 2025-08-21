@@ -3,7 +3,7 @@ import os
 import re
 import torch
 
-from .cluster_dist_transformer import (
+from .cluster_dist_transformer_original import (
     NPZClusterDataset,
     ClusterDistTransformer,
     evaluate,
@@ -101,9 +101,9 @@ def main():
     test_ds = NPZClusterDataset(args.test_npz, normalize=args.normalize, centroids=C)
     test_loader = torch.utils.data.DataLoader(test_ds, batch_size=256, shuffle=False, num_workers=4, pin_memory=True)
 
-    # Evaluate
-    kld, mae, mse, recall = evaluate(model, test_loader, device, topk=args.topk)
-    print(f"[TEST] K={K}, D={D} | kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | recall@{args.topk}={recall:.4f}")
+    # Evaluate - 修复返回值数量，与训练代码保持一致
+    kld, mae, mse, ordacc, recall = evaluate(model, test_loader, device, topk=args.topk)
+    print(f"[TEST] K={K}, D={D} | kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | ord_acc@{args.topk}={ordacc:.4f} | recall@{args.topk}={recall:.4f}")
 
     # Dump predicted probabilities to file next to ckpt: <ckpt_basename>_pred.txt
     out_pred = os.path.join(os.path.dirname(args.ckpt_path), os.path.basename(args.ckpt_path).rsplit('.', 1)[0] + "_pred.txt")
@@ -122,9 +122,9 @@ if __name__ == "__main__":
 '''
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.model.test_cluster_dist_transformer \
-  --ckpt_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/model_d512_L4_H8_ff1024_bs256_ep150_lr0.001_wd0.01_bilinear.pt \
-  --test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/test_gist.npz \
-  --centroids_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/centroids.npy \
+  --ckpt_path input/Training_data/gist1M_learn/leafsize20K/model_d256_L4_H8_ff512_bs512_ep0_lr0.001_wd0.01_mlp.pt \
+  --test_npz input/Training_data/gist1M_learn/leafsize20K/test_gist.npz \
+  --centroids_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
   --topk 10 \
   --seed 42
 
@@ -158,9 +158,9 @@ python -m src.model.test_cluster_dist_transformer \
 '''# sift1M-leafsize20K
 '''
 python -m src.model.test_cluster_dist_transformer \
-  --ckpt_path input/Training_data/sift1M_learn/leafsize10K/model_d256_L4_H8_ff512_bs256_ep150_lr0.001_wd0.01_bilinear.pt \
-  --test_npz input/Training_data/sift1M_learn/leafsize10K/test_sift.npz \
-  --centroids_path input/Training_data/sift1M_learn/leafsize10K/centroids.npy \
+  --ckpt_path input/Training_data/gist1M_learn/leafsize20K/model_d256_L4_H8_ff512_bs512_ep0_lr0.001_wd0.01_mlp.pt \
+  --test_npz input/Training_data/sift1M_learn/leafsize20K/test_sift.npz \
+  --centroids_path input/Training_data/sift1M_learn/leafsize20K/centroids.npy \
   --topk 10 \
   --seed 42
 '''

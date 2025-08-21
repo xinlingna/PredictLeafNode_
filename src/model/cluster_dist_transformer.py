@@ -8,9 +8,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 
 
 def set_seed(seed: int = 42):
@@ -121,7 +118,7 @@ class ClusterDistTransformer(nn.Module):
         super().__init__()
         self.d_model = d_model
         self.input_proj = nn.Linear(input_dim, d_model)
-        self.pos_enc = PositionalEncoding(d_model, max_len) # （max_len, d_model）
+        self.pos_enc = PositionalEncoding(d_model, max_len)
         self.type_embed = nn.Embedding(2, d_model) if use_type_embed else None
 
         encoder_layer = nn.TransformerEncoderLayer(
@@ -174,72 +171,12 @@ class ClusterDistTransformer(nn.Module):
         return logits  # raw logits; apply log_softmax/softmax outside as needed
 
 
-def topk_recall(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
-    """
-    Compute Top-K recall over a batch.
-    pred_prob: (B, K)
-    label_prob: (B, K)
-    Returns average recall@k in [0,1].
-    """
-    topk_pred = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
-    top_true = torch.topk(label_prob, k, dim=1).indices  # (B, k)
-    recall_sum = 0.0
-    B = pred_prob.size(0)
-    for i in range(B):
-        intersect = len(set(topk_pred[i].tolist()) & set(top_true[i].tolist()))
-        recall_sum += intersect / float(k)
-    return recall_sum / float(B)
-
-def topk_ordered_accuracy(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
-    """
-    Compute Top-K ordered accuracy.
-    For each sample, take the top-k indices (descending) from the predicted and target
-    probability distributions and compare them position-wise. Returns the batch-mean
-    fraction of matches in [0, 1].
-    """
-    if pred_prob.ndim != 2 or label_prob.ndim != 2:
-        raise ValueError("pred_prob and label_prob must be 2D tensors of shape (B, K)")
-    if pred_prob.size() != label_prob.size():
-        raise ValueError(f"Shape mismatch: pred_prob={pred_prob.size()}, label_prob={label_prob.size()}")
-    B, K = pred_prob.size()
-    k = min(k, K)
-    pred_topk = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
-    true_topk = torch.topk(label_prob, k, dim=1).indices  # (B, k)
-    matches = (pred_topk == true_topk).float()  # (B, k)
-    per_sample_acc = matches.mean(dim=1)  # (B,)
-    return float(per_sample_acc.mean().item())
-
-
 @torch.no_grad()
-def evaluate_batch(model: nn.Module, x: torch.Tensor, y: torch.Tensor, device: torch.device, topk: int = 10) -> Tuple[float, float, float, float, float]:
-    """
-    评估单个batch的指标
-    """
-    model.eval()
-    x = x.to(device)
-    y = y.to(device)
-    logits = model(x)
-    log_probs = torch.log_softmax(logits, dim=-1)
-    preds = torch.softmax(logits, dim=-1)
-    
-    kldiv = nn.KLDivLoss(reduction="batchmean")
-    loss_kld = kldiv(log_probs, y)
-    mae = torch.mean(torch.abs(preds - y))
-    mse = torch.mean((preds - y) ** 2)
-    recall = topk_recall(preds, y, k=topk)
-    ordered_acc = topk_ordered_accuracy(preds, y, k=topk)
-    
-    return loss_kld.item(), mae.item(), mse.item(), ordered_acc, recall
-
-
-@torch.no_grad()
-def evaluate(model: nn.Module, loader: DataLoader, device: torch.device, topk: int = 10) -> Tuple[float, float, float, float, float]:
+def evaluate(model: nn.Module, loader: DataLoader, device: torch.device) -> Tuple[float, float, float]:
     model.eval()
     kldiv = nn.KLDivLoss(reduction="batchmean")
     mae_meter, mse_meter, kld_meter = 0.0, 0.0, 0.0 # 
     total = 0
-    recall_meter = 0.0
-    ordered_acc_meter = 0.0
     for x, y in loader:
         x = x.to(device)
         y = y.to(device)
@@ -249,17 +186,12 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device, topk: i
         loss_kld = kldiv(log_probs, y)
         mae = torch.mean(torch.abs(preds - y))
         mse = torch.mean((preds - y) ** 2)
-        recall = topk_recall(preds, y, k=topk)
-        ordered_acc = topk_ordered_accuracy(preds, y, k=topk)
         bs = x.size(0)
         kld_meter += loss_kld.item() * bs
         mae_meter += mae.item() * bs
         mse_meter += mse.item() * bs
-        recall_meter += recall * bs
-        ordered_acc_meter += ordered_acc * bs
         total += bs
-        # print(f"kld={loss_kld.item():.6f} | mae={mae.item():.6f} | mse={mse.item():.6f} | ordered_acc@{topk}={ordered_acc:.4f} | recall@{topk}={recall:.4f}")
-    return kld_meter / total, mae_meter / total, mse_meter / total, ordered_acc_meter / total, recall_meter / total
+    return kld_meter / total, mae_meter / total, mse_meter / total
 
 
 def train(
@@ -273,35 +205,20 @@ def train(
     grad_clip: float = 1.0,
     amp: bool = True,
     save_dir: Optional[str] = None,
-    save_name: str = "best.pt",
-    eval_topk: int = 10,
-    log_interval: int = 100, # steps between batch logs (0 to disable)
 ):
     model.train()
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
-    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs) #定义一个学习率调度器，按余弦曲线在训练过程中逐渐降低学习率
-    scaler = torch.amp.GradScaler(enabled=amp and torch.cuda.is_available()) # amp=True（用户允许混合精度）
+    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs)
+    scaler = torch.amp.GradScaler(enabled=amp)
     kldiv = nn.KLDivLoss(reduction="batchmean")
 
     best_val = float("inf")
     if save_dir:
         os.makedirs(save_dir, exist_ok=True)
-    # record validation metrics for plotting
-    val_recall_history = []
-    val_ordacc_history = []
-    
-    # 记录epoch=1时每个batch的验证准确率
-    epoch1_batch_metrics = []
-    
     for ep in range(1, epochs + 1):
         model.train()
         running = 0.0
         n = 0
-        
-        # 在epoch=1时，记录每个batch后的验证准确率
-        if ep == 1 and val_loader is not None:
-            batch_count = 0
-            
         for x, y in train_loader:
             x = x.to(device)
             y = y.to(device)
@@ -318,108 +235,23 @@ def train(
             scaler.update()
             running += loss.item() * x.size(0) # 累积训练损失总和
             n += x.size(0)
-            
-            # 在epoch=1时，每个batch后评估验证集
-            if ep == 1 and val_loader is not None:
-                batch_count += 1
-                # 评估当前batch在验证集上的表现
-                val_batch_metrics = []
-                for val_x, val_y in val_loader:
-                    val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate_batch(model, val_x, val_y, device, topk=eval_topk)
-                    val_batch_metrics.append((val_kld, val_mae, val_mse, val_ordacc, val_recall))
-                
-                # 计算平均指标
-                avg_val_kld = sum(m[0] for m in val_batch_metrics) / len(val_batch_metrics)
-                avg_val_mae = sum(m[1] for m in val_batch_metrics) / len(val_batch_metrics)
-                avg_val_mse = sum(m[2] for m in val_batch_metrics) / len(val_batch_metrics)
-                avg_val_ordacc = sum(m[3] for m in val_batch_metrics) / len(val_batch_metrics)
-                avg_val_recall = sum(m[4] for m in val_batch_metrics) / len(val_batch_metrics)
-                
-                epoch1_batch_metrics.append({
-                    'batch': batch_count,
-                    'val_kld': avg_val_kld,
-                    'val_mae': avg_val_mae,
-                    'val_mse': avg_val_mse,
-                    'val_ordacc': avg_val_ordacc,
-                    'val_recall': avg_val_recall
-                })
-                
-                if batch_count % 10 == 0:  # 每10个batch打印一次
-                    print(f"Epoch {ep:03d} | Batch {batch_count} | val_kld={avg_val_kld:.6f} | val_ordacc@{eval_topk}={avg_val_ordacc:.4f} | val_recall@{eval_topk}={avg_val_recall:.4f}")
-            
-            # Periodic batch logging
-            if log_interval > 0:
-                step_idx = n // x.size(0)
-                if step_idx % log_interval == 0:
-                    lr_now = opt.param_groups[0]['lr']
-                    print(f"Epoch {ep:03d} | Step {step_idx} | lr={lr_now:.6e} | loss={loss.item():.6f}")
         sched.step()
         train_loss = running / n
 
         if val_loader is not None:
-            val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate(model, val_loader, device, topk=eval_topk)
-            val_recall_history.append(val_recall)
-            val_ordacc_history.append(val_ordacc)
-            print(f"epoch {ep:03d} | train_kld={train_loss:.6f} | val_kld={val_kld:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f} | ord_acc@{eval_topk}={val_ordacc:.4f} | recall@{eval_topk}={val_recall:.4f}")
+            val_kld, val_mae, val_mse = evaluate(model, val_loader, device)
+            print(f"epoch {ep:03d} | train_kld={train_loss:.6f} | val_kld={val_kld:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f}")
             if val_kld < best_val and save_dir:
                 best_val = val_kld
                 torch.save(
                     {"model": model.state_dict(), "epoch": ep, "val_kld": val_kld},
-                    os.path.join(save_dir, save_name),
+                    os.path.join(save_dir, "best.pt"),
                 )
         else:
             print(f"epoch {ep:03d} | train_kld={train_loss:.6f}")
 
-    # 绘制epoch=1时每个batch的验证准确率变化图
-    if len(epoch1_batch_metrics) > 0 and save_dir:
-        batches = [m['batch'] for m in epoch1_batch_metrics]
-        val_ordacc_values = [m['val_ordacc'] for m in epoch1_batch_metrics]
-        val_recall_values = [m['val_recall'] for m in epoch1_batch_metrics]
-        val_kld_values = [m['val_kld'] for m in epoch1_batch_metrics]
-        
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
-        
-        # 上图：准确率和召回率
-        ax1.plot(batches, val_ordacc_values, marker='o', label=f'ord_acc@{eval_topk}', linewidth=2, markersize=4)
-        ax1.plot(batches, val_recall_values, marker='s', label=f'recall@{eval_topk}', linewidth=2, markersize=4)
-        ax1.set_xlabel('Batch')
-        ax1.set_ylabel('Score')
-        ax1.set_title(f'Epoch 1: Validation Accuracy and Recall vs Batch')
-        ax1.set_ylim(0.0, 1.0)
-        ax1.grid(True, linestyle=':', alpha=0.5)
-        ax1.legend()
-        
-        # 下图：KL散度损失
-        ax2.plot(batches, val_kld_values, marker='^', color='red', label='val_kld', linewidth=2, markersize=4)
-        ax2.set_xlabel('Batch')
-        ax2.set_ylabel('KL Divergence Loss')
-        ax2.set_title(f'Epoch 1: Validation KL Loss vs Batch')
-        ax2.grid(True, linestyle=':', alpha=0.5)
-        ax2.legend()
-        
-        plt.tight_layout()
-        batch_plot_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + f"_epoch1_batch_metrics@{eval_topk}_original.png")
-        plt.savefig(batch_plot_path, dpi=300, bbox_inches='tight')
-        plt.close(fig)
-        print(f"Saved epoch 1 batch metrics plot to {batch_plot_path}")
-
     if val_loader is not None and save_dir:
-        print(f"best val_kld: {best_val:.6f} (saved to {os.path.join(save_dir, save_name)})")
-        if len(val_recall_history) > 0:
-            epochs_axis = list(range(1, len(val_recall_history) + 1))
-            fig, ax = plt.subplots(figsize=(8, 4.5))
-            ax.plot(epochs_axis, val_recall_history, marker='o', label=f"recall@{eval_topk}")
-            ax.plot(epochs_axis, val_ordacc_history, marker='s', color='tab:orange', label=f"ord_acc@{eval_topk}")
-            ax.set_xlabel("Epoch")
-            ax.set_ylabel("Score")
-            ax.set_title("Validation Recall and Ordered Accuracy vs Epoch")
-            ax.set_ylim(0.0, 1.0)
-            ax.grid(True, linestyle=":", alpha=0.5)
-            ax.legend()
-            out_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + f"_val_recall_ordacc@{eval_topk}_original.png")
-            plt.tight_layout()
-            plt.savefig(out_path)
-            plt.close(fig)
+        print(f"best val_kld: {best_val:.6f} (saved to {os.path.join(save_dir, 'best.pt')})")
 
 
 def build_loaders(
@@ -502,8 +334,6 @@ def parse_args():
     p.add_argument("--max_len", type=int, default=4096, help="Maximum supported sequence length")
     p.add_argument("--score_type", type=str, default="bilinear", choices=["bilinear", "mlp"], help="Scoring function type")
     p.add_argument("--no_amp", action="store_true", help="Disable mixed precision")
-    p.add_argument("--topk", type=int, default=10, help="Top-K for recall metric")
-    p.add_argument("--log_interval", type=int, default=100, help="Steps between batch logs (0 to disable)")
     return p.parse_args()
 
 
@@ -541,16 +371,23 @@ def main():
     # Determine dimensions solely from centroids
     K, D = C.shape
     print(f"Detected K={K}, D={D}")
+
     # Save checkpoints next to the centroids file
     ckpt_dir = os.path.dirname(args.centroids_path)
     os.makedirs(ckpt_dir, exist_ok=True)
+
+    # Build a descriptive checkpoint name using key hyperparameters
+    ckpt_name = (
+        f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}"
+        f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}_normalize{args.normalize}_seed{args.seed}_first.pt"
+    )
 
     train_loader, val_loader = build_loaders(
         args.train_npz,
         args.val_npz,
         batch_size=args.batch_size,
         num_workers=args.num_workers,
-        normalize=args.normalize, # normalize the features
+        normalize=args.normalize,
         val_split=args.val_split, # split ratio from training set when no val_npz is provided
         seed=args.seed,
         centroids=C,
@@ -564,48 +401,31 @@ def main():
         dim_feedforward=args.dim_ff,
         dropout=args.dropout,
         max_len=args.max_len,
-        score_type=args.score_type, # bilinear or mlp
+        score_type=args.score_type,
     ).to(device)
 
-    # Build a descriptive checkpoint name using key hyperparameters
-    ckpt_name = (
-        f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}"
-        f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}_normalize{args.normalize}.pt"
+    train(
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        device=device,
+        epochs=args.epochs,
+        lr=args.lr,
+        weight_decay=args.weight_decay,
+        grad_clip=args.grad_clip,
+        amp=not args.no_amp,
+        save_dir=ckpt_dir,
+        ckpt_name=ckpt_name,
     )
-
-    # epoch=0,保存模型参数（未训练的随机初始化模型）
-    if args.epochs == 0:
-        torch.save(
-            {"model": model.state_dict(), "epoch": args.epochs},
-            os.path.join(ckpt_dir, ckpt_name),
-        )
-        print(f"Saved untrained model to {os.path.join(ckpt_dir, ckpt_name)}")
-    else:
-        # 正常训练
-        train(
-            model=model,
-            train_loader=train_loader,
-            val_loader=val_loader,
-            device=device,
-            epochs=args.epochs,
-            lr=args.lr,
-            weight_decay=args.weight_decay,
-            grad_clip=args.grad_clip, # gradient clipping
-            amp=not args.no_amp, # mixed precision training
-            save_dir=ckpt_dir,
-            save_name=ckpt_name,
-            eval_topk=args.topk,
-            log_interval=args.log_interval,
-        )
 
     # Evaluation (if test set is provided)
     if args.test_npz:
         # Reload the best checkpoint if available
-        best_path = os.path.join(ckpt_dir, ckpt_name)
+        best_path = os.path.join(args.save_dir, "best.pt")
         if os.path.exists(best_path):
             ckpt = torch.load(best_path, map_location=device)
             model.load_state_dict(ckpt["model"])
-            print(f"Loaded checkpoint from {best_path} (epoch={ckpt.get('epoch', 'unknown')})")
+            print(f"Loaded best checkpoint from {best_path} (val_kld={ckpt.get('val_kld', None)})")
 
         # Reuse training normalization stats
         mean_std = None
@@ -618,8 +438,8 @@ def main():
 
         test_ds = NPZClusterDataset(args.test_npz, normalize=args.normalize, mean=mean, std=std, centroids=C)
         test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers, pin_memory=True)
-        kld, mae, mse, ordacc, recall = evaluate(model, test_loader, device, topk=args.topk)
-        print(f"[TEST] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | ord_acc@{args.topk}={ordacc:.4f} | recall@{args.topk}={recall:.4f}")
+        kld, mae, mse = evaluate(model, test_loader, device)
+        print(f"[TEST] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f}")
 
 
 if __name__ == "__main__":
@@ -629,55 +449,20 @@ if __name__ == "__main__":
 """
 conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
-python -m src.model.cluster_dist_transformer_original \
-  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
-  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+python -m src.model.cluster_dist_transformer \
+  --train_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
+  --centroids_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
   --val_split 0.1 \
-  --topk 10 \
-  --epochs 10 \
-  --batch_size 512 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
-  --d_model 256 \
-  --nhead 8 \
-  --num_layers 4 \
-  --dim_ff 512 \
-  --dropout 0.1 \
+  --normalize \
+  --epochs 20 \
+  --batch_size 256 \
   --score_type bilinear \
-  --log_interval 10
-'''
-
-
-'''
-python -m src.model.cluster_dist_transformer \
-  --train_npz input/Training_data/sift1M_learn/leafsize10K/train_sift.npz \
-  --centroids_path input/Training_data/sift1M_learn/leafsize10K/centroids.npy \
-  --val_split 0.1 \
-  --topk 10 \
-  --epochs 150 \
-  --batch_size 256 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
+  --seed 42 \
   --d_model 256 \
   --nhead 8 \
   --num_layers 4 \
   --dim_ff 512 \
   --dropout 0.1 \
-  --score_type bilinear
-
-python -m src.model.cluster_dist_transformer \
-  --train_npz input/Training_data/sift1M_learn/leafsize20K/train_sift.npz \
-  --centroids_path input/Training_data/sift1M_learn/leafsize20K/centroids.npy \
-  --val_split 0.1 \
-  --topk 10 \
-  --epochs 150 \
-  --batch_size 256 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
-  --d_model 256 \
-  --nhead 8 \
-  --num_layers 4 \
-  --dim_ff 512 \
-  --dropout 0.1 \
-  --score_type bilinear
+  --max_len 4096 \
+  --no_amp 
 """

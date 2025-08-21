@@ -9,6 +9,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 
 def set_seed(seed: int = 42):
@@ -256,6 +259,67 @@ def pairwise_rank_loss(logits: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
     return neg_mass + pos_rank_loss + pos_neg_loss
 
 
+def recall_focused_loss(logits: torch.Tensor, y: torch.Tensor, topk: int = 22) -> torch.Tensor:
+    """
+    专门针对recall优化的损失函数：
+    - 确保预测的top-k包含真实top-k中的更多类别
+    - 使用对比学习思想，让正样本的logits更高
+    - 添加margin-based loss来增强区分度
+    """
+    B, K = logits.shape
+    device = logits.device
+    
+    # 获取真实top-k类别
+    y_topk = torch.topk(y, k=topk, dim=1).indices  # [B, topk]
+    
+    # 获取预测的top-k类别
+    pred_topk = torch.topk(logits, k=topk, dim=1).indices  # [B, topk]
+    
+    # 计算每个样本的recall损失
+    recall_loss = 0.0
+    margin = 1.0  # margin参数
+    
+    for b in range(B):
+        # 真实top-k类别的logits
+        true_logits = logits[b, y_topk[b]]  # [topk]
+        
+        # 预测top-k类别的logits
+        pred_logits = logits[b, pred_topk[b]]  # [topk]
+        
+        # 计算真实top-k中不在预测top-k中的类别
+        true_set = set(y_topk[b].tolist())
+        pred_set = set(pred_topk[b].tolist())
+        missing_in_pred = true_set - pred_set
+        
+        if len(missing_in_pred) > 0:
+            # 对于缺失的类别，我们希望它们的logits更高
+            missing_indices = list(missing_in_pred)
+            missing_logits = logits[b, missing_indices]  # [len(missing)]
+            
+            # 对于预测top-k中的类别，我们希望它们的logits更低（如果不在真实top-k中）
+            pred_only = pred_set - true_set
+            if len(pred_only) > 0:
+                pred_only_indices = list(pred_only)
+                pred_only_logits = logits[b, pred_only_indices]  # [len(pred_only)]
+                
+                # 使用对比损失：缺失类别的logits应该比错误预测的logits更高
+                for missing_logit in missing_logits:
+                    for wrong_logit in pred_only_logits:
+                        recall_loss += torch.nn.functional.softplus(margin - (missing_logit - wrong_logit))
+    
+    # 添加top-k一致性损失
+    # 确保预测的top-k logits之间有足够的间隔
+    pred_logits_all = torch.gather(logits, 1, pred_topk)  # [B, topk]
+    if topk > 1:
+        # 计算相邻logits的差值，确保递减
+        diffs = pred_logits_all[:, :-1] - pred_logits_all[:, 1:]  # [B, topk-1]
+        consistency_loss = torch.nn.functional.softplus(-diffs).mean()
+    else:
+        consistency_loss = 0.0
+    
+    return recall_loss / B + consistency_loss
+
+
 def pairwise_rank_loss_per(logits: torch.Tensor, y: torch.Tensor, topk: int = 10, neg_samples: int = 20) -> torch.Tensor:
     """
     Enhanced pairwise loss matching your goals:
@@ -385,16 +449,35 @@ def train(
     rank_lambda: float = 0.0,
     rank_topk: int = 10,
     log_interval: int = 100,
+    use_recall_loss: bool = False,
+    recall_weight: float = 2.0,
 ):
     model.train()
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay) # 优化器
-    sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs) # 学习率衰减
+    
+    # 修改学习率调度器：使用更激进的学习率衰减策略
+    # sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=epochs) # 学习率衰减
+    sched = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        opt, mode='min', factor=0.7, patience=3, verbose=True, min_lr=1e-6
+    )
+    
     scaler = torch.amp.GradScaler(enabled=amp and device.type == "cuda") # 混合精度训练
     kldiv = nn.KLDivLoss(reduction="batchmean") # loss
 
     best_val = float("inf")
+    best_recall = 0.0  # 添加最佳recall跟踪
+    patience_counter = 0
+    patience = 10  # 早停耐心值
+    
     if save_dir:
         os.makedirs(save_dir, exist_ok=True)
+    # Record validation metrics per epoch for plotting
+    val_recall_history = []
+    val_ordacc_history = []
+    
+    # Record first epoch batch metrics for detailed plotting
+    epoch1_batch_metrics = []
+    
     for ep in range(1, epochs + 1):
         epoch_start = time.time()
         model.train()
@@ -402,6 +485,13 @@ def train(
         running_kl = 0.0
         running_rank = 0.0
         n = 0
+        
+        # 渐进式增加排序损失权重
+        current_rank_lambda = rank_lambda * min(1.0, ep / 10.0)  # 前10个epoch逐渐增加权重
+        
+        # 在epoch=1时，记录每个batch后的验证准确率
+        if ep == 1 and val_loader is not None:
+            batch_count = 0
         for x, y in train_loader:
             x = x.to(device)
             y = y.to(device)
@@ -411,9 +501,22 @@ def train(
                 log_probs = torch.log_softmax(logits, dim=-1)
                 loss_kl = kldiv(log_probs, y)
                 loss = loss_kl
-                if rank_lambda > 0.0:
+                
+                # 添加recall-focused损失
+                if current_rank_lambda > 0.0:
                     loss_rank = pairwise_rank_loss(logits, y)
-                    loss = loss + rank_lambda * loss_rank
+                    
+                    if use_recall_loss:
+                        loss_recall = recall_focused_loss(logits, y, topk=rank_topk)
+                        # 动态调整损失权重：前期更注重KL，后期更注重recall
+                        kl_weight = max(0.3, 1.0 - ep / epochs)  # 从1.0逐渐降到0.3
+                        rank_weight = current_rank_lambda * 0.5  # 排序损失权重
+                        recall_weight = current_rank_lambda * recall_weight  # recall损失权重
+                        
+                        loss = kl_weight * loss_kl + rank_weight * loss_rank + recall_weight * loss_recall
+                    else:
+                        # 原始的组合方式
+                        loss = loss_kl + current_rank_lambda * loss_rank
             scaler.scale(loss).backward()
             if grad_clip is not None:
                 scaler.unscale_(opt)
@@ -422,9 +525,38 @@ def train(
             scaler.update()
             running += loss.item() * x.size(0) # 累积训练损失loss总和
             running_kl += loss_kl.item() * x.size(0) # 累积训练KL损失loss_kl总和
-            if rank_lambda > 0.0:
+            if current_rank_lambda > 0.0:
                 running_rank += (loss_rank.item() if 'loss_rank' in locals() else 0.0) * x.size(0) # 累积训练loss_rank排名损失总和
             n += x.size(0)
+
+            # epoch=1，每个batch验证一次
+            if ep == 1 and val_loader is not None:
+                batch_count += 1
+                val_batch_metrics = []
+                # Evaluate on validation set every log_interval batches
+                model.eval()
+                with torch.no_grad():
+                    val_kld, val_rank, val_mae, val_mse, val_recall, val_ordacc = evaluate(model, val_loader, device, topk=rank_topk)
+                    val_batch_metrics.append((val_kld, val_mae, val_mse, val_ordacc, val_recall))
+                # 计算平均指标
+                avg_val_kld = sum(m[0] for m in val_batch_metrics) / len(val_batch_metrics)
+                avg_val_mae = sum(m[1] for m in val_batch_metrics) / len(val_batch_metrics)
+                avg_val_mse = sum(m[2] for m in val_batch_metrics) / len(val_batch_metrics)
+                avg_val_ordacc = sum(m[3] for m in val_batch_metrics) / len(val_batch_metrics)
+                avg_val_recall = sum(m[4] for m in val_batch_metrics) / len(val_batch_metrics)
+                
+                epoch1_batch_metrics.append({
+                    'batch': batch_count,
+                    'val_kld': avg_val_kld,
+                    'val_mae': avg_val_mae,
+                    'val_mse': avg_val_mse,
+                    'val_ordacc': avg_val_ordacc,
+                    'val_recall': avg_val_recall
+                })
+                
+                if batch_count % 10 == 0:  # 每10个batch打印一次
+                    print(f"Epoch {ep:03d} | Batch {batch_count} | val_kld={avg_val_kld:.6f} | val_ordacc@{rank_topk}={avg_val_ordacc:.4f} | val_recall@{rank_topk}={avg_val_recall:.4f}")
+            
 
             # Print batch results (interval)
             if log_interval > 0:
@@ -432,41 +564,124 @@ def train(
                 if step_idx % log_interval == 0:
                     batch_loss = loss.item()
                     batch_kl = loss_kl.item()
-                    batch_rank = loss_rank.item() if rank_lambda > 0.0 else 0.0
+                    batch_rank = loss_rank.item() if current_rank_lambda > 0.0 else 0.0
                     lr_now = opt.param_groups[0]['lr']
-                    print(f"Epoch {ep:03d} | Step {step_idx} | lr={lr_now:.6e} | loss={batch_loss:.6f} | kl={batch_kl:.6f} | rank={batch_rank:.6f}")
-        sched.step()
-        train_loss = running / n
-        train_kl = running_kl / n
-        train_rank = (running_rank / n) if rank_lambda > 0.0 else 0.0
-
+                    print(f"Epoch {ep:03d} | Step {step_idx} | lr={lr_now:.6e} | loss={batch_loss:.6f} | kl={batch_kl:.6f} | rank={batch_rank:.6f} | rank_lambda={current_rank_lambda:.3f}")
+        
+        # 使用验证损失来调整学习率
         if val_loader is not None:
-            # use the same top-k as ranking loss for validation recall to keep logic consistent
             val_kld, val_rank, val_mae, val_mse, val_recall, val_ordacc = evaluate(model, val_loader, device, topk=rank_topk)
-            if rank_lambda > 0.0:
-                print(f"epoch {ep:03d} | train_loss={train_loss:.6f} | train_kl={train_kl:.6f} | train_rank={train_rank:.6f} | val_kld={val_kld:.6f} | val_rank={val_rank:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f} | recall@{rank_topk}={val_recall:.4f} | ord_acc@{rank_topk}={val_ordacc:.4f}")
+            val_recall_history.append(val_recall)
+            val_ordacc_history.append(val_ordacc)
+            
+            # Record first epoch batch metrics for detailed plotting (end of epoch)
+            if ep == 1:
+                # Add final epoch metrics if not already recorded
+                if len(epoch1_batch_metrics) == 0 or epoch1_batch_metrics[-1]['batch'] != len(train_loader):
+                    epoch1_batch_metrics.append((val_kld, val_mae, val_mse, val_ordacc, val_recall))
+            
+            # 基于recall的早停机制
+            if val_recall > best_recall:
+                best_recall = val_recall
+                patience_counter = 0
+                # 保存最佳recall模型
+                if save_dir:
+                    torch.save(
+                        {"model": model.state_dict(), "epoch": ep, "val_recall": val_recall, "val_ordacc": val_ordacc},
+                        os.path.join(save_dir, "best_recall_" + save_name),
+                    )
             else:
-                print(f"epoch {ep:03d} | train_kl={train_kl:.6f} | val_kld={val_kld:.6f} | val_rank={val_rank:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f} | recall@{rank_topk}={val_recall:.4f} | ord_acc@{rank_topk}={val_ordacc:.4f}")
+                patience_counter += 1
+            
+            # 早停检查
+            if patience_counter >= patience:
+                print(f"Early stopping triggered at epoch {ep}. No improvement in recall for {patience} epochs.")
+                break
+            
+            if current_rank_lambda > 0.0:
+                print(f"epoch {ep:03d} | train_loss={running/n:.6f} | train_kl={running_kl/n:.6f} | train_rank={running_rank/n:.6f} | val_kld={val_kld:.6f} " +
+                      f"| val_rank={val_rank:.6f} | val_mae={val_mse:.6f} | val_mse={val_mse:.6f} | recall@{rank_topk}={val_recall:.4f} | ord_acc@{rank_topk}={val_ordacc:.4f}")
+            else:
+                print(f"epoch {ep:03d} | train_kl={running_kl/n:.6f} | val_kld={val_kld:.6f} | val_rank={val_rank:.6f} | val_mae={val_mse:.6f} | val_mse={val_mse:.6f} | recall@{rank_topk}={val_recall:.4f} | ord_acc@{rank_topk}={val_ordacc:.4f}")
+            
+            # 使用recall作为学习率调度的依据
+            sched.step(val_kld)  # 或者使用 val_kld + current_rank_lambda * val_rank
+            
             # choose metric consistent with training objective
-            val_metric = val_kld if rank_lambda <= 0.0 else (val_kld + rank_lambda * val_rank)
+            val_metric = val_kld if current_rank_lambda <= 0.0 else (val_kld + current_rank_lambda * val_rank)
             if val_metric < best_val and save_dir:
                 best_val = val_metric
                 torch.save(
                     {"model": model.state_dict(), "epoch": ep, "val_kld": val_kld, "val_rank": val_rank, "val_metric": val_metric},
                     os.path.join(save_dir, save_name),
                 )
+        else:
+            sched.step(running/n)  # 如果没有验证集，使用训练损失
+            
         # epoch end summary
         elapsed = time.time() - epoch_start
         total_samples = n
         throughput = total_samples / elapsed if elapsed > 0 else 0.0
         if val_loader is None:
-            print(f"epoch {ep:03d} done in {elapsed:.1f}s | samples/s={throughput:.1f} | train_loss={train_loss:.6f} | kl={train_kl:.6f}")
+            print(f"epoch {ep:03d} done in {elapsed:.1f}s | samples/s={throughput:.1f} | train_loss={running/n:.6f} | kl={running_kl/n:.6f}")
         else:
-            print(f"epoch {ep:03d} done in {elapsed:.1f}s | samples/s={throughput:.1f} | train_loss={train_loss:.6f} | kl={train_kl:.6f} | rank={train_rank:.6f} | val_metric={best_val:.6f}")
+            print(f"epoch {ep:03d} done in {elapsed:.1f}s | samples/s={throughput:.1f} | train_loss={running/n:.6f} | kl={running_kl/n:.6f} | rank={running_rank/n:.6f} | val_metric={best_val:.6f} | best_recall={best_recall:.4f}")
 
+
+    # 训练结束，绘制recall-epoch 和 ord_acc-epoch 曲线
     if val_loader is not None and save_dir:
         print(f"best val_metric: {best_val:.6f} (saved to {os.path.join(save_dir, save_name)})")
-
+        print(f"best recall@{rank_topk}: {best_recall:.4f}")
+        
+        # Plot and save validation curves in ONE image
+        if len(val_recall_history) > 0:
+            epochs_axis = list(range(1, len(val_recall_history) + 1))
+            fig, ax = plt.subplots(figsize=(8, 4.5))
+            ax.plot(epochs_axis, val_recall_history, marker='o', label=f"recall@{rank_topk}")
+            ax.plot(epochs_axis, val_ordacc_history, marker='s', color='tab:orange', label=f"ord_acc@{rank_topk}")
+            ax.set_xlabel("Epoch")
+            ax.set_ylabel("Score")
+            ax.set_title("Validation Recall and Ordered Accuracy vs Epoch")
+            ax.set_ylim(0.0, 1.0)
+            ax.grid(True, linestyle=":", alpha=0.5)
+            ax.legend()
+            combined_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + f"_val_recall_ordacc@{rank_topk}_loss.png")
+            plt.tight_layout()
+            plt.savefig(combined_path)
+            plt.close(fig)
+        
+    # 绘制epoch=1时每个batch的验证准确率变化图
+    if len(epoch1_batch_metrics) > 0 and save_dir:
+        batches = [m['batch'] for m in epoch1_batch_metrics]
+        val_ordacc_values = [m['val_ordacc'] for m in epoch1_batch_metrics]
+        val_recall_values = [m['val_recall'] for m in epoch1_batch_metrics]
+        val_kld_values = [m['val_kld'] for m in epoch1_batch_metrics]
+        
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+        
+        # 上图：准确率和召回率
+        ax1.plot(batches, val_ordacc_values, marker='o', label=f'ord_acc@{rank_topk}', linewidth=2, markersize=4)
+        ax1.plot(batches, val_recall_values, marker='s', label=f'recall@{rank_topk}', linewidth=2, markersize=4)
+        ax1.set_xlabel('Batch')
+        ax1.set_ylabel('Score')
+        ax1.set_title(f'Epoch 1: Validation Accuracy and Recall vs Batch')
+        ax1.set_ylim(0.0, 1.0)
+        ax1.grid(True, linestyle=':', alpha=0.5)
+        ax1.legend()
+        
+        # 下图：KL散度损失
+        ax2.plot(batches, val_kld_values, marker='^', color='red', label='val_kld', linewidth=2, markersize=4)
+        ax2.set_xlabel('Batch')
+        ax2.set_ylabel('KL Divergence Loss')
+        ax2.set_title(f'Epoch 1: Validation KL Loss vs Batch')
+        ax2.grid(True, linestyle=':', alpha=0.5)
+        ax2.legend()
+        
+        plt.tight_layout()
+        batch_plot_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + f"_epoch1_batch_metrics@{rank_topk}_original.png")
+        plt.savefig(batch_plot_path, dpi=300, bbox_inches='tight')
+        plt.close(fig)
+        print(f"Saved epoch 1 batch metrics plot to {batch_plot_path}")
 
 def build_loaders(
     train_npz: str,  # (queries, targets)
@@ -543,6 +758,8 @@ def parse_args():
     # ranking loss
     p.add_argument("--rank_lambda", type=float, default=0.0, help="Weight for pairwise ranking loss (0 to disable)")
     p.add_argument("--rank_topk", type=int, default=10, help="Top-k positives (by target prob) for ranking loss")
+    p.add_argument("--use_recall_loss", action="store_true", help="Use recall-focused loss for better recall@k performance")
+    p.add_argument("--recall_weight", type=float, default=2.0, help="Weight for recall-focused loss")
     # model
     p.add_argument("--d_model", type=int, default=256, help="Transformer hidden size")
     p.add_argument("--nhead", type=int, default=8, help="Number of attention heads")
@@ -552,7 +769,6 @@ def parse_args():
     p.add_argument("--max_len", type=int, default=4096, help="Maximum supported sequence length")
     p.add_argument("--score_type", type=str, default="bilinear", choices=["bilinear", "mlp"], help="Scoring function type")
     p.add_argument("--no_amp", action="store_true", help="Disable mixed precision")
-    p.add_argument("--topk", type=int, default=10, help="Top-K for recall metric")
     p.add_argument("--log_interval", type=int, default=100, help="Steps between batch logs (0 to disable)")
     return p.parse_args()
 
@@ -621,7 +837,7 @@ def main():
     ckpt_name = (
         f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}"
         f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}"
-        f"_rank{args.rank_lambda}_tk{args.rank_topk}.pt"
+        f"_rank{args.rank_lambda}_tk{args.rank_topk}_rlweight{args.recall_weight}_use_recall_loss{args.use_recall_loss}_loss.pt"
     )
 
     train(
@@ -639,6 +855,8 @@ def main():
         rank_lambda=args.rank_lambda,
         rank_topk=args.rank_topk,
         log_interval=args.log_interval,
+        use_recall_loss=args.use_recall_loss,
+        recall_weight=args.recall_weight,
     )
 
     # Evaluation (if test set is provided)
@@ -661,8 +879,8 @@ def main():
 
         test_ds = NPZClusterDataset(args.test_npz, normalize=args.normalize, mean=mean, std=std, centroids=C)
         test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers, pin_memory=True)
-        kld, rank, mae, mse, recall, ordacc = evaluate(model, test_loader, device, topk=args.topk)
-        print(f"[TEST] kld={kld:.6f} | rank={rank:.6f} | mae={mae:.6f} | mse={mse:.6f} | recall@{args.topk}={recall:.4f} | ord_acc@{args.topk}={ordacc:.4f}")
+        kld, rank, mae, mse, recall, ordacc = evaluate(model, test_loader, device, topk=args.rank_topk)
+        print(f"[TEST] kld={kld:.6f} | rank={rank:.6f} | mae={mae:.6f} | mse={mse:.6f} | recall@{args.rank_topk}={recall:.4f} | ord_acc@{args.rank_topk}={ordacc:.4f}")
 
 
 if __name__ == "__main__":
@@ -676,8 +894,8 @@ python -m src.model.cluster_dist_transformer_loss \
   --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
   --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
   --val_split 0.1 \
-  --topk 10 \
-  --epochs 50 \
+  --rank_topk 10 \
+  --epochs 1 \
   --batch_size 512 \
   --lr 1e-3 \
   --weight_decay 1e-2 \
@@ -686,10 +904,9 @@ python -m src.model.cluster_dist_transformer_loss \
   --num_layers 4 \
   --dim_ff 512 \
   --dropout 0.1 \
-  --score_type bilinear \
+  --score_type mlp \
   --rank_lambda 0.5 \
-  --rank_topk 10 \
-  --log_interval 100
+  --log_interval 10
 '''
 
 
