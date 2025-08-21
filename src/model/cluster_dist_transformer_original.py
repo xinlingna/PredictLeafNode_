@@ -11,6 +11,7 @@ from torch.utils.data import Dataset, DataLoader, random_split
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from src.model.plot import plot_epoch1_batch_metrics, plot_epoch_metrics
 
 
 def set_seed(seed: int = 42):
@@ -36,6 +37,40 @@ def load_centroids(centroids_path: str) -> np.ndarray:
     assert c.ndim == 2, f"centroids should be 2D, got {c.shape}"
     return c
 
+def topk_recall(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
+    """
+    Compute Top-K recall over a batch.
+    pred_prob: (B, K)
+    label_prob: (B, K)
+    Returns average recall@k in [0,1].
+    """
+    topk_pred = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
+    top_true = torch.topk(label_prob, k, dim=1).indices  # (B, k)
+    recall_sum = 0.0
+    B = pred_prob.size(0)
+    for i in range(B):
+        intersect = len(set(topk_pred[i].tolist()) & set(top_true[i].tolist()))
+        recall_sum += intersect / float(k)
+    return recall_sum / float(B)
+
+def topk_ordered_accuracy(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
+    """
+    Compute Top-K ordered accuracy.
+    For each sample, take the top-k indices (descending) from the predicted and target
+    probability distributions and compare them position-wise. Returns the batch-mean
+    fraction of matches in [0, 1].
+    """
+    if pred_prob.ndim != 2 or label_prob.ndim != 2:
+        raise ValueError("pred_prob and label_prob must be 2D tensors of shape (B, K)")
+    if pred_prob.size() != label_prob.size():
+        raise ValueError(f"Shape mismatch: pred_prob={pred_prob.size()}, label_prob={label_prob.size()}")
+    B, K = pred_prob.size()
+    k = min(k, K)
+    pred_topk = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
+    true_topk = torch.topk(label_prob, k, dim=1).indices  # (B, k)
+    matches = (pred_topk == true_topk).float()  # (B, k)
+    per_sample_acc = matches.mean(dim=1)  # (B,)
+    return float(per_sample_acc.mean().item())
 
 class NPZClusterDataset(Dataset):
     def __init__(
@@ -90,7 +125,6 @@ class NPZClusterDataset(Dataset):
         y = self.targets[idx]  # [K]
         return x.astype(np.float32), y.astype(np.float32)
 
-
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model: int, max_len: int = 4096):
         super().__init__()
@@ -117,8 +151,10 @@ class ClusterDistTransformer(nn.Module):
         max_len: int = 4096,
         use_type_embed: bool = True,
         score_type: str = "bilinear",  # ["bilinear", "mlp"]
+        pos_exist: bool = False
     ):
         super().__init__()
+        self.pos_exist = pos_exist
         self.d_model = d_model
         self.input_proj = nn.Linear(input_dim, d_model)
         self.pos_enc = PositionalEncoding(d_model, max_len) # （max_len, d_model）
@@ -157,7 +193,8 @@ class ClusterDistTransformer(nn.Module):
             if seqlen > 1:
                 type_ids[:, 1:] = 1
             t = t + self.type_embed(type_ids)
-        t = self.pos_enc(t)
+        if self.pos_exist:
+            t = self.pos_enc(t)
         h = self.encoder(t)  # [B, L, d_model]
 
         q = h[:, 0, :]  # [B, d_model]
@@ -174,41 +211,6 @@ class ClusterDistTransformer(nn.Module):
         return logits  # raw logits; apply log_softmax/softmax outside as needed
 
 
-def topk_recall(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
-    """
-    Compute Top-K recall over a batch.
-    pred_prob: (B, K)
-    label_prob: (B, K)
-    Returns average recall@k in [0,1].
-    """
-    topk_pred = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
-    top_true = torch.topk(label_prob, k, dim=1).indices  # (B, k)
-    recall_sum = 0.0
-    B = pred_prob.size(0)
-    for i in range(B):
-        intersect = len(set(topk_pred[i].tolist()) & set(top_true[i].tolist()))
-        recall_sum += intersect / float(k)
-    return recall_sum / float(B)
-
-def topk_ordered_accuracy(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
-    """
-    Compute Top-K ordered accuracy.
-    For each sample, take the top-k indices (descending) from the predicted and target
-    probability distributions and compare them position-wise. Returns the batch-mean
-    fraction of matches in [0, 1].
-    """
-    if pred_prob.ndim != 2 or label_prob.ndim != 2:
-        raise ValueError("pred_prob and label_prob must be 2D tensors of shape (B, K)")
-    if pred_prob.size() != label_prob.size():
-        raise ValueError(f"Shape mismatch: pred_prob={pred_prob.size()}, label_prob={label_prob.size()}")
-    B, K = pred_prob.size()
-    k = min(k, K)
-    pred_topk = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
-    true_topk = torch.topk(label_prob, k, dim=1).indices  # (B, k)
-    matches = (pred_topk == true_topk).float()  # (B, k)
-    per_sample_acc = matches.mean(dim=1)  # (B,)
-    return float(per_sample_acc.mean().item())
-
 
 @torch.no_grad()
 def evaluate_batch(model: nn.Module, x: torch.Tensor, y: torch.Tensor, device: torch.device, topk: int = 10) -> Tuple[float, float, float, float, float]:
@@ -218,7 +220,7 @@ def evaluate_batch(model: nn.Module, x: torch.Tensor, y: torch.Tensor, device: t
     model.eval()
     x = x.to(device)
     y = y.to(device)
-    logits = model(x)
+    logits = model(x) # (B,K)
     log_probs = torch.log_softmax(logits, dim=-1)
     preds = torch.softmax(logits, dim=-1)
     
@@ -251,6 +253,8 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device, topk: i
         mse = torch.mean((preds - y) ** 2)
         recall = topk_recall(preds, y, k=topk)
         ordered_acc = topk_ordered_accuracy(preds, y, k=topk)
+        
+        
         bs = x.size(0)
         kld_meter += loss_kld.item() * bs
         mae_meter += mae.item() * bs
@@ -287,8 +291,7 @@ def train(
     if save_dir:
         os.makedirs(save_dir, exist_ok=True)
     # record validation metrics for plotting
-    val_recall_history = []
-    val_ordacc_history = []
+    epoch_history = []
     
     # 记录epoch=1时每个batch的验证准确率
     epoch1_batch_metrics = []
@@ -296,12 +299,15 @@ def train(
     for ep in range(1, epochs + 1):
         model.train()
         running = 0.0
+        running_ordacc = 0.0
+        running_recall = 0.0
         n = 0
         
         # 在epoch=1时，记录每个batch后的验证准确率
         if ep == 1 and val_loader is not None:
             batch_count = 0
-            
+        
+
         for x, y in train_loader:
             x = x.to(device)
             y = y.to(device)
@@ -309,7 +315,11 @@ def train(
             with torch.amp.autocast(device_type="cuda", enabled=amp and device.type == "cuda"):
                 logits = model(x)
                 log_probs = torch.log_softmax(logits, dim=-1)
-                loss = kldiv(log_probs, y)
+                loss = kldiv(log_probs, y)   # KLDivergenceLoss
+                preds = torch.softmax(logits, dim=-1)
+                train_ordacc=topk_ordered_accuracy(preds, y, k=eval_topk)
+                train_recall=topk_recall(preds, y, k=eval_topk)
+
             scaler.scale(loss).backward()
             if grad_clip is not None:
                 scaler.unscale_(opt)
@@ -317,11 +327,14 @@ def train(
             scaler.step(opt)
             scaler.update()
             running += loss.item() * x.size(0) # 累积训练损失总和
+            running_ordacc+=train_ordacc * x.size(0)
+            running_recall+=train_recall * x.size(0)
             n += x.size(0)
             
             # 在epoch=1时，每个batch后评估验证集
             if ep == 1 and val_loader is not None:
                 batch_count += 1
+                
                 # 评估当前batch在验证集上的表现
                 val_batch_metrics = []
                 for val_x, val_y in val_loader:
@@ -336,12 +349,18 @@ def train(
                 avg_val_recall = sum(m[4] for m in val_batch_metrics) / len(val_batch_metrics)
                 
                 epoch1_batch_metrics.append({
+                    # test metrics per batch of epoch 1
                     'batch': batch_count,
                     'val_kld': avg_val_kld,
                     'val_mae': avg_val_mae,
                     'val_mse': avg_val_mse,
                     'val_ordacc': avg_val_ordacc,
-                    'val_recall': avg_val_recall
+                    'val_recall': avg_val_recall,
+                    
+                    # train metrics per batch of epoch 1
+                    'train_kld':loss,
+                    'train_ordacc': train_ordacc,
+                    'train_recall': train_recall,
                 })
                 
                 if batch_count % 10 == 0:  # 每10个batch打印一次
@@ -354,14 +373,25 @@ def train(
                     lr_now = opt.param_groups[0]['lr']
                     print(f"Epoch {ep:03d} | Step {step_idx} | lr={lr_now:.6e} | loss={loss.item():.6f}")
         sched.step()
-        train_loss = running / n
+        train_loss = running / n           # average KLDLoss per epoch
+        train_ordacc = running_ordacc / n
+        train_ordacc = running_recall / n
+        epoch_history.append({
+            "train_loss":train_loss,
+            "train_ordacc":train_ordacc,
+            "train_ordacc":train_ordacc
+        })
 
+        # 每一个轮次结束 进行一次验证
         if val_loader is not None:
             val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate(model, val_loader, device, topk=eval_topk)
-            val_recall_history.append(val_recall)
-            val_ordacc_history.append(val_ordacc)
+            epoch_history.append({
+                "val_kld":val_kld,
+                "val_ordacc":val_ordacc,
+                "val_recall":val_recall
+            })
             print(f"epoch {ep:03d} | train_kld={train_loss:.6f} | val_kld={val_kld:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f} | ord_acc@{eval_topk}={val_ordacc:.4f} | recall@{eval_topk}={val_recall:.4f}")
-            if val_kld < best_val and save_dir:
+            if val_kld < best_val and save_dir: # 保存最好的模型：最小化KL散度
                 best_val = val_kld
                 torch.save(
                     {"model": model.state_dict(), "epoch": ep, "val_kld": val_kld},
@@ -372,54 +402,10 @@ def train(
 
     # 绘制epoch=1时每个batch的验证准确率变化图
     if len(epoch1_batch_metrics) > 0 and save_dir:
-        batches = [m['batch'] for m in epoch1_batch_metrics]
-        val_ordacc_values = [m['val_ordacc'] for m in epoch1_batch_metrics]
-        val_recall_values = [m['val_recall'] for m in epoch1_batch_metrics]
-        val_kld_values = [m['val_kld'] for m in epoch1_batch_metrics]
-        
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
-        
-        # 上图：准确率和召回率
-        ax1.plot(batches, val_ordacc_values, marker='o', label=f'ord_acc@{eval_topk}', linewidth=2, markersize=4)
-        ax1.plot(batches, val_recall_values, marker='s', label=f'recall@{eval_topk}', linewidth=2, markersize=4)
-        ax1.set_xlabel('Batch')
-        ax1.set_ylabel('Score')
-        ax1.set_title(f'Epoch 1: Validation Accuracy and Recall vs Batch')
-        ax1.set_ylim(0.0, 1.0)
-        ax1.grid(True, linestyle=':', alpha=0.5)
-        ax1.legend()
-        
-        # 下图：KL散度损失
-        ax2.plot(batches, val_kld_values, marker='^', color='red', label='val_kld', linewidth=2, markersize=4)
-        ax2.set_xlabel('Batch')
-        ax2.set_ylabel('KL Divergence Loss')
-        ax2.set_title(f'Epoch 1: Validation KL Loss vs Batch')
-        ax2.grid(True, linestyle=':', alpha=0.5)
-        ax2.legend()
-        
-        plt.tight_layout()
-        batch_plot_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + f"_epoch1_batch_metrics@{eval_topk}_original.png")
-        plt.savefig(batch_plot_path, dpi=300, bbox_inches='tight')
-        plt.close(fig)
-        print(f"Saved epoch 1 batch metrics plot to {batch_plot_path}")
+        plot_epoch1_batch_metrics(epoch1_batch_metrics, save_dir, save_name, eval_topk)
 
     if val_loader is not None and save_dir:
-        print(f"best val_kld: {best_val:.6f} (saved to {os.path.join(save_dir, save_name)})")
-        if len(val_recall_history) > 0:
-            epochs_axis = list(range(1, len(val_recall_history) + 1))
-            fig, ax = plt.subplots(figsize=(8, 4.5))
-            ax.plot(epochs_axis, val_recall_history, marker='o', label=f"recall@{eval_topk}")
-            ax.plot(epochs_axis, val_ordacc_history, marker='s', color='tab:orange', label=f"ord_acc@{eval_topk}")
-            ax.set_xlabel("Epoch")
-            ax.set_ylabel("Score")
-            ax.set_title("Validation Recall and Ordered Accuracy vs Epoch")
-            ax.set_ylim(0.0, 1.0)
-            ax.grid(True, linestyle=":", alpha=0.5)
-            ax.legend()
-            out_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + f"_val_recall_ordacc@{eval_topk}_original.png")
-            plt.tight_layout()
-            plt.savefig(out_path)
-            plt.close(fig)
+        plot_epoch_metrics(save_dir, save_name, epoch_history)
 
 
 def build_loaders(
@@ -504,6 +490,7 @@ def parse_args():
     p.add_argument("--no_amp", action="store_true", help="Disable mixed precision")
     p.add_argument("--topk", type=int, default=10, help="Top-K for recall metric")
     p.add_argument("--log_interval", type=int, default=100, help="Steps between batch logs (0 to disable)")
+    p.add_argument("--pos_exist", action="store_true", help="Whether to use positional encoding")
     return p.parse_args()
 
 
@@ -544,6 +531,11 @@ def main():
     # Save checkpoints next to the centroids file
     ckpt_dir = os.path.dirname(args.centroids_path)
     os.makedirs(ckpt_dir, exist_ok=True)
+    # Build a descriptive checkpoint name using key hyperparameters
+    ckpt_name = (
+        f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}"
+        f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}_normalize{args.normalize}_pos{args.pos_exist}.pt"
+    )
 
     train_loader, val_loader = build_loaders(
         args.train_npz,
@@ -565,13 +557,8 @@ def main():
         dropout=args.dropout,
         max_len=args.max_len,
         score_type=args.score_type, # bilinear or mlp
+        pos_exist=args.pos_exist
     ).to(device)
-
-    # Build a descriptive checkpoint name using key hyperparameters
-    ckpt_name = (
-        f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}"
-        f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}_normalize{args.normalize}.pt"
-    )
 
     # epoch=0,保存模型参数（未训练的随机初始化模型）
     if args.epochs == 0:
@@ -632,7 +619,7 @@ cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.model.cluster_dist_transformer_original \
   --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
   --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
-  --val_split 0.1 \
+  --val_split 0.01 \
   --topk 10 \
   --epochs 10 \
   --batch_size 512 \
@@ -644,7 +631,8 @@ python -m src.model.cluster_dist_transformer_original \
   --dim_ff 512 \
   --dropout 0.1 \
   --score_type bilinear \
-  --log_interval 10
+  --log_interval 10 \
+  --pos_exist
 '''
 
 

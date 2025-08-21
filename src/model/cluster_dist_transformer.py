@@ -341,6 +341,7 @@ def main():
     args = parse_args()
     set_seed(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    os.makedirs(args.save_dir, exist_ok=True)
 
     if args.gen_synth:
         queries, centroids, targets = make_synth_dataset(args.synth_n, args.synth_K, args.synth_D)
@@ -450,8 +451,8 @@ if __name__ == "__main__":
 conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.model.cluster_dist_transformer \
-  --train_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
-  --centroids_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+  --train_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/train_gist.npz \
+  --centroids_path /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/centroids.npy \
   --val_split 0.1 \
   --normalize \
   --epochs 20 \
@@ -465,4 +466,4 @@ python -m src.model.cluster_dist_transformer \
   --dropout 0.1 \
   --max_len 4096 \
   --no_amp 
-"""
+""" 
