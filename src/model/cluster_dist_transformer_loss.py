@@ -280,11 +280,11 @@ def recall_focused_loss(logits: torch.Tensor, y: torch.Tensor, topk: int = 22) -
     margin = 1.0  # margin参数
     
     for b in range(B):
-        # 真实top-k类别的logits
-        true_logits = logits[b, y_topk[b]]  # [topk]
+        # # 真实top-k类别的logits
+        # true_logits = logits[b, y_topk[b]]  # [topk]
         
-        # 预测top-k类别的logits
-        pred_logits = logits[b, pred_topk[b]]  # [topk]
+        # # 预测top-k类别的logits
+        # pred_logits = logits[b, pred_topk[b]]  # [topk]
         
         # 计算真实top-k中不在预测top-k中的类别
         true_set = set(y_topk[b].tolist())
@@ -307,17 +307,18 @@ def recall_focused_loss(logits: torch.Tensor, y: torch.Tensor, topk: int = 22) -
                     for wrong_logit in pred_only_logits:
                         recall_loss += torch.nn.functional.softplus(margin - (missing_logit - wrong_logit))
     
-    # 添加top-k一致性损失
-    # 确保预测的top-k logits之间有足够的间隔
-    pred_logits_all = torch.gather(logits, 1, pred_topk)  # [B, topk]
-    if topk > 1:
-        # 计算相邻logits的差值，确保递减
-        diffs = pred_logits_all[:, :-1] - pred_logits_all[:, 1:]  # [B, topk-1]
-        consistency_loss = torch.nn.functional.softplus(-diffs).mean()
-    else:
-        consistency_loss = 0.0
+    # # 添加top-k一致性损失
+    # # 确保预测的top-k logits之间有足够的间隔
+    # pred_logits_all = torch.gather(logits, 1, pred_topk)  # [B, topk]
+    # if topk > 1:
+    #     # 计算相邻logits的差值，确保递减
+    #     diffs = pred_logits_all[:, :-1] - pred_logits_all[:, 1:]  # [B, topk-1]
+    #     consistency_loss = torch.nn.functional.softplus(-diffs).mean()
+    # else:
+    #     consistency_loss = 0.0
     
-    return recall_loss / B + consistency_loss
+    # return recall_loss / B + consistency_loss
+    return recall_loss / B
 
 
 def pairwise_rank_loss_per(logits: torch.Tensor, y: torch.Tensor, topk: int = 10, neg_samples: int = 20) -> torch.Tensor:

@@ -2,6 +2,21 @@ from typing import List, Dict
 import matplotlib.pyplot as plt
 import os
 
+
+def _mark_extreme(ax, xs, ys, mode: str, color: str, label: str):
+    """Mark the extreme (max or min) point on a line plot."""
+    if not xs or not ys:
+        return
+    if mode not in ("max", "min"):
+        mode = "max"
+    try:
+        idx = max(range(len(ys)), key=lambda i: ys[i]) if mode == "max" else min(range(len(ys)), key=lambda i: ys[i])
+    except ValueError:
+        return
+    x0, y0 = xs[idx], ys[idx]
+    ax.scatter([x0], [y0], color=color, s=60, marker='*', zorder=5)
+    ax.annotate(f"{label}: {y0:.4f} @ {x0}", (x0, y0), textcoords="offset points", xytext=(6, 6), fontsize=8, color=color)
+
 def plot_epoch1_batch_metrics(
     epoch1_batch_metrics: List[Dict[str, float]],
     save_dir: str,
@@ -32,25 +47,33 @@ def plot_epoch1_batch_metrics(
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
     
     # 上图：准确率和召回率
-    ax1.plot(batches, val_ordacc_values, marker='o', label=f'val_ord_acc@{eval_topk}', linewidth=2, markersize=4)
-    ax1.plot(batches, val_recall_values, marker='s', label=f'val_recall@{eval_topk}', linewidth=2, markersize=4)
-    ax1.plot(batches, train_ordacc_values, marker='m', label=f'train_ord_acc@{eval_topk}', linewidth=2, markersize=4, linestyle='--')
-    ax1.plot(batches, train_recall_values, marker='n', label=f'train_recall@{eval_topk}', linewidth=2, markersize=4, linestyle='--')
+    l1 = ax1.plot(batches, val_ordacc_values, marker='o', label=f'val_ord_acc@{eval_topk}', linewidth=2, markersize=4)
+    l2 = ax1.plot(batches, val_recall_values, marker='s', label=f'val_recall@{eval_topk}', linewidth=2, markersize=4)
+    l3 = ax1.plot(batches, train_ordacc_values, marker='^', label=f'train_ord_acc@{eval_topk}', linewidth=2, markersize=4, linestyle='--')
+    l4 = ax1.plot(batches, train_recall_values, marker='v', label=f'train_recall@{eval_topk}', linewidth=2, markersize=4, linestyle='--')
     ax1.set_xlabel('Batch')
     ax1.set_ylabel('Score')
     ax1.set_title(f'Epoch 1: Validation Cluster_Accuracy and Recall vs Batch')
     ax1.set_ylim(0.0, 1.0)
     ax1.grid(True, linestyle=':', alpha=0.5)
     ax1.legend()
+    # 标记最优（最大）点
+    _mark_extreme(ax1, batches, val_ordacc_values, 'max', l1[0].get_color(), f'val_ord_acc@{eval_topk}')
+    _mark_extreme(ax1, batches, val_recall_values, 'max', l2[0].get_color(), f'val_recall@{eval_topk}')
+    _mark_extreme(ax1, batches, train_ordacc_values, 'max', l3[0].get_color(), f'train_ord_acc@{eval_topk}')
+    _mark_extreme(ax1, batches, train_recall_values, 'max', l4[0].get_color(), f'train_recall@{eval_topk}')
     
     # 下图：KL散度损失
-    ax2.plot(batches, val_kld_values, marker='^', color='red', label='val_kld', linewidth=2, markersize=4)
-    ax2.plot(batches, train_kld_values, marker='^', color='blue', label='train_kld', linewidth=2, markersize=4, linestyle='--')
+    l5 = ax2.plot(batches, val_kld_values, marker='^', color='red', label='val_kld', linewidth=2, markersize=4)
+    l6 = ax2.plot(batches, train_kld_values, marker='^', color='blue', label='train_kld', linewidth=2, markersize=4, linestyle='--')
     ax2.set_xlabel('Batch')
     ax2.set_ylabel('KL Divergence Loss')
     ax2.set_title(f'Training & Validation KL Loss vs Batch')
     ax2.grid(True, linestyle=':', alpha=0.5)
     ax2.legend()
+    # 标记最优（最小）点
+    _mark_extreme(ax2, batches, val_kld_values, 'min', l5[0].get_color(), 'val_kld')
+    _mark_extreme(ax2, batches, train_kld_values, 'min', l6[0].get_color(), 'train_kld')
     
     plt.tight_layout()
     batch_plot_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + f"_epoch1_batch_metrics@{eval_topk}.png")
@@ -88,25 +111,33 @@ def plot_epoch_metrics(
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
     
     # 上图：准确率和召回率
-    ax1.plot(epochs, val_ordacc_values, marker='o', label='val_ordacc', linewidth=2, markersize=4)
-    ax1.plot(epochs, val_recall_values, marker='s', label='val_recall', linewidth=2, markersize=4)
-    ax1.plot(epochs, train_ordacc_values, marker='m', label='train_ordacc', linewidth=2, markersize=4, linestyle='--')
-    ax1.plot(epochs, train_recall_values, marker='n', label='train_recall', linewidth=2, markersize=4, linestyle='--')
+    L1 = ax1.plot(epochs, val_ordacc_values, marker='o', label='val_ordacc', linewidth=2, markersize=4)
+    L2 = ax1.plot(epochs, val_recall_values, marker='s', label='val_recall', linewidth=2, markersize=4)
+    L3 = ax1.plot(epochs, train_ordacc_values, marker='^', label='train_ordacc', linewidth=2, markersize=4, linestyle='--')
+    L4 = ax1.plot(epochs, train_recall_values, marker='v', label='train_recall', linewidth=2, markersize=4, linestyle='--')
     ax1.set_xlabel('Epoch')
     ax1.set_ylabel('Score')
     ax1.set_title('Validation and Training Accuracy & Recall vs Epoch')
     ax1.set_ylim(0.0, 1.0)
     ax1.grid(True, linestyle=':', alpha=0.5)
     ax1.legend()
+    # 标记最优（最大）点
+    _mark_extreme(ax1, epochs, val_ordacc_values, 'max', L1[0].get_color(), 'val_ordacc')
+    _mark_extreme(ax1, epochs, val_recall_values, 'max', L2[0].get_color(), 'val_recall')
+    _mark_extreme(ax1, epochs, train_ordacc_values, 'max', L3[0].get_color(), 'train_ordacc')
+    _mark_extreme(ax1, epochs, train_recall_values, 'max', L4[0].get_color(), 'train_recall')
     
     # 下图：损失
-    ax2.plot(epochs, val_kld_values, marker='^', color='red', label='val_kld', linewidth=2, markersize=4)
-    ax2.plot(epochs, train_loss_values, marker='^', color='blue', label='train_loss', linewidth=2, markersize=4, linestyle='--')
+    L5 = ax2.plot(epochs, val_kld_values, marker='^', color='red', label='val_kld', linewidth=2, markersize=4)
+    L6 = ax2.plot(epochs, train_loss_values, marker='^', color='blue', label='train_loss', linewidth=2, markersize=4, linestyle='--')
     ax2.set_xlabel('Epoch')
     ax2.set_ylabel('Loss')
     ax2.set_title('Training Loss & Validation KL Loss vs Epoch')
     ax2.grid(True, linestyle=':', alpha=0.5)
     ax2.legend()
+    # 标记最优（最小）点
+    _mark_extreme(ax2, epochs, val_kld_values, 'min', L5[0].get_color(), 'val_kld')
+    _mark_extreme(ax2, epochs, train_loss_values, 'min', L6[0].get_color(), 'train_loss')
     
     plt.tight_layout()
     epoch_plot_path = os.path.join(save_dir, os.path.splitext(save_name)[0] + "_epoch_metrics.png")

@@ -48,9 +48,9 @@ def main():
 
     # 对标签learn_labels 和 query_labels 进行归一化
     if not args.no_norm_labels:
-        rs = learn_labels.sum(axis=1, keepdims=True) + 1e-12
+        rs = learn_labels.sum(axis=1, keepdims=True)
         learn_labels = learn_labels / rs
-        rs = query_labels.sum(axis=1, keepdims=True) + 1e-12
+        rs = query_labels.sum(axis=1, keepdims=True)
         query_labels = query_labels / rs
 
     os.makedirs(os.path.dirname(args.out_npz), exist_ok=True)
@@ -75,23 +75,23 @@ conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.preprocess.convert_txt_to_npz \
   --learn_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/gist_learn.txt \
-  --learn_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/knn_distributions.txt \
+  --learn_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/knn_distributions.txt \
   --query_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/gist_query.txt \
-  --query_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/knn_distributions_query.txt \
-  --centroids_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/leaf_center.txt \
-  --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/train_gist.npz \
-  --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/test_gist.npz \
-  --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20k/centroids.npy
+  --query_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/knn_distributions_query.txt \
+  --centroids_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/leaf_center.txt \
+  --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
+  --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/test_gist.npz \
+  --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/centroids.npy
 
 python -m src.preprocess.convert_txt_to_npz \
   --learn_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/gist_learn.txt \
-  --learn_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/knn_distributions.txt \
+  --learn_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10K/knn_distributions.txt \
   --query_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/gist_query.txt \
-  --query_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/knn_distributions_query.txt \
-  --centroids_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/leaf_center.txt \
-  --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/train_gist.npz \
-  --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/test_gist.npz \
-  --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10k/centroids.npy
+  --query_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10K/knn_distributions_query.txt \
+  --centroids_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10K/leaf_center.txt \
+  --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10K/train_gist.npz \
+  --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10K/test_gist.npz \
+  --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize10K/centroids.npy
 
 
 python -m src.preprocess.convert_txt_to_npz \
