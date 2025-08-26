@@ -25,7 +25,6 @@ python -m src.model.cluster_dist_transformer_original \
   --score_type mlp \
   --log_interval 10 \
   --pos_exist \
-  --use_gating \
   --loss_type kld > logs_mlp_bt256/kld.log 2>&1
 
 # ========== 第二次训练 (loss_type=kld) ==========
@@ -46,7 +45,6 @@ python -m src.model.cluster_dist_transformer_original \
   --score_type mlp \
   --log_interval 10 \
   --pos_exist \
-  --use_gating \
   --loss_type kld_reverse > logs_mlp_bt256/kld_reverse.log 2>&1
 
 # ========== 第三次训练 (loss_type=recall_focused_loss) ==========
@@ -67,7 +65,6 @@ python -m src.model.cluster_dist_transformer_original \
   --score_type mlp \
   --log_interval 10 \
   --pos_exist \
-  --use_gating \
   --loss_type recall_focused_loss > logs_mlp_bt256/recall_focused_loss.log 2>&1
 
 # ========== 第四次训练 (loss_type=mse) ==========
@@ -88,7 +85,6 @@ python -m src.model.cluster_dist_transformer_original \
   --score_type mlp \
   --log_interval 10 \
   --pos_exist \
-  --use_gating \
   --loss_type mse > logs_mlp_bt256/mse.log 2>&1
 
 # ========== 第五次训练 (loss_type=hybrid) ==========
@@ -109,5 +105,4 @@ python -m src.model.cluster_dist_transformer_original \
   --score_type mlp \
   --log_interval 10 \
   --pos_exist \
-  --use_gating \
   --loss_type hybrid > logs_mlp_bt256/hybrid.log 2>&1

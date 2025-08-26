@@ -1,0 +1,196 @@
+/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+Detected K=116, D=960
+Epoch 001 | Batch 10 | val_kld=89.261668 | val_ordacc@10=0.016584 | val_recall@10=0.209216
+Epoch 001 | Step 10 | lr=1.000000e-03 | loss=98.621338
+Epoch 001 | Batch 20 | val_kld=90.183717 | val_ordacc@10=0.023436 | val_recall@10=0.207646
+Epoch 001 | Step 20 | lr=1.000000e-03 | loss=70.958878
+Epoch 001 | Batch 30 | val_kld=45.749537 | val_ordacc@10=0.053620 | val_recall@10=0.451724
+Epoch 001 | Step 30 | lr=1.000000e-03 | loss=79.510422
+Epoch 001 | Batch 40 | val_kld=26.846133 | val_ordacc@10=0.076158 | val_recall@10=0.592207
+Epoch 001 | Step 40 | lr=1.000000e-03 | loss=46.952614
+Epoch 001 | Batch 50 | val_kld=36.278955 | val_ordacc@10=0.064506 | val_recall@10=0.523120
+Epoch 001 | Step 50 | lr=1.000000e-03 | loss=36.372585
+Epoch 001 | Batch 60 | val_kld=29.985965 | val_ordacc@10=0.075871 | val_recall@10=0.561169
+Epoch 001 | Step 60 | lr=1.000000e-03 | loss=34.049145
+Epoch 001 | Batch 70 | val_kld=21.671406 | val_ordacc@10=0.087422 | val_recall@10=0.634941
+Epoch 001 | Step 70 | lr=1.000000e-03 | loss=26.502777
+Epoch 001 | Batch 80 | val_kld=19.536561 | val_ordacc@10=0.091671 | val_recall@10=0.654575
+Epoch 001 | Step 80 | lr=1.000000e-03 | loss=25.728048
+Epoch 001 | Batch 90 | val_kld=18.381726 | val_ordacc@10=0.097537 | val_recall@10=0.665192
+Epoch 001 | Step 90 | lr=1.000000e-03 | loss=25.588406
+Epoch 001 | Batch 100 | val_kld=16.393030 | val_ordacc@10=0.108194 | val_recall@10=0.687649
+Epoch 001 | Step 100 | lr=1.000000e-03 | loss=22.129002
+Epoch 001 | Batch 110 | val_kld=15.761248 | val_ordacc@10=0.106618 | val_recall@10=0.691813
+Epoch 001 | Step 110 | lr=1.000000e-03 | loss=20.789127
+Epoch 001 | Batch 120 | val_kld=15.614065 | val_ordacc@10=0.106315 | val_recall@10=0.693601
+Epoch 001 | Step 120 | lr=1.000000e-03 | loss=21.173222
+Epoch 001 | Batch 130 | val_kld=15.174053 | val_ordacc@10=0.112832 | val_recall@10=0.698660
+Epoch 001 | Step 130 | lr=1.000000e-03 | loss=20.670576
+Epoch 001 | Batch 140 | val_kld=14.200294 | val_ordacc@10=0.114655 | val_recall@10=0.709498
+Epoch 001 | Step 140 | lr=1.000000e-03 | loss=19.310234
+Epoch 001 | Batch 150 | val_kld=14.500797 | val_ordacc@10=0.114885 | val_recall@10=0.705485
+Epoch 001 | Step 150 | lr=1.000000e-03 | loss=19.633535
+Epoch 001 | Batch 160 | val_kld=13.987293 | val_ordacc@10=0.114289 | val_recall@10=0.710491
+Epoch 001 | Step 160 | lr=1.000000e-03 | loss=18.663589
+Epoch 001 | Batch 170 | val_kld=14.068009 | val_ordacc@10=0.111222 | val_recall@10=0.711885
+Epoch 001 | Step 170 | lr=1.000000e-03 | loss=20.328426
+Epoch 001 | Batch 180 | val_kld=13.739856 | val_ordacc@10=0.115335 | val_recall@10=0.714834
+Epoch 001 | Step 180 | lr=1.000000e-03 | loss=20.033112
+Epoch 001 | Batch 190 | val_kld=13.672968 | val_ordacc@10=0.123474 | val_recall@10=0.716760
+Epoch 001 | Step 190 | lr=1.000000e-03 | loss=19.786858
+Epoch 001 | Batch 200 | val_kld=13.610389 | val_ordacc@10=0.116884 | val_recall@10=0.717374
+Epoch 001 | Step 200 | lr=1.000000e-03 | loss=19.019581
+Epoch 001 | Batch 210 | val_kld=13.029950 | val_ordacc@10=0.125424 | val_recall@10=0.722469
+Epoch 001 | Step 210 | lr=1.000000e-03 | loss=18.811918
+Epoch 001 | Batch 220 | val_kld=12.673685 | val_ordacc@10=0.125162 | val_recall@10=0.727373
+Epoch 001 | Step 220 | lr=1.000000e-03 | loss=17.777847
+Epoch 001 | Batch 230 | val_kld=13.132301 | val_ordacc@10=0.123640 | val_recall@10=0.718651
+Epoch 001 | Step 230 | lr=1.000000e-03 | loss=17.839190
+Epoch 001 | Batch 240 | val_kld=12.087621 | val_ordacc@10=0.126255 | val_recall@10=0.734879
+Epoch 001 | Step 240 | lr=1.000000e-03 | loss=16.956608
+Epoch 001 | Batch 250 | val_kld=12.073589 | val_ordacc@10=0.128785 | val_recall@10=0.734699
+Epoch 001 | Step 250 | lr=1.000000e-03 | loss=17.959583
+Epoch 001 | Batch 260 | val_kld=12.356296 | val_ordacc@10=0.124323 | val_recall@10=0.730374
+Epoch 001 | Step 260 | lr=1.000000e-03 | loss=17.213066
+Epoch 001 | Batch 270 | val_kld=12.066575 | val_ordacc@10=0.125438 | val_recall@10=0.734066
+Epoch 001 | Step 270 | lr=1.000000e-03 | loss=17.238903
+Epoch 001 | Batch 280 | val_kld=12.194176 | val_ordacc@10=0.125836 | val_recall@10=0.733307
+Epoch 001 | Step 280 | lr=1.000000e-03 | loss=18.875282
+Epoch 001 | Batch 290 | val_kld=12.181123 | val_ordacc@10=0.125545 | val_recall@10=0.733137
+Epoch 001 | Step 290 | lr=1.000000e-03 | loss=16.656130
+Epoch 001 | Batch 300 | val_kld=12.224635 | val_ordacc@10=0.127132 | val_recall@10=0.730721
+Epoch 001 | Step 300 | lr=1.000000e-03 | loss=16.335495
+Epoch 001 | Batch 310 | val_kld=11.776279 | val_ordacc@10=0.124839 | val_recall@10=0.737119
+Epoch 001 | Step 310 | lr=1.000000e-03 | loss=17.384651
+Epoch 001 | Batch 320 | val_kld=11.873476 | val_ordacc@10=0.130121 | val_recall@10=0.736465
+Epoch 001 | Step 320 | lr=1.000000e-03 | loss=18.959560
+Epoch 001 | Batch 330 | val_kld=11.645674 | val_ordacc@10=0.128993 | val_recall@10=0.737941
+Epoch 001 | Step 330 | lr=1.000000e-03 | loss=17.389759
+Epoch 001 | Batch 340 | val_kld=12.384457 | val_ordacc@10=0.123221 | val_recall@10=0.730589
+Epoch 001 | Step 340 | lr=1.000000e-03 | loss=16.935768
+Epoch 001 | Batch 350 | val_kld=11.586854 | val_ordacc@10=0.129278 | val_recall@10=0.740065
+Epoch 001 | Step 350 | lr=1.000000e-03 | loss=16.117455
+Epoch 001 | Batch 360 | val_kld=14.075690 | val_ordacc@10=0.110667 | val_recall@10=0.708549
+Epoch 001 | Step 360 | lr=1.000000e-03 | loss=17.500017
+Epoch 001 | Batch 370 | val_kld=11.258140 | val_ordacc@10=0.131223 | val_recall@10=0.743853
+Epoch 001 | Step 370 | lr=1.000000e-03 | loss=15.760862
+Epoch 001 | Batch 380 | val_kld=10.873488 | val_ordacc@10=0.131217 | val_recall@10=0.750147
+Epoch 001 | Step 380 | lr=1.000000e-03 | loss=15.257795
+Epoch 001 | Batch 390 | val_kld=10.828336 | val_ordacc@10=0.132981 | val_recall@10=0.749247
+Epoch 001 | Step 390 | lr=1.000000e-03 | loss=16.483881
+Epoch 001 | Batch 400 | val_kld=11.364475 | val_ordacc@10=0.131399 | val_recall@10=0.741876
+Epoch 001 | Step 400 | lr=1.000000e-03 | loss=15.950393
+Epoch 001 | Batch 410 | val_kld=10.082669 | val_ordacc@10=0.145016 | val_recall@10=0.759968
+Epoch 001 | Step 410 | lr=1.000000e-03 | loss=15.085852
+Epoch 001 | Batch 420 | val_kld=10.468208 | val_ordacc@10=0.140493 | val_recall@10=0.752899
+Epoch 001 | Step 420 | lr=1.000000e-03 | loss=16.314671
+Epoch 001 | Batch 430 | val_kld=10.867096 | val_ordacc@10=0.132163 | val_recall@10=0.748307
+Epoch 001 | Step 430 | lr=1.000000e-03 | loss=16.358185
+Epoch 001 | Batch 440 | val_kld=10.935211 | val_ordacc@10=0.129672 | val_recall@10=0.748542
+Epoch 001 | Step 440 | lr=1.000000e-03 | loss=16.637751
+Epoch 001 | Batch 450 | val_kld=10.637289 | val_ordacc@10=0.136852 | val_recall@10=0.749423
+Epoch 001 | Step 450 | lr=1.000000e-03 | loss=15.929728
+Epoch 001 | Batch 460 | val_kld=10.613086 | val_ordacc@10=0.132007 | val_recall@10=0.752169
+Epoch 001 | Step 460 | lr=1.000000e-03 | loss=14.703680
+Epoch 001 | Batch 470 | val_kld=10.458434 | val_ordacc@10=0.134249 | val_recall@10=0.753604
+Epoch 001 | Step 470 | lr=1.000000e-03 | loss=14.257239
+Epoch 001 | Batch 480 | val_kld=11.763972 | val_ordacc@10=0.124410 | val_recall@10=0.737181
+Epoch 001 | Step 480 | lr=1.000000e-03 | loss=16.088718
+Epoch 001 | Batch 490 | val_kld=10.833027 | val_ordacc@10=0.136268 | val_recall@10=0.749921
+Epoch 001 | Step 490 | lr=1.000000e-03 | loss=16.170874
+Epoch 001 | Batch 500 | val_kld=11.020101 | val_ordacc@10=0.132461 | val_recall@10=0.745704
+Epoch 001 | Step 500 | lr=1.000000e-03 | loss=15.950187
+Epoch 001 | Batch 510 | val_kld=10.607844 | val_ordacc@10=0.136345 | val_recall@10=0.753212
+Epoch 001 | Step 510 | lr=1.000000e-03 | loss=15.349827
+Epoch 001 | Batch 520 | val_kld=9.777850 | val_ordacc@10=0.146094 | val_recall@10=0.763535
+Epoch 001 | Step 520 | lr=1.000000e-03 | loss=14.411041
+Epoch 001 | Batch 530 | val_kld=10.357763 | val_ordacc@10=0.138311 | val_recall@10=0.754345
+Epoch 001 | Step 530 | lr=1.000000e-03 | loss=15.139560
+Epoch 001 | Batch 540 | val_kld=9.876247 | val_ordacc@10=0.142763 | val_recall@10=0.763676
+Epoch 001 | Step 540 | lr=1.000000e-03 | loss=15.852611
+Epoch 001 | Batch 550 | val_kld=10.474690 | val_ordacc@10=0.141909 | val_recall@10=0.751580
+Epoch 001 | Step 550 | lr=1.000000e-03 | loss=15.457580
+Epoch 001 | Batch 560 | val_kld=10.231904 | val_ordacc@10=0.136116 | val_recall@10=0.757443
+Epoch 001 | Step 560 | lr=1.000000e-03 | loss=16.342545
+Epoch 001 | Batch 570 | val_kld=10.749818 | val_ordacc@10=0.132474 | val_recall@10=0.749734
+Epoch 001 | Step 570 | lr=1.000000e-03 | loss=15.190779
+Epoch 001 | Batch 580 | val_kld=12.119943 | val_ordacc@10=0.127080 | val_recall@10=0.732457
+Epoch 001 | Step 580 | lr=1.000000e-03 | loss=14.221175
+Epoch 001 | Batch 590 | val_kld=10.570222 | val_ordacc@10=0.137730 | val_recall@10=0.751729
+Epoch 001 | Step 590 | lr=1.000000e-03 | loss=15.195789
+Epoch 001 | Batch 600 | val_kld=11.031650 | val_ordacc@10=0.135713 | val_recall@10=0.746543
+Epoch 001 | Step 600 | lr=1.000000e-03 | loss=15.254862
+Epoch 001 | Batch 610 | val_kld=10.279315 | val_ordacc@10=0.137089 | val_recall@10=0.755069
+Epoch 001 | Step 610 | lr=1.000000e-03 | loss=16.357878
+Epoch 001 | Batch 620 | val_kld=9.878710 | val_ordacc@10=0.143102 | val_recall@10=0.761210
+Epoch 001 | Step 620 | lr=1.000000e-03 | loss=14.251881
+Epoch 001 | Batch 630 | val_kld=10.541045 | val_ordacc@10=0.133756 | val_recall@10=0.752144
+Epoch 001 | Step 630 | lr=1.000000e-03 | loss=15.375338
+Epoch 001 | Batch 640 | val_kld=10.668416 | val_ordacc@10=0.131010 | val_recall@10=0.751021
+Epoch 001 | Step 640 | lr=1.000000e-03 | loss=14.569885
+Epoch 001 | Batch 650 | val_kld=9.809710 | val_ordacc@10=0.144015 | val_recall@10=0.762192
+Epoch 001 | Step 650 | lr=1.000000e-03 | loss=16.244881
+Epoch 001 | Batch 660 | val_kld=10.001991 | val_ordacc@10=0.134287 | val_recall@10=0.759728
+Epoch 001 | Step 660 | lr=1.000000e-03 | loss=16.155163
+Epoch 001 | Batch 670 | val_kld=10.283519 | val_ordacc@10=0.134061 | val_recall@10=0.756662
+Epoch 001 | Step 670 | lr=1.000000e-03 | loss=15.742151
+Epoch 001 | Batch 680 | val_kld=11.064895 | val_ordacc@10=0.134364 | val_recall@10=0.745187
+Epoch 001 | Step 680 | lr=1.000000e-03 | loss=15.070061
+Epoch 001 | Batch 690 | val_kld=9.447038 | val_ordacc@10=0.150193 | val_recall@10=0.767108
+Epoch 001 | Step 690 | lr=1.000000e-03 | loss=15.503506
+Epoch 001 | Batch 700 | val_kld=9.978386 | val_ordacc@10=0.143416 | val_recall@10=0.761591
+Epoch 001 | Step 700 | lr=1.000000e-03 | loss=13.979865
+Epoch 001 | Batch 710 | val_kld=9.406946 | val_ordacc@10=0.142977 | val_recall@10=0.769285
+Epoch 001 | Step 710 | lr=1.000000e-03 | loss=15.262488
+Epoch 001 | Batch 720 | val_kld=9.581234 | val_ordacc@10=0.150159 | val_recall@10=0.764874
+Epoch 001 | Step 720 | lr=1.000000e-03 | loss=14.462067
+Epoch 001 | Batch 730 | val_kld=9.984797 | val_ordacc@10=0.137015 | val_recall@10=0.761225
+Epoch 001 | Step 730 | lr=1.000000e-03 | loss=14.831468
+Epoch 001 | Batch 740 | val_kld=9.882544 | val_ordacc@10=0.142998 | val_recall@10=0.762317
+Epoch 001 | Step 740 | lr=1.000000e-03 | loss=13.761802
+Epoch 001 | Batch 750 | val_kld=10.153719 | val_ordacc@10=0.140036 | val_recall@10=0.755607
+Epoch 001 | Step 750 | lr=1.000000e-03 | loss=14.503094
+Epoch 001 | Batch 760 | val_kld=9.602372 | val_ordacc@10=0.143548 | val_recall@10=0.765572
+Epoch 001 | Step 760 | lr=1.000000e-03 | loss=14.085033
+Epoch 001 | Batch 770 | val_kld=9.770877 | val_ordacc@10=0.149543 | val_recall@10=0.763202
+Epoch 001 | Step 770 | lr=1.000000e-03 | loss=15.570163
+Epoch 001 | Batch 780 | val_kld=10.961855 | val_ordacc@10=0.136002 | val_recall@10=0.744763
+Epoch 001 | Step 780 | lr=1.000000e-03 | loss=14.521079
+Epoch 001 | Batch 790 | val_kld=9.784444 | val_ordacc@10=0.139504 | val_recall@10=0.763923
+Epoch 001 | Step 790 | lr=1.000000e-03 | loss=15.582998
+Epoch 001 | Batch 800 | val_kld=11.187998 | val_ordacc@10=0.136375 | val_recall@10=0.741757
+Epoch 001 | Step 800 | lr=1.000000e-03 | loss=14.610832
+Epoch 001 | Batch 810 | val_kld=9.808115 | val_ordacc@10=0.139426 | val_recall@10=0.762492
+Epoch 001 | Step 810 | lr=1.000000e-03 | loss=14.539038
+Epoch 001 | Batch 820 | val_kld=10.005589 | val_ordacc@10=0.140216 | val_recall@10=0.759695
+Epoch 001 | Step 820 | lr=1.000000e-03 | loss=13.330831
+Epoch 001 | Batch 830 | val_kld=9.960427 | val_ordacc@10=0.138439 | val_recall@10=0.756592
+Epoch 001 | Step 830 | lr=1.000000e-03 | loss=14.261950
+Epoch 001 | Batch 840 | val_kld=9.716994 | val_ordacc@10=0.140811 | val_recall@10=0.763666
+Epoch 001 | Step 840 | lr=1.000000e-03 | loss=15.046914
+Epoch 001 | Batch 850 | val_kld=9.501925 | val_ordacc@10=0.148781 | val_recall@10=0.766144
+Epoch 001 | Step 850 | lr=1.000000e-03 | loss=13.543722
+Epoch 001 | Batch 860 | val_kld=10.524547 | val_ordacc@10=0.137818 | val_recall@10=0.754855
+Epoch 001 | Step 860 | lr=1.000000e-03 | loss=17.391403
+Epoch 001 | Batch 870 | val_kld=11.486727 | val_ordacc@10=0.127989 | val_recall@10=0.738535
+Epoch 001 | Step 870 | lr=1.000000e-03 | loss=13.715611
+Epoch 001 | Batch 880 | val_kld=9.190980 | val_ordacc@10=0.151398 | val_recall@10=0.772282
+Epoch 001 | Step 880 | lr=1.000000e-03 | loss=13.433347
+Epoch 001 | Batch 890 | val_kld=9.920996 | val_ordacc@10=0.144392 | val_recall@10=0.760059
+Epoch 001 | Step 890 | lr=1.000000e-03 | loss=13.997686
+Epoch 001 | Batch 900 | val_kld=9.598773 | val_ordacc@10=0.134106 | val_recall@10=0.765683
+Epoch 001 | Step 900 | lr=1.000000e-03 | loss=15.470049
+Epoch 001 | Batch 910 | val_kld=10.157913 | val_ordacc@10=0.139495 | val_recall@10=0.758306
+Epoch 001 | Step 910 | lr=1.000000e-03 | loss=13.412830
+Epoch 001 | Batch 920 | val_kld=9.341763 | val_ordacc@10=0.156865 | val_recall@10=0.769418
+Epoch 001 | Step 920 | lr=1.000000e-03 | loss=16.072824
+Epoch 001 | Batch 930 | val_kld=9.814580 | val_ordacc@10=0.138634 | val_recall@10=0.762339
+Epoch 001 | Step 930 | lr=1.000000e-03 | loss=13.697554
+Epoch 001 | Batch 940 | val_kld=9.431223 | val_ordacc@10=0.143501 | val_recall@10=0.769774
+Epoch 001 | Step 940 | lr=1.000000e-03 | loss=15.082664
+Epoch 001 | Batch 950 | val_kld=8.933287 | val_ordacc@10=0.156001 | val_recall@10=0.773951
+Epoch 001 | Step 950 | lr=1.000000e-03 | loss=16.108677
+Epoch 001 | Batch 960 | val_kld=8.943787 | val_ordacc@10=0.147347 | val_recall@10=0.775642
+Epoch 001 | Step 960 | lr=1.000000e-03 | loss=14.184875
+epoch 001 | train_kld=19.653047 | val_kld=9.849591 | val_mae=0.014913 | val_mse=0.001646 | ord_acc@10=0.1440 | recall@10=0.7635

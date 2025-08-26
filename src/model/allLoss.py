@@ -147,6 +147,67 @@ def recall_focused_loss(logits: torch.Tensor, y: torch.Tensor, topk: int = 22) -
     return recall_loss / B
 
 
+def recall_focused_loss_batched(
+    logits: torch.Tensor,
+    y: torch.Tensor,
+    topk: int = 22,
+    margin: float = 1.0,
+    reduction: str = "mean",
+) -> torch.Tensor:
+    """
+    批处理（向量化）版本的 recall_focused_loss（基于 logits）。
+    - 对每个样本：找出真实 top-k 与 预测 top-k 的差集，构造 missing vs wrong 的成对比较：
+        loss = softplus(margin - (logits_missing - logits_wrong))
+    - 完全向量化实现，避免 Python for 循环。
+
+    参数:
+    - logits: [B, K] 预测的原始分数（未 softmax）
+    - y: [B, K] 目标分布或分数（用于获取真实 top-k）
+    - topk: 取前 k 个类别
+    - margin: softplus 的间隔超参
+    - reduction: 'mean' | 'sum' | 'none'，对 batch 的归约方式（默认 mean）
+
+    返回:
+    - 一个标量（mean/sum）或 [B]（none）
+    """
+    B, K = logits.shape
+    device = logits.device
+
+    if topk >= K or topk <= 0:
+        topk = K - 1
+
+    # 真实 top-k 和 预测 top-k（基于 logits）
+    _, y_topk = torch.topk(y, k=topk, dim=1)          # [B, topk]
+    _, pred_topk = torch.topk(logits, k=topk, dim=1)  # [B, topk]
+
+    true_mask = torch.zeros_like(y, dtype=torch.bool)       # [B, K]
+    pred_mask = torch.zeros_like(logits, dtype=torch.bool)  # [B, K]
+    true_mask.scatter_(1, y_topk, True)
+    pred_mask.scatter_(1, pred_topk, True)
+
+    missing_mask = true_mask & (~pred_mask)  # [B, K]
+    wrong_mask = pred_mask & (~true_mask)    # [B, K]
+
+    # 构造成对比较的掩码：i 为 missing，j 为 wrong
+    pair_mask = missing_mask.unsqueeze(2) & wrong_mask.unsqueeze(1)  # [B, K, K]
+
+    # 所有 (i, j) 的分数差：logits_i - logits_j
+    diffs = logits.unsqueeze(2) - logits.unsqueeze(1)  # [B, K, K]
+
+    # 仅保留 missing vs wrong 的组合
+    pairwise_loss = torch.nn.functional.softplus(margin - diffs) * pair_mask.float()  # [B, K, K]
+
+    # 每个样本的总损失（与原函数一致，不按对数归一）
+    loss_per_sample = pairwise_loss.sum(dim=(1, 2))  # [B]
+
+    if reduction == "none":
+        return loss_per_sample
+    elif reduction == "sum":
+        return loss_per_sample.sum()
+    else:  # mean
+        return loss_per_sample.mean()
+
+
 def recall_focused_loss_v1(logits: torch.Tensor, y: torch.Tensor, topk: int = 22) -> torch.Tensor:
     """
     原始版本的recall_focused_loss - 保留用于比较

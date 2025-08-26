@@ -693,15 +693,18 @@ cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.model.cluster_dist_transformer_optuna \
   --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
   --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+  --normalize \
   --val_split 0.1 \
   --tune \
   --tune_sampler grid \
   --tune_pruner none \
-  --tune_epochs 100 \
+  --tune_epochs 10 \
   --tune_timeout 0 \
-  --epochs 150
+  --epochs 10
 screen1:leafsize10K
 screen2:leafsize20K
+screen3:leafsize10K -norm
+screen4:leafsize20K -norm
 """
 
 
