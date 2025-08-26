@@ -12,7 +12,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from src.model.plot import plot_epoch1_batch_metrics, plot_epoch_metrics
-from src.model.allLoss import HybridLoss, recall_focused_loss,recall_focused_loss_batched
+from src.model.allLoss import *
 
 
 def set_seed(seed: int = 42):
@@ -94,6 +94,7 @@ def topk_recall(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) 
     label_prob: (B, K)
     Returns average recall@k in [0,1].
     """
+    k = min(k, pred_prob.size(1))  # 安全裁剪
     topk_pred = torch.topk(pred_prob, k, dim=1).indices  # (B, k)
     top_true = torch.topk(label_prob, k, dim=1).indices  # (B, k)
     recall_sum = 0.0
@@ -274,7 +275,21 @@ class ClusterDistTransformer(nn.Module):
 
 
 @torch.no_grad()
-def evaluate_batch(model: nn.Module, x: torch.Tensor, y: torch.Tensor, device: torch.device, topk: int = 10, loss_type:str='kld') -> Tuple[float, float, float, float, float]:
+def evaluate_batch(
+    model: nn.Module, 
+    x: torch.Tensor, 
+    y: torch.Tensor, 
+    device: torch.device, 
+    topk: int = 10, 
+    loss_type: str = 'kld',
+    # 新增损失函数相关参数
+    listmle_topm: Optional[int] = None,
+    listnet_pred_temp: float = 1.0,
+    listnet_tgt_temp: Optional[float] = None,
+    pair_num_pos: int = 1,
+    pair_num_neg: int = 20,
+    pair_margin: float = 0.1
+) -> Tuple[float, float, float, float, float]:
     """
     评估单个batch的指标
     """
@@ -301,12 +316,27 @@ def evaluate_batch(model: nn.Module, x: torch.Tensor, y: torch.Tensor, device: t
         hl = HybridLoss(mse_weight=0.7, kl_weight=0.3, temperature=1.0, smoothing=0.01)
         loss_val, _ = hl(logits, y)
     elif loss_type == "recall_focused_loss":
-        # Use logits for this loss to ensure gradients flow to pre-softmax scores
-        loss_val = recall_focused_loss_batched(preds, y, topk)
-    elif loss_type == "CrossEntropyLoss":
-        ce = nn.CrossEntropyLoss()
-        # Note: mirroring train(), using probabilities as input
-        loss_val = ce(preds, y)
+        # Use logits to maintain consistency with training
+        loss_val = recall_focused_loss_batched(logits, y, topk)
+    elif loss_type == "listnet":
+        loss_val = listnet_top1_loss(
+            logits, y,
+            pred_temp=listnet_pred_temp,
+            tgt_temp=listnet_tgt_temp,
+            assume_targets_prob=True
+        )
+    elif loss_type == "listmle":
+        loss_val = listmle_loss(
+            logits, y,
+            use_topm=listmle_topm
+        )
+    elif loss_type == "pairwise_hinge":
+        loss_val = pairwise_hinge_loss(
+            logits, y,
+            num_pos=pair_num_pos,
+            num_neg=pair_num_neg,
+            margin=pair_margin
+        )
     else:
         raise ValueError(f"Invalid loss type: {loss_type}")
 
@@ -328,6 +358,13 @@ def evaluate(
     device: torch.device,
     topk: int = 10,
     loss_type: str = "kld",
+    # 新增损失函数相关参数
+    listmle_topm: Optional[int] = None,
+    listnet_pred_temp: float = 1.0,
+    listnet_tgt_temp: Optional[float] = None,
+    pair_num_pos: int = 1,
+    pair_num_neg: int = 20,
+    pair_margin: float = 0.1
 ) -> Tuple[float, float, float, float, float]:
     # Preserve current mode and switch to eval for metric computation
     was_training = model.training
@@ -347,8 +384,8 @@ def evaluate(
         mse_loss_fn = nn.MSELoss()
     elif loss_type == "hybrid":
         hl = HybridLoss(mse_weight=0.7, kl_weight=0.3, temperature=1.0, smoothing=0.01)
-    elif loss_type == "CrossEntropyLoss":
-        ce = nn.CrossEntropyLoss()
+    # elif loss_type == "CrossEntropyLoss":
+    #     ce = nn.CrossEntropyLoss()
     for x, y in loader:
         x = x.to(device)
         y = y.to(device)
@@ -368,10 +405,26 @@ def evaluate(
         elif loss_type == "hybrid":
             loss_val, _ = hl(logits, y)
         elif loss_type == "recall_focused_loss":
-            loss_val = recall_focused_loss_batched(preds, y, topk)
-        elif loss_type == "CrossEntropyLoss":
-            # Note: matching train() which uses probs with CrossEntropyLoss
-            loss_val = ce(preds, y)
+            loss_val = recall_focused_loss_batched(logits, y, topk)
+        elif loss_type == "listnet":
+            loss_val = listnet_top1_loss(
+                logits, y,
+                pred_temp=listnet_pred_temp,
+                tgt_temp=listnet_tgt_temp,
+                assume_targets_prob=True
+            )
+        elif loss_type == "listmle":
+            loss_val = listmle_loss(
+                logits, y,
+                use_topm=listmle_topm
+            )
+        elif loss_type == "pairwise_hinge":
+            loss_val = pairwise_hinge_loss(
+                logits, y,
+                num_pos=pair_num_pos,
+                num_neg=pair_num_neg,
+                margin=pair_margin
+            )
         else:
             raise ValueError(f"Invalid loss type: {loss_type}")
 
@@ -408,7 +461,14 @@ def train(
     save_name: str = "best.pt",
     eval_topk: int = 10,
     log_interval: int = 100, # steps between batch logs (0 to disable)
-    loss_type: str = "kld"
+    loss_type: str = "kld",
+    # 新增损失函数相关参数
+    listmle_topm: Optional[int] = None,
+    listnet_pred_temp: float = 1.0,
+    listnet_tgt_temp: Optional[float] = None,
+    pair_num_pos: int = 1,
+    pair_num_neg: int = 20,
+    pair_margin: float = 0.1
 ):
     model.train()
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
@@ -425,8 +485,12 @@ def train(
         lossFunc = HybridLoss(mse_weight=0.7, kl_weight=0.3, temperature=1.0, smoothing=0.01)
     elif loss_type == "recall_focused_loss":
         lossFunc = recall_focused_loss_batched
-    elif loss_type == "CrossEntropyLoss":
-        lossFunc = nn.CrossEntropyLoss()
+    elif loss_type == "listnet":
+        lossFunc = None  # handled explicitly in loop
+    elif loss_type == "listmle":
+        lossFunc = None  # handled explicitly in loop
+    elif loss_type == "pairwise_hinge":
+        lossFunc = None  # handled explicitly in loop
     else:
         raise ValueError(f"Invalid loss type: {loss_type}")
 
@@ -469,10 +533,27 @@ def train(
                     loss = lossFunc(probs, y) # 标量
                 elif loss_type == "hybrid":     # mse kld混合损失
                     loss, _ = lossFunc(logits, y)
-                elif loss_type == "recall_focused_loss": # 专门针对recall优化的损失函数（基于 logits）
-                    loss = lossFunc(probs, y, eval_topk)
-                elif loss_type == "CrossEntropyLoss":
-                    loss = lossFunc(probs, y)
+                elif loss_type == "recall_focused_loss": # 专门针对recall优化的损失函数
+                    loss = lossFunc(logits, y, eval_topk)  # 使用logits确保梯度正确传播
+                elif loss_type == "listnet":
+                    loss = listnet_top1_loss(
+                        logits, y,
+                        pred_temp=listnet_pred_temp,
+                        tgt_temp=listnet_tgt_temp,
+                        assume_targets_prob=True
+                    )
+                elif loss_type == "listmle":
+                    loss = listmle_loss(
+                        logits, y,
+                        use_topm=listmle_topm
+                    )
+                elif loss_type == "pairwise_hinge":
+                    loss = pairwise_hinge_loss(
+                        logits, y,
+                        num_pos=pair_num_pos,
+                        num_neg=pair_num_neg,
+                        margin=pair_margin
+                    )
                 else:
                     raise ValueError(f"Invalid loss type: {loss_type}")
                 train_ordacc=topk_ordered_accuracy(probs, y, k=eval_topk)
@@ -495,7 +576,15 @@ def train(
                 if batch_count % 10 == 0: # 每10个batch评估一次
                     val_batch_metrics = []
                     for val_x, val_y in val_loader:
-                        val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate_batch(model, val_x, val_y, device, topk=eval_topk, loss_type=loss_type)
+                        val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate_batch(
+                            model, val_x, val_y, device, topk=eval_topk, loss_type=loss_type,
+                            listmle_topm=listmle_topm,
+                            listnet_pred_temp=listnet_pred_temp,
+                            listnet_tgt_temp=listnet_tgt_temp,
+                            pair_num_pos=pair_num_pos,
+                            pair_num_neg=pair_num_neg,
+                            pair_margin=pair_margin
+                        )
                         val_batch_metrics.append((val_kld, val_mae, val_mse, val_ordacc, val_recall))
                     
                     # 计算平均指标
@@ -540,7 +629,15 @@ def train(
             })
             print(f"epoch {ep:03d} | train_kld={train_loss:.6f}")
         elif val_loader is not None:
-            val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate(model, val_loader, device, topk=eval_topk, loss_type=loss_type)
+            val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate(
+                model, val_loader, device, topk=eval_topk, loss_type=loss_type,
+                listmle_topm=listmle_topm,
+                listnet_pred_temp=listnet_pred_temp,
+                listnet_tgt_temp=listnet_tgt_temp,
+                pair_num_pos=pair_num_pos,
+                pair_num_neg=pair_num_neg,
+                pair_margin=pair_margin
+            )
             epoch_history.append({
                 "train_loss": train_loss,
                 "train_ordacc": train_ordacc,
@@ -588,6 +685,7 @@ def parse_args():
     p.add_argument("--grad_clip", type=float, default=1.0, help="Gradient clipping (max norm)")
     p.add_argument("--num_workers", type=int, default=4, help="DataLoader workers")
     p.add_argument("--seed", type=int, default=42, help="Random seed")
+    p.add_argument("--save_dir", type=str, default="./results", help="Directory to save synthetic data and models")
     # model
     p.add_argument("--d_model", type=int, default=256, help="Transformer hidden size")
     p.add_argument("--nhead", type=int, default=8, help="Number of attention heads")
@@ -604,9 +702,19 @@ def parse_args():
     p.add_argument("--pos_exist", action="store_true", help="Whether to use positional encoding")
     p.add_argument("--use_type_embed", action="store_true", help="Whether to use type embedding")
     p.add_argument("--use_gating", action="store_true", help="Whether to use gating mechanism in transformer")
-    p.add_argument("--loss_type", type=str, default="kld", 
-                     choices=["kld", "kld_reverse", "mse", "hybrid", "recall_focused_loss"], 
-                    help="Loss type: kld, kld_reverse, mse, hybrid, recall_focused_loss")
+    p.add_argument("--loss_type", type=str,
+                   choices=["kld","kld_reverse","mse","hybrid","recall_focused_loss",
+                            "listnet","listmle","pairwise_hinge"],
+                   default="kld")
+    
+    # 与新 loss 相关的超参（可选）
+    p.add_argument("--listmle_topm", type=int, default=None, help="ListMLE 仅用前 m 个目标")
+    p.add_argument("--listnet_pred_temp", type=float, default=1.0)
+    p.add_argument("--listnet_tgt_temp", type=float, default=None)
+    p.add_argument("--pair_num_pos", type=int, default=1)
+    p.add_argument("--pair_num_neg", type=int, default=20)
+    p.add_argument("--pair_margin", type=float, default=0.1)
+    
     return p.parse_args()
 
 
@@ -706,7 +814,14 @@ def main():
             save_name=ckpt_name,
             eval_topk=args.topk,
             log_interval=args.log_interval,
-            loss_type=args.loss_type
+            loss_type=args.loss_type,
+            # 新增损失函数相关参数
+            listmle_topm=args.listmle_topm,
+            listnet_pred_temp=args.listnet_pred_temp,
+            listnet_tgt_temp=args.listnet_tgt_temp,
+            pair_num_pos=args.pair_num_pos,
+            pair_num_neg=args.pair_num_neg,
+            pair_margin=args.pair_margin
         )
 
     # Evaluation (if test set is provided)
@@ -729,7 +844,15 @@ def main():
 
         test_ds = NPZClusterDataset(args.test_npz, normalize=args.normalize, mean=mean, std=std, centroids=C)
         test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers, pin_memory=True)
-        kld, mae, mse, ordacc, recall = evaluate(model, test_loader, device, topk=args.topk, loss_type=args.loss_type)
+        kld, mae, mse, ordacc, recall = evaluate(
+            model, test_loader, device, topk=args.topk, loss_type=args.loss_type,
+            listmle_topm=args.listmle_topm,
+            listnet_pred_temp=args.listnet_pred_temp,
+            listnet_tgt_temp=args.listnet_tgt_temp,
+            pair_num_pos=args.pair_num_pos,
+            pair_num_neg=args.pair_num_neg,
+            pair_margin=args.pair_margin
+        )
         print(f"[TEST] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | ord_acc@{args.topk}={ordacc:.4f} | recall@{args.topk}={recall:.4f}")
 
 
@@ -759,6 +882,76 @@ python -m src.model.cluster_dist_transformer_original \
   --pos_exist \
   --use_gating \
   --loss_type kld_reverse
+
+# ListMLE损失函数版本 - 基于最大似然估计的列表排序损失
+python -m src.model.cluster_dist_transformer_original \
+  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
+  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+  --val_split 0.01 \
+  --topk 10 \
+  --epochs 10 \
+  --batch_size 512 \
+  --lr 1e-3 \
+  --weight_decay 1e-2 \
+  --d_model 256 \
+  --nhead 8 \
+  --num_layers 4 \
+  --dim_ff 512 \
+  --dropout 0.1 \
+  --score_type bilinear \
+  --log_interval 10 \
+  --pos_exist \
+  --use_gating \
+  --loss_type listmle \
+  --listmle_topm 20
+
+# ListNet损失函数版本 - 基于概率分布的排序损失，支持温度参数
+python -m src.model.cluster_dist_transformer_original \
+  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
+  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+  --val_split 0.01 \
+  --topk 10 \
+  --epochs 10 \
+  --batch_size 512 \
+  --lr 1e-3 \
+  --weight_decay 1e-2 \
+  --d_model 256 \
+  --nhead 8 \
+  --num_layers 4 \
+  --dim_ff 512 \
+  --dropout 0.1 \
+  --score_type bilinear \
+  --log_interval 10 \
+  --pos_exist \
+  --use_gating \
+  --loss_type listnet \
+  --listnet_pred_temp 1.5 \
+  --listnet_tgt_temp 1.0
+
+# Pairwise Hinge损失函数版本 - 成对比较的铰链损失，适用于排序任务
+python -m src.model.cluster_dist_transformer_original \
+  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
+  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+  --test_npz input/Training_data/gist1M_learn/leafsize20K/test_gist.npz \
+  --val_split 0.01 \
+  --topk 10 \
+  --epochs 10 \
+  --batch_size 256 \
+  --lr 1e-3 \
+  --weight_decay 1e-2 \
+  --d_model 256 \
+  --nhead 8 \
+  --num_layers 4 \
+  --dim_ff 512 \
+  --dropout 0.1 \
+  --score_type bilinear \
+  --log_interval 10 \
+  --pos_exist \
+  --use_gating \
+  --loss_type pairwise_hinge \
+  --pair_num_pos 2 \
+  --pair_num_neg 15 \
+  --pair_margin 0.2
 '''
 
 

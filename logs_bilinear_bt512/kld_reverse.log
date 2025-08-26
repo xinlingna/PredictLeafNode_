@@ -1,1072 +1,1072 @@
 /home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
   warnings.warn(
 Detected K=116, D=960
-Epoch 001 | Batch 10 | val_kld=6.044650 | val_ordacc@10=0.058634 | val_recall@10=0.472181
-Epoch 001 | Step 10 | lr=1.000000e-03 | loss=6.130018
-Epoch 001 | Batch 20 | val_kld=4.003624 | val_ordacc@10=0.079850 | val_recall@10=0.543486
-Epoch 001 | Step 20 | lr=1.000000e-03 | loss=4.119591
-Epoch 001 | Batch 30 | val_kld=2.123100 | val_ordacc@10=0.107196 | val_recall@10=0.592902
-Epoch 001 | Step 30 | lr=1.000000e-03 | loss=2.718329
-Epoch 001 | Batch 40 | val_kld=1.713544 | val_ordacc@10=0.126410 | val_recall@10=0.627324
-Epoch 001 | Step 40 | lr=1.000000e-03 | loss=1.935852
-Epoch 001 | Batch 50 | val_kld=1.345945 | val_ordacc@10=0.139603 | val_recall@10=0.661744
-Epoch 001 | Step 50 | lr=1.000000e-03 | loss=1.549023
-Epoch 001 | Batch 60 | val_kld=1.032717 | val_ordacc@10=0.160582 | val_recall@10=0.705617
-Epoch 001 | Step 60 | lr=1.000000e-03 | loss=1.177199
-Epoch 001 | Batch 70 | val_kld=0.859083 | val_ordacc@10=0.185578 | val_recall@10=0.727812
-Epoch 001 | Step 70 | lr=1.000000e-03 | loss=0.990964
-Epoch 001 | Batch 80 | val_kld=0.789698 | val_ordacc@10=0.193710 | val_recall@10=0.737458
-Epoch 001 | Step 80 | lr=1.000000e-03 | loss=0.937295
-Epoch 001 | Batch 90 | val_kld=0.773203 | val_ordacc@10=0.198661 | val_recall@10=0.740939
-Epoch 001 | Step 90 | lr=1.000000e-03 | loss=0.836105
-Epoch 001 | Batch 100 | val_kld=0.704761 | val_ordacc@10=0.202533 | val_recall@10=0.743525
-Epoch 001 | Step 100 | lr=1.000000e-03 | loss=0.795938
-Epoch 001 | Batch 110 | val_kld=0.831268 | val_ordacc@10=0.192289 | val_recall@10=0.745170
-Epoch 001 | Step 110 | lr=1.000000e-03 | loss=0.772730
-Epoch 001 | Batch 120 | val_kld=0.717649 | val_ordacc@10=0.194743 | val_recall@10=0.744587
-Epoch 001 | Step 120 | lr=1.000000e-03 | loss=0.740349
-Epoch 001 | Batch 130 | val_kld=0.686296 | val_ordacc@10=0.195489 | val_recall@10=0.748908
-Epoch 001 | Step 130 | lr=1.000000e-03 | loss=0.816600
-Epoch 001 | Batch 140 | val_kld=0.644201 | val_ordacc@10=0.213711 | val_recall@10=0.755326
-Epoch 001 | Step 140 | lr=1.000000e-03 | loss=0.756997
-Epoch 001 | Batch 150 | val_kld=0.638623 | val_ordacc@10=0.206003 | val_recall@10=0.755872
-Epoch 001 | Step 150 | lr=1.000000e-03 | loss=0.673510
-Epoch 001 | Batch 160 | val_kld=0.668204 | val_ordacc@10=0.204371 | val_recall@10=0.760735
-Epoch 001 | Step 160 | lr=1.000000e-03 | loss=0.651795
-Epoch 001 | Batch 170 | val_kld=0.610566 | val_ordacc@10=0.221606 | val_recall@10=0.762928
-Epoch 001 | Step 170 | lr=1.000000e-03 | loss=0.748059
-Epoch 001 | Batch 180 | val_kld=0.619966 | val_ordacc@10=0.210663 | val_recall@10=0.757439
-Epoch 001 | Step 180 | lr=1.000000e-03 | loss=0.636327
-Epoch 001 | Batch 190 | val_kld=0.637544 | val_ordacc@10=0.201105 | val_recall@10=0.753003
-Epoch 001 | Step 190 | lr=1.000000e-03 | loss=0.669804
-Epoch 001 | Batch 200 | val_kld=0.632820 | val_ordacc@10=0.204223 | val_recall@10=0.762143
-Epoch 001 | Step 200 | lr=1.000000e-03 | loss=0.692321
-Epoch 001 | Batch 210 | val_kld=0.587525 | val_ordacc@10=0.219129 | val_recall@10=0.770610
-Epoch 001 | Step 210 | lr=1.000000e-03 | loss=0.575779
-Epoch 001 | Batch 220 | val_kld=0.590922 | val_ordacc@10=0.216881 | val_recall@10=0.773470
-Epoch 001 | Step 220 | lr=1.000000e-03 | loss=0.675601
-Epoch 001 | Batch 230 | val_kld=0.569704 | val_ordacc@10=0.219114 | val_recall@10=0.774260
-Epoch 001 | Step 230 | lr=1.000000e-03 | loss=0.626833
-Epoch 001 | Batch 240 | val_kld=0.584909 | val_ordacc@10=0.219389 | val_recall@10=0.769317
-Epoch 001 | Step 240 | lr=1.000000e-03 | loss=0.633033
-Epoch 001 | Batch 250 | val_kld=0.576152 | val_ordacc@10=0.215696 | val_recall@10=0.771105
-Epoch 001 | Step 250 | lr=1.000000e-03 | loss=0.633486
-Epoch 001 | Batch 260 | val_kld=0.560816 | val_ordacc@10=0.219040 | val_recall@10=0.776776
-Epoch 001 | Step 260 | lr=1.000000e-03 | loss=0.584881
-Epoch 001 | Batch 270 | val_kld=0.536203 | val_ordacc@10=0.227852 | val_recall@10=0.771606
-Epoch 001 | Step 270 | lr=1.000000e-03 | loss=0.617050
-Epoch 001 | Batch 280 | val_kld=0.574045 | val_ordacc@10=0.216429 | val_recall@10=0.762988
-Epoch 001 | Step 280 | lr=1.000000e-03 | loss=0.607539
-Epoch 001 | Batch 290 | val_kld=0.535094 | val_ordacc@10=0.228956 | val_recall@10=0.777150
-Epoch 001 | Step 290 | lr=1.000000e-03 | loss=0.619133
-Epoch 001 | Batch 300 | val_kld=0.521484 | val_ordacc@10=0.235799 | val_recall@10=0.778680
-Epoch 001 | Step 300 | lr=1.000000e-03 | loss=0.532184
-Epoch 001 | Batch 310 | val_kld=0.520614 | val_ordacc@10=0.232199 | val_recall@10=0.777022
-Epoch 001 | Step 310 | lr=1.000000e-03 | loss=0.580200
-Epoch 001 | Batch 320 | val_kld=0.521512 | val_ordacc@10=0.228459 | val_recall@10=0.772620
-Epoch 001 | Step 320 | lr=1.000000e-03 | loss=0.546731
-Epoch 001 | Batch 330 | val_kld=0.515282 | val_ordacc@10=0.226001 | val_recall@10=0.779198
-Epoch 001 | Step 330 | lr=1.000000e-03 | loss=0.520385
-Epoch 001 | Batch 340 | val_kld=0.510059 | val_ordacc@10=0.234615 | val_recall@10=0.779889
-Epoch 001 | Step 340 | lr=1.000000e-03 | loss=0.520194
-Epoch 001 | Batch 350 | val_kld=0.521248 | val_ordacc@10=0.225136 | val_recall@10=0.784325
-Epoch 001 | Step 350 | lr=1.000000e-03 | loss=0.517712
-Epoch 001 | Batch 360 | val_kld=0.485790 | val_ordacc@10=0.237402 | val_recall@10=0.783167
-Epoch 001 | Step 360 | lr=1.000000e-03 | loss=0.482980
-Epoch 001 | Batch 370 | val_kld=0.498140 | val_ordacc@10=0.231494 | val_recall@10=0.779471
-Epoch 001 | Step 370 | lr=1.000000e-03 | loss=0.543315
-Epoch 001 | Batch 380 | val_kld=0.472426 | val_ordacc@10=0.242671 | val_recall@10=0.786423
-Epoch 001 | Step 380 | lr=1.000000e-03 | loss=0.468460
-Epoch 001 | Batch 390 | val_kld=0.486267 | val_ordacc@10=0.233475 | val_recall@10=0.781237
-Epoch 001 | Step 390 | lr=1.000000e-03 | loss=0.505972
-Epoch 001 | Batch 400 | val_kld=0.518936 | val_ordacc@10=0.228091 | val_recall@10=0.767889
-Epoch 001 | Step 400 | lr=1.000000e-03 | loss=0.529271
-Epoch 001 | Batch 410 | val_kld=0.480935 | val_ordacc@10=0.240799 | val_recall@10=0.787647
-Epoch 001 | Step 410 | lr=1.000000e-03 | loss=0.494625
-Epoch 001 | Batch 420 | val_kld=0.472514 | val_ordacc@10=0.244328 | val_recall@10=0.790159
-Epoch 001 | Step 420 | lr=1.000000e-03 | loss=0.480607
-Epoch 001 | Batch 430 | val_kld=0.467824 | val_ordacc@10=0.241996 | val_recall@10=0.787743
-Epoch 001 | Step 430 | lr=1.000000e-03 | loss=0.534572
-Epoch 001 | Batch 440 | val_kld=0.479572 | val_ordacc@10=0.237583 | val_recall@10=0.784055
-Epoch 001 | Step 440 | lr=1.000000e-03 | loss=0.451928
-Epoch 001 | Batch 450 | val_kld=0.462190 | val_ordacc@10=0.246971 | val_recall@10=0.791380
-Epoch 001 | Step 450 | lr=1.000000e-03 | loss=0.511032
-Epoch 001 | Batch 460 | val_kld=0.462945 | val_ordacc@10=0.244850 | val_recall@10=0.789715
-Epoch 001 | Step 460 | lr=1.000000e-03 | loss=0.483964
-Epoch 001 | Batch 470 | val_kld=0.499330 | val_ordacc@10=0.228357 | val_recall@10=0.787107
-Epoch 001 | Step 470 | lr=1.000000e-03 | loss=0.481097
-Epoch 001 | Batch 480 | val_kld=0.467549 | val_ordacc@10=0.239847 | val_recall@10=0.784517
-Epoch 001 | Step 480 | lr=1.000000e-03 | loss=0.485346
-Epoch 001 | Batch 490 | val_kld=0.487207 | val_ordacc@10=0.231714 | val_recall@10=0.785713
-Epoch 001 | Step 490 | lr=1.000000e-03 | loss=0.444241
-Epoch 001 | Batch 500 | val_kld=0.498359 | val_ordacc@10=0.231606 | val_recall@10=0.776584
-Epoch 001 | Step 500 | lr=1.000000e-03 | loss=0.527436
-Epoch 001 | Batch 510 | val_kld=0.453904 | val_ordacc@10=0.245326 | val_recall@10=0.794998
-Epoch 001 | Step 510 | lr=1.000000e-03 | loss=0.488266
-Epoch 001 | Batch 520 | val_kld=0.466434 | val_ordacc@10=0.238605 | val_recall@10=0.784171
-Epoch 001 | Step 520 | lr=1.000000e-03 | loss=0.537411
-Epoch 001 | Batch 530 | val_kld=0.463426 | val_ordacc@10=0.243942 | val_recall@10=0.792291
-Epoch 001 | Step 530 | lr=1.000000e-03 | loss=0.462921
-Epoch 001 | Batch 540 | val_kld=0.446369 | val_ordacc@10=0.249445 | val_recall@10=0.791918
-Epoch 001 | Step 540 | lr=1.000000e-03 | loss=0.462711
-Epoch 001 | Batch 550 | val_kld=0.471656 | val_ordacc@10=0.238588 | val_recall@10=0.799321
-Epoch 001 | Step 550 | lr=1.000000e-03 | loss=0.479914
-Epoch 001 | Batch 560 | val_kld=0.478647 | val_ordacc@10=0.231794 | val_recall@10=0.795161
-Epoch 001 | Step 560 | lr=1.000000e-03 | loss=0.453090
-Epoch 001 | Batch 570 | val_kld=0.438910 | val_ordacc@10=0.250287 | val_recall@10=0.791639
-Epoch 001 | Step 570 | lr=1.000000e-03 | loss=0.483729
-Epoch 001 | Batch 580 | val_kld=0.464433 | val_ordacc@10=0.237166 | val_recall@10=0.789897
-Epoch 001 | Step 580 | lr=1.000000e-03 | loss=0.494365
-Epoch 001 | Batch 590 | val_kld=0.457285 | val_ordacc@10=0.242919 | val_recall@10=0.784830
-Epoch 001 | Step 590 | lr=1.000000e-03 | loss=0.519710
-Epoch 001 | Batch 600 | val_kld=0.435762 | val_ordacc@10=0.246620 | val_recall@10=0.796189
-Epoch 001 | Step 600 | lr=1.000000e-03 | loss=0.443421
-Epoch 001 | Batch 610 | val_kld=0.457846 | val_ordacc@10=0.232873 | val_recall@10=0.781916
-Epoch 001 | Step 610 | lr=1.000000e-03 | loss=0.491814
-Epoch 001 | Batch 620 | val_kld=0.425845 | val_ordacc@10=0.255035 | val_recall@10=0.800599
-Epoch 001 | Step 620 | lr=1.000000e-03 | loss=0.422780
-Epoch 001 | Batch 630 | val_kld=0.426315 | val_ordacc@10=0.246421 | val_recall@10=0.794546
-Epoch 001 | Step 630 | lr=1.000000e-03 | loss=0.439777
-Epoch 001 | Batch 640 | val_kld=0.432965 | val_ordacc@10=0.248571 | val_recall@10=0.797067
-Epoch 001 | Step 640 | lr=1.000000e-03 | loss=0.446002
-Epoch 001 | Batch 650 | val_kld=0.428137 | val_ordacc@10=0.248412 | val_recall@10=0.793244
-Epoch 001 | Step 650 | lr=1.000000e-03 | loss=0.459646
-Epoch 001 | Batch 660 | val_kld=0.447841 | val_ordacc@10=0.243691 | val_recall@10=0.800329
-Epoch 001 | Step 660 | lr=1.000000e-03 | loss=0.447363
-Epoch 001 | Batch 670 | val_kld=0.433771 | val_ordacc@10=0.242735 | val_recall@10=0.791073
-Epoch 001 | Step 670 | lr=1.000000e-03 | loss=0.427563
-Epoch 001 | Batch 680 | val_kld=0.438431 | val_ordacc@10=0.241359 | val_recall@10=0.789271
-Epoch 001 | Step 680 | lr=1.000000e-03 | loss=0.460261
-Epoch 001 | Batch 690 | val_kld=0.416620 | val_ordacc@10=0.251881 | val_recall@10=0.795994
-Epoch 001 | Step 690 | lr=1.000000e-03 | loss=0.435550
-Epoch 001 | Batch 700 | val_kld=0.413747 | val_ordacc@10=0.247925 | val_recall@10=0.795615
-Epoch 001 | Step 700 | lr=1.000000e-03 | loss=0.427955
-Epoch 001 | Batch 710 | val_kld=0.429986 | val_ordacc@10=0.244036 | val_recall@10=0.803215
-Epoch 001 | Step 710 | lr=1.000000e-03 | loss=0.436334
-Epoch 001 | Batch 720 | val_kld=0.411710 | val_ordacc@10=0.254754 | val_recall@10=0.802222
-Epoch 001 | Step 720 | lr=1.000000e-03 | loss=0.428634
-Epoch 001 | Batch 730 | val_kld=0.420285 | val_ordacc@10=0.241901 | val_recall@10=0.793058
-Epoch 001 | Step 730 | lr=1.000000e-03 | loss=0.447607
-Epoch 001 | Batch 740 | val_kld=0.402209 | val_ordacc@10=0.254947 | val_recall@10=0.800658
-Epoch 001 | Step 740 | lr=1.000000e-03 | loss=0.409826
-Epoch 001 | Batch 750 | val_kld=0.393712 | val_ordacc@10=0.258975 | val_recall@10=0.803974
-Epoch 001 | Step 750 | lr=1.000000e-03 | loss=0.412319
-Epoch 001 | Batch 760 | val_kld=0.414710 | val_ordacc@10=0.253501 | val_recall@10=0.801827
-Epoch 001 | Step 760 | lr=1.000000e-03 | loss=0.441824
-Epoch 001 | Batch 770 | val_kld=0.409032 | val_ordacc@10=0.251773 | val_recall@10=0.798339
-Epoch 001 | Step 770 | lr=1.000000e-03 | loss=0.461690
-Epoch 001 | Batch 780 | val_kld=0.416614 | val_ordacc@10=0.243186 | val_recall@10=0.788734
-Epoch 001 | Step 780 | lr=1.000000e-03 | loss=0.437232
-Epoch 001 | Batch 790 | val_kld=0.412348 | val_ordacc@10=0.248098 | val_recall@10=0.798103
-Epoch 001 | Step 790 | lr=1.000000e-03 | loss=0.444461
-Epoch 001 | Batch 800 | val_kld=0.403512 | val_ordacc@10=0.249609 | val_recall@10=0.792107
-Epoch 001 | Step 800 | lr=1.000000e-03 | loss=0.417600
-Epoch 001 | Batch 810 | val_kld=0.374735 | val_ordacc@10=0.261517 | val_recall@10=0.800576
-Epoch 001 | Step 810 | lr=1.000000e-03 | loss=0.389306
-Epoch 001 | Batch 820 | val_kld=0.373028 | val_ordacc@10=0.266732 | val_recall@10=0.803017
-Epoch 001 | Step 820 | lr=1.000000e-03 | loss=0.405924
-Epoch 001 | Batch 830 | val_kld=0.374732 | val_ordacc@10=0.256886 | val_recall@10=0.804449
-Epoch 001 | Step 830 | lr=1.000000e-03 | loss=0.398503
-Epoch 001 | Batch 840 | val_kld=0.364180 | val_ordacc@10=0.262973 | val_recall@10=0.807351
-Epoch 001 | Step 840 | lr=1.000000e-03 | loss=0.402659
-Epoch 001 | Batch 850 | val_kld=0.372743 | val_ordacc@10=0.258463 | val_recall@10=0.799884
-Epoch 001 | Step 850 | lr=1.000000e-03 | loss=0.401903
-Epoch 001 | Batch 860 | val_kld=0.371473 | val_ordacc@10=0.258618 | val_recall@10=0.800556
-Epoch 001 | Step 860 | lr=1.000000e-03 | loss=0.401075
-Epoch 001 | Batch 870 | val_kld=0.365540 | val_ordacc@10=0.260972 | val_recall@10=0.805101
-Epoch 001 | Step 870 | lr=1.000000e-03 | loss=0.374242
-Epoch 001 | Batch 880 | val_kld=0.379851 | val_ordacc@10=0.257501 | val_recall@10=0.799609
-Epoch 001 | Step 880 | lr=1.000000e-03 | loss=0.393535
-Epoch 001 | Batch 890 | val_kld=0.375016 | val_ordacc@10=0.259933 | val_recall@10=0.806058
-Epoch 001 | Step 890 | lr=1.000000e-03 | loss=0.411708
-Epoch 001 | Batch 900 | val_kld=0.363776 | val_ordacc@10=0.264563 | val_recall@10=0.803783
-Epoch 001 | Step 900 | lr=1.000000e-03 | loss=0.401806
-Epoch 001 | Batch 910 | val_kld=0.361681 | val_ordacc@10=0.261154 | val_recall@10=0.804554
-Epoch 001 | Step 910 | lr=1.000000e-03 | loss=0.390231
-Epoch 001 | Batch 920 | val_kld=0.362864 | val_ordacc@10=0.258842 | val_recall@10=0.801192
-Epoch 001 | Step 920 | lr=1.000000e-03 | loss=0.385257
-Epoch 001 | Batch 930 | val_kld=0.367966 | val_ordacc@10=0.261624 | val_recall@10=0.800961
-Epoch 001 | Step 930 | lr=1.000000e-03 | loss=0.367689
-Epoch 001 | Batch 940 | val_kld=0.356685 | val_ordacc@10=0.265673 | val_recall@10=0.810271
-Epoch 001 | Step 940 | lr=1.000000e-03 | loss=0.359492
-Epoch 001 | Batch 950 | val_kld=0.360406 | val_ordacc@10=0.267390 | val_recall@10=0.804395
-Epoch 001 | Step 950 | lr=1.000000e-03 | loss=0.401882
-Epoch 001 | Batch 960 | val_kld=0.378080 | val_ordacc@10=0.256009 | val_recall@10=0.803367
-Epoch 001 | Step 960 | lr=1.000000e-03 | loss=0.400484
-epoch 001 | train_kld=0.739006 | val_kld=0.371277 | val_mae=0.004778 | val_mse=0.000549 | ord_acc@10=0.2593 | recall@10=0.8060
-Epoch 002 | Step 10 | lr=9.755283e-04 | loss=0.373226
-Epoch 002 | Step 20 | lr=9.755283e-04 | loss=0.408295
-Epoch 002 | Step 30 | lr=9.755283e-04 | loss=0.375749
-Epoch 002 | Step 40 | lr=9.755283e-04 | loss=0.404044
-Epoch 002 | Step 50 | lr=9.755283e-04 | loss=0.400191
-Epoch 002 | Step 60 | lr=9.755283e-04 | loss=0.372311
-Epoch 002 | Step 70 | lr=9.755283e-04 | loss=0.385131
-Epoch 002 | Step 80 | lr=9.755283e-04 | loss=0.379263
-Epoch 002 | Step 90 | lr=9.755283e-04 | loss=0.410983
-Epoch 002 | Step 100 | lr=9.755283e-04 | loss=0.369804
-Epoch 002 | Step 110 | lr=9.755283e-04 | loss=0.352493
-Epoch 002 | Step 120 | lr=9.755283e-04 | loss=0.344517
-Epoch 002 | Step 130 | lr=9.755283e-04 | loss=0.371384
-Epoch 002 | Step 140 | lr=9.755283e-04 | loss=0.376904
-Epoch 002 | Step 150 | lr=9.755283e-04 | loss=0.339663
-Epoch 002 | Step 160 | lr=9.755283e-04 | loss=0.358995
-Epoch 002 | Step 170 | lr=9.755283e-04 | loss=0.355761
-Epoch 002 | Step 180 | lr=9.755283e-04 | loss=0.346104
-Epoch 002 | Step 190 | lr=9.755283e-04 | loss=0.369097
-Epoch 002 | Step 200 | lr=9.755283e-04 | loss=0.322097
-Epoch 002 | Step 210 | lr=9.755283e-04 | loss=0.348244
-Epoch 002 | Step 220 | lr=9.755283e-04 | loss=0.391676
-Epoch 002 | Step 230 | lr=9.755283e-04 | loss=0.310240
-Epoch 002 | Step 240 | lr=9.755283e-04 | loss=0.319598
-Epoch 002 | Step 250 | lr=9.755283e-04 | loss=0.329617
-Epoch 002 | Step 260 | lr=9.755283e-04 | loss=0.330425
-Epoch 002 | Step 270 | lr=9.755283e-04 | loss=0.423063
-Epoch 002 | Step 280 | lr=9.755283e-04 | loss=0.332003
-Epoch 002 | Step 290 | lr=9.755283e-04 | loss=0.360162
-Epoch 002 | Step 300 | lr=9.755283e-04 | loss=0.344168
-Epoch 002 | Step 310 | lr=9.755283e-04 | loss=0.344984
-Epoch 002 | Step 320 | lr=9.755283e-04 | loss=0.333052
-Epoch 002 | Step 330 | lr=9.755283e-04 | loss=0.347911
-Epoch 002 | Step 340 | lr=9.755283e-04 | loss=0.357326
-Epoch 002 | Step 350 | lr=9.755283e-04 | loss=0.382707
-Epoch 002 | Step 360 | lr=9.755283e-04 | loss=0.363655
-Epoch 002 | Step 370 | lr=9.755283e-04 | loss=0.330238
-Epoch 002 | Step 380 | lr=9.755283e-04 | loss=0.318676
-Epoch 002 | Step 390 | lr=9.755283e-04 | loss=0.340052
-Epoch 002 | Step 400 | lr=9.755283e-04 | loss=0.350976
-Epoch 002 | Step 410 | lr=9.755283e-04 | loss=0.333230
-Epoch 002 | Step 420 | lr=9.755283e-04 | loss=0.327040
-Epoch 002 | Step 430 | lr=9.755283e-04 | loss=0.357519
-Epoch 002 | Step 440 | lr=9.755283e-04 | loss=0.340653
-Epoch 002 | Step 450 | lr=9.755283e-04 | loss=0.335475
-Epoch 002 | Step 460 | lr=9.755283e-04 | loss=0.310057
-Epoch 002 | Step 470 | lr=9.755283e-04 | loss=0.337656
-Epoch 002 | Step 480 | lr=9.755283e-04 | loss=0.334796
-Epoch 002 | Step 490 | lr=9.755283e-04 | loss=0.359459
-Epoch 002 | Step 500 | lr=9.755283e-04 | loss=0.331829
-Epoch 002 | Step 510 | lr=9.755283e-04 | loss=0.327185
-Epoch 002 | Step 520 | lr=9.755283e-04 | loss=0.335720
-Epoch 002 | Step 530 | lr=9.755283e-04 | loss=0.366037
-Epoch 002 | Step 540 | lr=9.755283e-04 | loss=0.358180
-Epoch 002 | Step 550 | lr=9.755283e-04 | loss=0.304349
-Epoch 002 | Step 560 | lr=9.755283e-04 | loss=0.333311
-Epoch 002 | Step 570 | lr=9.755283e-04 | loss=0.325526
-Epoch 002 | Step 580 | lr=9.755283e-04 | loss=0.320954
-Epoch 002 | Step 590 | lr=9.755283e-04 | loss=0.351552
-Epoch 002 | Step 600 | lr=9.755283e-04 | loss=0.298540
-Epoch 002 | Step 610 | lr=9.755283e-04 | loss=0.308716
-Epoch 002 | Step 620 | lr=9.755283e-04 | loss=0.316694
-Epoch 002 | Step 630 | lr=9.755283e-04 | loss=0.322991
-Epoch 002 | Step 640 | lr=9.755283e-04 | loss=0.313438
-Epoch 002 | Step 650 | lr=9.755283e-04 | loss=0.332508
-Epoch 002 | Step 660 | lr=9.755283e-04 | loss=0.335647
-Epoch 002 | Step 670 | lr=9.755283e-04 | loss=0.312888
-Epoch 002 | Step 680 | lr=9.755283e-04 | loss=0.324222
-Epoch 002 | Step 690 | lr=9.755283e-04 | loss=0.286304
-Epoch 002 | Step 700 | lr=9.755283e-04 | loss=0.301859
-Epoch 002 | Step 710 | lr=9.755283e-04 | loss=0.323368
-Epoch 002 | Step 720 | lr=9.755283e-04 | loss=0.326356
-Epoch 002 | Step 730 | lr=9.755283e-04 | loss=0.325831
-Epoch 002 | Step 740 | lr=9.755283e-04 | loss=0.284080
-Epoch 002 | Step 750 | lr=9.755283e-04 | loss=0.315278
-Epoch 002 | Step 760 | lr=9.755283e-04 | loss=0.303793
-Epoch 002 | Step 770 | lr=9.755283e-04 | loss=0.277644
-Epoch 002 | Step 780 | lr=9.755283e-04 | loss=0.312308
-Epoch 002 | Step 790 | lr=9.755283e-04 | loss=0.384398
-Epoch 002 | Step 800 | lr=9.755283e-04 | loss=0.309099
-Epoch 002 | Step 810 | lr=9.755283e-04 | loss=0.317212
-Epoch 002 | Step 820 | lr=9.755283e-04 | loss=0.361867
-Epoch 002 | Step 830 | lr=9.755283e-04 | loss=0.394267
-Epoch 002 | Step 840 | lr=9.755283e-04 | loss=0.346083
-Epoch 002 | Step 850 | lr=9.755283e-04 | loss=0.401100
-Epoch 002 | Step 860 | lr=9.755283e-04 | loss=0.337445
-Epoch 002 | Step 870 | lr=9.755283e-04 | loss=0.345387
-Epoch 002 | Step 880 | lr=9.755283e-04 | loss=0.332055
-Epoch 002 | Step 890 | lr=9.755283e-04 | loss=0.302369
-Epoch 002 | Step 900 | lr=9.755283e-04 | loss=0.325767
-Epoch 002 | Step 910 | lr=9.755283e-04 | loss=0.323842
-Epoch 002 | Step 920 | lr=9.755283e-04 | loss=0.313655
-Epoch 002 | Step 930 | lr=9.755283e-04 | loss=0.304019
-Epoch 002 | Step 940 | lr=9.755283e-04 | loss=0.290407
-Epoch 002 | Step 950 | lr=9.755283e-04 | loss=0.319771
-Epoch 002 | Step 960 | lr=9.755283e-04 | loss=0.321503
-epoch 002 | train_kld=0.340854 | val_kld=0.291847 | val_mae=0.004092 | val_mse=0.000347 | ord_acc@10=0.2844 | recall@10=0.8146
-Epoch 003 | Step 10 | lr=9.045085e-04 | loss=0.350079
-Epoch 003 | Step 20 | lr=9.045085e-04 | loss=0.304816
-Epoch 003 | Step 30 | lr=9.045085e-04 | loss=0.317206
-Epoch 003 | Step 40 | lr=9.045085e-04 | loss=0.297676
-Epoch 003 | Step 50 | lr=9.045085e-04 | loss=0.297102
-Epoch 003 | Step 60 | lr=9.045085e-04 | loss=0.342009
-Epoch 003 | Step 70 | lr=9.045085e-04 | loss=0.303523
-Epoch 003 | Step 80 | lr=9.045085e-04 | loss=0.292624
-Epoch 003 | Step 90 | lr=9.045085e-04 | loss=0.296284
-Epoch 003 | Step 100 | lr=9.045085e-04 | loss=0.301710
-Epoch 003 | Step 110 | lr=9.045085e-04 | loss=0.310256
-Epoch 003 | Step 120 | lr=9.045085e-04 | loss=0.309427
-Epoch 003 | Step 130 | lr=9.045085e-04 | loss=0.340992
-Epoch 003 | Step 140 | lr=9.045085e-04 | loss=0.295673
-Epoch 003 | Step 150 | lr=9.045085e-04 | loss=0.305522
-Epoch 003 | Step 160 | lr=9.045085e-04 | loss=0.289028
-Epoch 003 | Step 170 | lr=9.045085e-04 | loss=0.291062
-Epoch 003 | Step 180 | lr=9.045085e-04 | loss=0.305349
-Epoch 003 | Step 190 | lr=9.045085e-04 | loss=0.305557
-Epoch 003 | Step 200 | lr=9.045085e-04 | loss=0.309333
-Epoch 003 | Step 210 | lr=9.045085e-04 | loss=0.333815
-Epoch 003 | Step 220 | lr=9.045085e-04 | loss=0.321917
-Epoch 003 | Step 230 | lr=9.045085e-04 | loss=0.276783
-Epoch 003 | Step 240 | lr=9.045085e-04 | loss=0.278689
-Epoch 003 | Step 250 | lr=9.045085e-04 | loss=0.327987
-Epoch 003 | Step 260 | lr=9.045085e-04 | loss=0.295994
-Epoch 003 | Step 270 | lr=9.045085e-04 | loss=0.289261
-Epoch 003 | Step 280 | lr=9.045085e-04 | loss=0.283463
-Epoch 003 | Step 290 | lr=9.045085e-04 | loss=0.305262
-Epoch 003 | Step 300 | lr=9.045085e-04 | loss=0.308004
-Epoch 003 | Step 310 | lr=9.045085e-04 | loss=0.303633
-Epoch 003 | Step 320 | lr=9.045085e-04 | loss=0.299553
-Epoch 003 | Step 330 | lr=9.045085e-04 | loss=0.294994
-Epoch 003 | Step 340 | lr=9.045085e-04 | loss=0.304056
-Epoch 003 | Step 350 | lr=9.045085e-04 | loss=0.303940
-Epoch 003 | Step 360 | lr=9.045085e-04 | loss=0.302758
-Epoch 003 | Step 370 | lr=9.045085e-04 | loss=0.301942
-Epoch 003 | Step 380 | lr=9.045085e-04 | loss=0.292931
-Epoch 003 | Step 390 | lr=9.045085e-04 | loss=0.315780
-Epoch 003 | Step 400 | lr=9.045085e-04 | loss=0.334263
-Epoch 003 | Step 410 | lr=9.045085e-04 | loss=0.323367
-Epoch 003 | Step 420 | lr=9.045085e-04 | loss=0.284872
-Epoch 003 | Step 430 | lr=9.045085e-04 | loss=0.293986
-Epoch 003 | Step 440 | lr=9.045085e-04 | loss=0.296429
-Epoch 003 | Step 450 | lr=9.045085e-04 | loss=0.299142
-Epoch 003 | Step 460 | lr=9.045085e-04 | loss=0.286751
-Epoch 003 | Step 470 | lr=9.045085e-04 | loss=0.337508
-Epoch 003 | Step 480 | lr=9.045085e-04 | loss=0.298511
-Epoch 003 | Step 490 | lr=9.045085e-04 | loss=0.290131
-Epoch 003 | Step 500 | lr=9.045085e-04 | loss=0.282365
-Epoch 003 | Step 510 | lr=9.045085e-04 | loss=0.264274
-Epoch 003 | Step 520 | lr=9.045085e-04 | loss=0.299482
-Epoch 003 | Step 530 | lr=9.045085e-04 | loss=0.288033
-Epoch 003 | Step 540 | lr=9.045085e-04 | loss=0.316800
-Epoch 003 | Step 550 | lr=9.045085e-04 | loss=0.284410
-Epoch 003 | Step 560 | lr=9.045085e-04 | loss=0.341474
-Epoch 003 | Step 570 | lr=9.045085e-04 | loss=0.270303
-Epoch 003 | Step 580 | lr=9.045085e-04 | loss=0.285026
-Epoch 003 | Step 590 | lr=9.045085e-04 | loss=0.301827
-Epoch 003 | Step 600 | lr=9.045085e-04 | loss=0.369394
-Epoch 003 | Step 610 | lr=9.045085e-04 | loss=0.277043
-Epoch 003 | Step 620 | lr=9.045085e-04 | loss=0.297724
-Epoch 003 | Step 630 | lr=9.045085e-04 | loss=0.298196
-Epoch 003 | Step 640 | lr=9.045085e-04 | loss=0.294364
-Epoch 003 | Step 650 | lr=9.045085e-04 | loss=0.313840
-Epoch 003 | Step 660 | lr=9.045085e-04 | loss=0.279826
-Epoch 003 | Step 670 | lr=9.045085e-04 | loss=0.283482
-Epoch 003 | Step 680 | lr=9.045085e-04 | loss=0.278093
-Epoch 003 | Step 690 | lr=9.045085e-04 | loss=0.329827
-Epoch 003 | Step 700 | lr=9.045085e-04 | loss=0.296769
-Epoch 003 | Step 710 | lr=9.045085e-04 | loss=0.302171
-Epoch 003 | Step 720 | lr=9.045085e-04 | loss=0.298973
-Epoch 003 | Step 730 | lr=9.045085e-04 | loss=0.278026
-Epoch 003 | Step 740 | lr=9.045085e-04 | loss=0.308490
-Epoch 003 | Step 750 | lr=9.045085e-04 | loss=0.324269
-Epoch 003 | Step 760 | lr=9.045085e-04 | loss=0.296566
-Epoch 003 | Step 770 | lr=9.045085e-04 | loss=0.301539
-Epoch 003 | Step 780 | lr=9.045085e-04 | loss=0.316538
-Epoch 003 | Step 790 | lr=9.045085e-04 | loss=0.290302
-Epoch 003 | Step 800 | lr=9.045085e-04 | loss=0.302031
-Epoch 003 | Step 810 | lr=9.045085e-04 | loss=0.307040
-Epoch 003 | Step 820 | lr=9.045085e-04 | loss=0.317692
-Epoch 003 | Step 830 | lr=9.045085e-04 | loss=0.330779
-Epoch 003 | Step 840 | lr=9.045085e-04 | loss=0.290473
-Epoch 003 | Step 850 | lr=9.045085e-04 | loss=0.355228
-Epoch 003 | Step 860 | lr=9.045085e-04 | loss=0.313156
-Epoch 003 | Step 870 | lr=9.045085e-04 | loss=0.322027
-Epoch 003 | Step 880 | lr=9.045085e-04 | loss=0.289655
-Epoch 003 | Step 890 | lr=9.045085e-04 | loss=0.284259
-Epoch 003 | Step 900 | lr=9.045085e-04 | loss=0.268779
-Epoch 003 | Step 910 | lr=9.045085e-04 | loss=0.287557
-Epoch 003 | Step 920 | lr=9.045085e-04 | loss=0.281560
-Epoch 003 | Step 930 | lr=9.045085e-04 | loss=0.318036
-Epoch 003 | Step 940 | lr=9.045085e-04 | loss=0.286607
-Epoch 003 | Step 950 | lr=9.045085e-04 | loss=0.319118
-Epoch 003 | Step 960 | lr=9.045085e-04 | loss=0.285411
-epoch 003 | train_kld=0.298775 | val_kld=0.277542 | val_mae=0.003838 | val_mse=0.000288 | ord_acc@10=0.2910 | recall@10=0.8191
-Epoch 004 | Step 10 | lr=7.938926e-04 | loss=0.329379
-Epoch 004 | Step 20 | lr=7.938926e-04 | loss=0.273789
-Epoch 004 | Step 30 | lr=7.938926e-04 | loss=0.286689
-Epoch 004 | Step 40 | lr=7.938926e-04 | loss=0.314073
-Epoch 004 | Step 50 | lr=7.938926e-04 | loss=0.266796
-Epoch 004 | Step 60 | lr=7.938926e-04 | loss=0.269358
-Epoch 004 | Step 70 | lr=7.938926e-04 | loss=0.283035
-Epoch 004 | Step 80 | lr=7.938926e-04 | loss=0.293775
-Epoch 004 | Step 90 | lr=7.938926e-04 | loss=0.252746
-Epoch 004 | Step 100 | lr=7.938926e-04 | loss=0.278504
-Epoch 004 | Step 110 | lr=7.938926e-04 | loss=0.266689
-Epoch 004 | Step 120 | lr=7.938926e-04 | loss=0.312376
-Epoch 004 | Step 130 | lr=7.938926e-04 | loss=0.276223
-Epoch 004 | Step 140 | lr=7.938926e-04 | loss=0.290273
-Epoch 004 | Step 150 | lr=7.938926e-04 | loss=0.277442
-Epoch 004 | Step 160 | lr=7.938926e-04 | loss=0.281052
-Epoch 004 | Step 170 | lr=7.938926e-04 | loss=0.253614
-Epoch 004 | Step 180 | lr=7.938926e-04 | loss=0.277631
-Epoch 004 | Step 190 | lr=7.938926e-04 | loss=0.270140
-Epoch 004 | Step 200 | lr=7.938926e-04 | loss=0.274426
-Epoch 004 | Step 210 | lr=7.938926e-04 | loss=0.275254
-Epoch 004 | Step 220 | lr=7.938926e-04 | loss=0.304105
-Epoch 004 | Step 230 | lr=7.938926e-04 | loss=0.308662
-Epoch 004 | Step 240 | lr=7.938926e-04 | loss=0.301489
-Epoch 004 | Step 250 | lr=7.938926e-04 | loss=0.292467
-Epoch 004 | Step 260 | lr=7.938926e-04 | loss=0.312535
-Epoch 004 | Step 270 | lr=7.938926e-04 | loss=0.264085
-Epoch 004 | Step 280 | lr=7.938926e-04 | loss=0.283986
-Epoch 004 | Step 290 | lr=7.938926e-04 | loss=0.322223
-Epoch 004 | Step 300 | lr=7.938926e-04 | loss=0.281907
-Epoch 004 | Step 310 | lr=7.938926e-04 | loss=0.288613
-Epoch 004 | Step 320 | lr=7.938926e-04 | loss=0.302557
-Epoch 004 | Step 330 | lr=7.938926e-04 | loss=0.283958
-Epoch 004 | Step 340 | lr=7.938926e-04 | loss=0.285402
-Epoch 004 | Step 350 | lr=7.938926e-04 | loss=0.278117
-Epoch 004 | Step 360 | lr=7.938926e-04 | loss=0.280458
-Epoch 004 | Step 370 | lr=7.938926e-04 | loss=0.279236
-Epoch 004 | Step 380 | lr=7.938926e-04 | loss=0.269733
-Epoch 004 | Step 390 | lr=7.938926e-04 | loss=0.274850
-Epoch 004 | Step 400 | lr=7.938926e-04 | loss=0.272706
-Epoch 004 | Step 410 | lr=7.938926e-04 | loss=0.283680
-Epoch 004 | Step 420 | lr=7.938926e-04 | loss=0.273504
-Epoch 004 | Step 430 | lr=7.938926e-04 | loss=0.288831
-Epoch 004 | Step 440 | lr=7.938926e-04 | loss=0.271746
-Epoch 004 | Step 450 | lr=7.938926e-04 | loss=0.276427
-Epoch 004 | Step 460 | lr=7.938926e-04 | loss=0.334773
-Epoch 004 | Step 470 | lr=7.938926e-04 | loss=0.277474
-Epoch 004 | Step 480 | lr=7.938926e-04 | loss=0.319603
-Epoch 004 | Step 490 | lr=7.938926e-04 | loss=0.267859
-Epoch 004 | Step 500 | lr=7.938926e-04 | loss=0.289695
-Epoch 004 | Step 510 | lr=7.938926e-04 | loss=0.286157
-Epoch 004 | Step 520 | lr=7.938926e-04 | loss=0.290805
-Epoch 004 | Step 530 | lr=7.938926e-04 | loss=0.261174
-Epoch 004 | Step 540 | lr=7.938926e-04 | loss=0.270124
-Epoch 004 | Step 550 | lr=7.938926e-04 | loss=0.249010
-Epoch 004 | Step 560 | lr=7.938926e-04 | loss=0.251551
-Epoch 004 | Step 570 | lr=7.938926e-04 | loss=0.281982
-Epoch 004 | Step 580 | lr=7.938926e-04 | loss=0.282600
-Epoch 004 | Step 590 | lr=7.938926e-04 | loss=0.270760
-Epoch 004 | Step 600 | lr=7.938926e-04 | loss=0.287440
-Epoch 004 | Step 610 | lr=7.938926e-04 | loss=0.263108
-Epoch 004 | Step 620 | lr=7.938926e-04 | loss=0.327942
-Epoch 004 | Step 630 | lr=7.938926e-04 | loss=0.267508
-Epoch 004 | Step 640 | lr=7.938926e-04 | loss=0.289039
-Epoch 004 | Step 650 | lr=7.938926e-04 | loss=0.279355
-Epoch 004 | Step 660 | lr=7.938926e-04 | loss=0.273681
-Epoch 004 | Step 670 | lr=7.938926e-04 | loss=0.265272
-Epoch 004 | Step 680 | lr=7.938926e-04 | loss=0.272159
-Epoch 004 | Step 690 | lr=7.938926e-04 | loss=0.329351
-Epoch 004 | Step 700 | lr=7.938926e-04 | loss=0.316431
-Epoch 004 | Step 710 | lr=7.938926e-04 | loss=0.262857
-Epoch 004 | Step 720 | lr=7.938926e-04 | loss=0.287331
-Epoch 004 | Step 730 | lr=7.938926e-04 | loss=0.285582
-Epoch 004 | Step 740 | lr=7.938926e-04 | loss=0.303405
-Epoch 004 | Step 750 | lr=7.938926e-04 | loss=0.254790
-Epoch 004 | Step 760 | lr=7.938926e-04 | loss=0.257643
-Epoch 004 | Step 770 | lr=7.938926e-04 | loss=0.292241
-Epoch 004 | Step 780 | lr=7.938926e-04 | loss=0.262106
-Epoch 004 | Step 790 | lr=7.938926e-04 | loss=0.281430
-Epoch 004 | Step 800 | lr=7.938926e-04 | loss=0.265769
-Epoch 004 | Step 810 | lr=7.938926e-04 | loss=0.309004
-Epoch 004 | Step 820 | lr=7.938926e-04 | loss=0.257419
-Epoch 004 | Step 830 | lr=7.938926e-04 | loss=0.272290
-Epoch 004 | Step 840 | lr=7.938926e-04 | loss=0.281473
-Epoch 004 | Step 850 | lr=7.938926e-04 | loss=0.284512
-Epoch 004 | Step 860 | lr=7.938926e-04 | loss=0.274579
-Epoch 004 | Step 870 | lr=7.938926e-04 | loss=0.281938
-Epoch 004 | Step 880 | lr=7.938926e-04 | loss=0.286129
-Epoch 004 | Step 890 | lr=7.938926e-04 | loss=0.266990
-Epoch 004 | Step 900 | lr=7.938926e-04 | loss=0.278016
-Epoch 004 | Step 910 | lr=7.938926e-04 | loss=0.276723
-Epoch 004 | Step 920 | lr=7.938926e-04 | loss=0.272099
-Epoch 004 | Step 930 | lr=7.938926e-04 | loss=0.310618
-Epoch 004 | Step 940 | lr=7.938926e-04 | loss=0.283882
-Epoch 004 | Step 950 | lr=7.938926e-04 | loss=0.266144
-Epoch 004 | Step 960 | lr=7.938926e-04 | loss=0.302906
-epoch 004 | train_kld=0.281120 | val_kld=0.266170 | val_mae=0.003560 | val_mse=0.000237 | ord_acc@10=0.2928 | recall@10=0.8221
-Epoch 005 | Step 10 | lr=6.545085e-04 | loss=0.270280
-Epoch 005 | Step 20 | lr=6.545085e-04 | loss=0.261806
-Epoch 005 | Step 30 | lr=6.545085e-04 | loss=0.264533
-Epoch 005 | Step 40 | lr=6.545085e-04 | loss=0.259430
-Epoch 005 | Step 50 | lr=6.545085e-04 | loss=0.278758
-Epoch 005 | Step 60 | lr=6.545085e-04 | loss=0.286352
-Epoch 005 | Step 70 | lr=6.545085e-04 | loss=0.286341
-Epoch 005 | Step 80 | lr=6.545085e-04 | loss=0.267457
-Epoch 005 | Step 90 | lr=6.545085e-04 | loss=0.272065
-Epoch 005 | Step 100 | lr=6.545085e-04 | loss=0.297131
-Epoch 005 | Step 110 | lr=6.545085e-04 | loss=0.252219
-Epoch 005 | Step 120 | lr=6.545085e-04 | loss=0.243258
-Epoch 005 | Step 130 | lr=6.545085e-04 | loss=0.263622
-Epoch 005 | Step 140 | lr=6.545085e-04 | loss=0.264477
-Epoch 005 | Step 150 | lr=6.545085e-04 | loss=0.265697
-Epoch 005 | Step 160 | lr=6.545085e-04 | loss=0.248757
-Epoch 005 | Step 170 | lr=6.545085e-04 | loss=0.245105
-Epoch 005 | Step 180 | lr=6.545085e-04 | loss=0.249031
-Epoch 005 | Step 190 | lr=6.545085e-04 | loss=0.276015
-Epoch 005 | Step 200 | lr=6.545085e-04 | loss=0.239249
-Epoch 005 | Step 210 | lr=6.545085e-04 | loss=0.286790
-Epoch 005 | Step 220 | lr=6.545085e-04 | loss=0.269392
-Epoch 005 | Step 230 | lr=6.545085e-04 | loss=0.246262
-Epoch 005 | Step 240 | lr=6.545085e-04 | loss=0.273147
-Epoch 005 | Step 250 | lr=6.545085e-04 | loss=0.285922
-Epoch 005 | Step 260 | lr=6.545085e-04 | loss=0.267617
-Epoch 005 | Step 270 | lr=6.545085e-04 | loss=0.257166
-Epoch 005 | Step 280 | lr=6.545085e-04 | loss=0.252939
-Epoch 005 | Step 290 | lr=6.545085e-04 | loss=0.298852
-Epoch 005 | Step 300 | lr=6.545085e-04 | loss=0.268587
-Epoch 005 | Step 310 | lr=6.545085e-04 | loss=0.267752
-Epoch 005 | Step 320 | lr=6.545085e-04 | loss=0.268182
-Epoch 005 | Step 330 | lr=6.545085e-04 | loss=0.259248
-Epoch 005 | Step 340 | lr=6.545085e-04 | loss=0.249985
-Epoch 005 | Step 350 | lr=6.545085e-04 | loss=0.284548
-Epoch 005 | Step 360 | lr=6.545085e-04 | loss=0.266446
-Epoch 005 | Step 370 | lr=6.545085e-04 | loss=0.256905
-Epoch 005 | Step 380 | lr=6.545085e-04 | loss=0.266205
-Epoch 005 | Step 390 | lr=6.545085e-04 | loss=0.251416
-Epoch 005 | Step 400 | lr=6.545085e-04 | loss=0.265196
-Epoch 005 | Step 410 | lr=6.545085e-04 | loss=0.288921
-Epoch 005 | Step 420 | lr=6.545085e-04 | loss=0.266159
-Epoch 005 | Step 430 | lr=6.545085e-04 | loss=0.265714
-Epoch 005 | Step 440 | lr=6.545085e-04 | loss=0.291434
-Epoch 005 | Step 450 | lr=6.545085e-04 | loss=0.260334
-Epoch 005 | Step 460 | lr=6.545085e-04 | loss=0.248048
-Epoch 005 | Step 470 | lr=6.545085e-04 | loss=0.275070
-Epoch 005 | Step 480 | lr=6.545085e-04 | loss=0.274657
-Epoch 005 | Step 490 | lr=6.545085e-04 | loss=0.267782
-Epoch 005 | Step 500 | lr=6.545085e-04 | loss=0.297093
-Epoch 005 | Step 510 | lr=6.545085e-04 | loss=0.261788
-Epoch 005 | Step 520 | lr=6.545085e-04 | loss=0.253949
-Epoch 005 | Step 530 | lr=6.545085e-04 | loss=0.288419
-Epoch 005 | Step 540 | lr=6.545085e-04 | loss=0.276110
-Epoch 005 | Step 550 | lr=6.545085e-04 | loss=0.265368
-Epoch 005 | Step 560 | lr=6.545085e-04 | loss=0.261610
-Epoch 005 | Step 570 | lr=6.545085e-04 | loss=0.284736
-Epoch 005 | Step 580 | lr=6.545085e-04 | loss=0.275153
-Epoch 005 | Step 590 | lr=6.545085e-04 | loss=0.246299
-Epoch 005 | Step 600 | lr=6.545085e-04 | loss=0.283603
-Epoch 005 | Step 610 | lr=6.545085e-04 | loss=0.293762
-Epoch 005 | Step 620 | lr=6.545085e-04 | loss=0.318825
-Epoch 005 | Step 630 | lr=6.545085e-04 | loss=0.289358
-Epoch 005 | Step 640 | lr=6.545085e-04 | loss=0.343536
-Epoch 005 | Step 650 | lr=6.545085e-04 | loss=0.275845
-Epoch 005 | Step 660 | lr=6.545085e-04 | loss=0.263110
-Epoch 005 | Step 670 | lr=6.545085e-04 | loss=0.280853
-Epoch 005 | Step 680 | lr=6.545085e-04 | loss=0.274828
-Epoch 005 | Step 690 | lr=6.545085e-04 | loss=0.279392
-Epoch 005 | Step 700 | lr=6.545085e-04 | loss=0.328263
-Epoch 005 | Step 710 | lr=6.545085e-04 | loss=0.277077
-Epoch 005 | Step 720 | lr=6.545085e-04 | loss=0.271422
-Epoch 005 | Step 730 | lr=6.545085e-04 | loss=0.258774
-Epoch 005 | Step 740 | lr=6.545085e-04 | loss=0.261893
-Epoch 005 | Step 750 | lr=6.545085e-04 | loss=0.264467
-Epoch 005 | Step 760 | lr=6.545085e-04 | loss=0.255717
-Epoch 005 | Step 770 | lr=6.545085e-04 | loss=0.265441
-Epoch 005 | Step 780 | lr=6.545085e-04 | loss=0.307206
-Epoch 005 | Step 790 | lr=6.545085e-04 | loss=0.270821
-Epoch 005 | Step 800 | lr=6.545085e-04 | loss=0.265518
-Epoch 005 | Step 810 | lr=6.545085e-04 | loss=0.264544
-Epoch 005 | Step 820 | lr=6.545085e-04 | loss=0.291643
-Epoch 005 | Step 830 | lr=6.545085e-04 | loss=0.254634
-Epoch 005 | Step 840 | lr=6.545085e-04 | loss=0.262565
-Epoch 005 | Step 850 | lr=6.545085e-04 | loss=0.253483
-Epoch 005 | Step 860 | lr=6.545085e-04 | loss=0.265613
-Epoch 005 | Step 870 | lr=6.545085e-04 | loss=0.268040
-Epoch 005 | Step 880 | lr=6.545085e-04 | loss=0.263180
-Epoch 005 | Step 890 | lr=6.545085e-04 | loss=0.261436
-Epoch 005 | Step 900 | lr=6.545085e-04 | loss=0.261784
-Epoch 005 | Step 910 | lr=6.545085e-04 | loss=0.302592
-Epoch 005 | Step 920 | lr=6.545085e-04 | loss=0.257316
-Epoch 005 | Step 930 | lr=6.545085e-04 | loss=0.253936
-Epoch 005 | Step 940 | lr=6.545085e-04 | loss=0.254668
-Epoch 005 | Step 950 | lr=6.545085e-04 | loss=0.260053
-Epoch 005 | Step 960 | lr=6.545085e-04 | loss=0.278754
-epoch 005 | train_kld=0.270379 | val_kld=0.255091 | val_mae=0.003481 | val_mse=0.000223 | ord_acc@10=0.2995 | recall@10=0.8214
-Epoch 006 | Step 10 | lr=5.000000e-04 | loss=0.250889
-Epoch 006 | Step 20 | lr=5.000000e-04 | loss=0.260173
-Epoch 006 | Step 30 | lr=5.000000e-04 | loss=0.256461
-Epoch 006 | Step 40 | lr=5.000000e-04 | loss=0.251237
-Epoch 006 | Step 50 | lr=5.000000e-04 | loss=0.248796
-Epoch 006 | Step 60 | lr=5.000000e-04 | loss=0.241934
-Epoch 006 | Step 70 | lr=5.000000e-04 | loss=0.298735
-Epoch 006 | Step 80 | lr=5.000000e-04 | loss=0.250051
-Epoch 006 | Step 90 | lr=5.000000e-04 | loss=0.245100
-Epoch 006 | Step 100 | lr=5.000000e-04 | loss=0.260825
-Epoch 006 | Step 110 | lr=5.000000e-04 | loss=0.260781
-Epoch 006 | Step 120 | lr=5.000000e-04 | loss=0.245973
-Epoch 006 | Step 130 | lr=5.000000e-04 | loss=0.244694
-Epoch 006 | Step 140 | lr=5.000000e-04 | loss=0.234863
-Epoch 006 | Step 150 | lr=5.000000e-04 | loss=0.272620
-Epoch 006 | Step 160 | lr=5.000000e-04 | loss=0.261930
-Epoch 006 | Step 170 | lr=5.000000e-04 | loss=0.284434
-Epoch 006 | Step 180 | lr=5.000000e-04 | loss=0.255526
-Epoch 006 | Step 190 | lr=5.000000e-04 | loss=0.301085
-Epoch 006 | Step 200 | lr=5.000000e-04 | loss=0.268668
-Epoch 006 | Step 210 | lr=5.000000e-04 | loss=0.266913
-Epoch 006 | Step 220 | lr=5.000000e-04 | loss=0.267666
-Epoch 006 | Step 230 | lr=5.000000e-04 | loss=0.243725
-Epoch 006 | Step 240 | lr=5.000000e-04 | loss=0.247110
-Epoch 006 | Step 250 | lr=5.000000e-04 | loss=0.263679
-Epoch 006 | Step 260 | lr=5.000000e-04 | loss=0.246998
-Epoch 006 | Step 270 | lr=5.000000e-04 | loss=0.254039
-Epoch 006 | Step 280 | lr=5.000000e-04 | loss=0.240472
-Epoch 006 | Step 290 | lr=5.000000e-04 | loss=0.278400
-Epoch 006 | Step 300 | lr=5.000000e-04 | loss=0.278368
-Epoch 006 | Step 310 | lr=5.000000e-04 | loss=0.260528
-Epoch 006 | Step 320 | lr=5.000000e-04 | loss=0.263881
-Epoch 006 | Step 330 | lr=5.000000e-04 | loss=0.253878
-Epoch 006 | Step 340 | lr=5.000000e-04 | loss=0.266541
-Epoch 006 | Step 350 | lr=5.000000e-04 | loss=0.238325
-Epoch 006 | Step 360 | lr=5.000000e-04 | loss=0.260058
-Epoch 006 | Step 370 | lr=5.000000e-04 | loss=0.264240
-Epoch 006 | Step 380 | lr=5.000000e-04 | loss=0.258755
-Epoch 006 | Step 390 | lr=5.000000e-04 | loss=0.265198
-Epoch 006 | Step 400 | lr=5.000000e-04 | loss=0.258106
-Epoch 006 | Step 410 | lr=5.000000e-04 | loss=0.266828
-Epoch 006 | Step 420 | lr=5.000000e-04 | loss=0.261923
-Epoch 006 | Step 430 | lr=5.000000e-04 | loss=0.252641
-Epoch 006 | Step 440 | lr=5.000000e-04 | loss=0.244526
-Epoch 006 | Step 450 | lr=5.000000e-04 | loss=0.261791
-Epoch 006 | Step 460 | lr=5.000000e-04 | loss=0.255273
-Epoch 006 | Step 470 | lr=5.000000e-04 | loss=0.267853
-Epoch 006 | Step 480 | lr=5.000000e-04 | loss=0.249952
-Epoch 006 | Step 490 | lr=5.000000e-04 | loss=0.265265
-Epoch 006 | Step 500 | lr=5.000000e-04 | loss=0.249567
-Epoch 006 | Step 510 | lr=5.000000e-04 | loss=0.261596
-Epoch 006 | Step 520 | lr=5.000000e-04 | loss=0.246613
-Epoch 006 | Step 530 | lr=5.000000e-04 | loss=0.256481
-Epoch 006 | Step 540 | lr=5.000000e-04 | loss=0.271629
-Epoch 006 | Step 550 | lr=5.000000e-04 | loss=0.261615
-Epoch 006 | Step 560 | lr=5.000000e-04 | loss=0.272399
-Epoch 006 | Step 570 | lr=5.000000e-04 | loss=0.260285
-Epoch 006 | Step 580 | lr=5.000000e-04 | loss=0.264148
-Epoch 006 | Step 590 | lr=5.000000e-04 | loss=0.256246
-Epoch 006 | Step 600 | lr=5.000000e-04 | loss=0.251622
-Epoch 006 | Step 610 | lr=5.000000e-04 | loss=0.247386
-Epoch 006 | Step 620 | lr=5.000000e-04 | loss=0.263325
-Epoch 006 | Step 630 | lr=5.000000e-04 | loss=0.264204
-Epoch 006 | Step 640 | lr=5.000000e-04 | loss=0.256911
-Epoch 006 | Step 650 | lr=5.000000e-04 | loss=0.242517
-Epoch 006 | Step 660 | lr=5.000000e-04 | loss=0.282740
-Epoch 006 | Step 670 | lr=5.000000e-04 | loss=0.256871
-Epoch 006 | Step 680 | lr=5.000000e-04 | loss=0.268335
-Epoch 006 | Step 690 | lr=5.000000e-04 | loss=0.252655
-Epoch 006 | Step 700 | lr=5.000000e-04 | loss=0.266806
-Epoch 006 | Step 710 | lr=5.000000e-04 | loss=0.247755
-Epoch 006 | Step 720 | lr=5.000000e-04 | loss=0.254862
-Epoch 006 | Step 730 | lr=5.000000e-04 | loss=0.262226
-Epoch 006 | Step 740 | lr=5.000000e-04 | loss=0.259406
-Epoch 006 | Step 750 | lr=5.000000e-04 | loss=0.262528
-Epoch 006 | Step 760 | lr=5.000000e-04 | loss=0.256249
-Epoch 006 | Step 770 | lr=5.000000e-04 | loss=0.245967
-Epoch 006 | Step 780 | lr=5.000000e-04 | loss=0.297386
-Epoch 006 | Step 790 | lr=5.000000e-04 | loss=0.258497
-Epoch 006 | Step 800 | lr=5.000000e-04 | loss=0.291619
-Epoch 006 | Step 810 | lr=5.000000e-04 | loss=0.255537
-Epoch 006 | Step 820 | lr=5.000000e-04 | loss=0.266289
-Epoch 006 | Step 830 | lr=5.000000e-04 | loss=0.264594
-Epoch 006 | Step 840 | lr=5.000000e-04 | loss=0.262489
-Epoch 006 | Step 850 | lr=5.000000e-04 | loss=0.232368
-Epoch 006 | Step 860 | lr=5.000000e-04 | loss=0.252024
-Epoch 006 | Step 870 | lr=5.000000e-04 | loss=0.281277
-Epoch 006 | Step 880 | lr=5.000000e-04 | loss=0.245446
-Epoch 006 | Step 890 | lr=5.000000e-04 | loss=0.292820
-Epoch 006 | Step 900 | lr=5.000000e-04 | loss=0.263215
-Epoch 006 | Step 910 | lr=5.000000e-04 | loss=0.281821
-Epoch 006 | Step 920 | lr=5.000000e-04 | loss=0.251795
-Epoch 006 | Step 930 | lr=5.000000e-04 | loss=0.273576
-Epoch 006 | Step 940 | lr=5.000000e-04 | loss=0.244812
-Epoch 006 | Step 950 | lr=5.000000e-04 | loss=0.271973
-Epoch 006 | Step 960 | lr=5.000000e-04 | loss=0.257858
-epoch 006 | train_kld=0.259450 | val_kld=0.247456 | val_mae=0.003525 | val_mse=0.000232 | ord_acc@10=0.3045 | recall@10=0.8243
-Epoch 007 | Step 10 | lr=3.454915e-04 | loss=0.233713
-Epoch 007 | Step 20 | lr=3.454915e-04 | loss=0.241575
-Epoch 007 | Step 30 | lr=3.454915e-04 | loss=0.241292
-Epoch 007 | Step 40 | lr=3.454915e-04 | loss=0.234660
-Epoch 007 | Step 50 | lr=3.454915e-04 | loss=0.246598
-Epoch 007 | Step 60 | lr=3.454915e-04 | loss=0.240476
-Epoch 007 | Step 70 | lr=3.454915e-04 | loss=0.235997
-Epoch 007 | Step 80 | lr=3.454915e-04 | loss=0.239074
-Epoch 007 | Step 90 | lr=3.454915e-04 | loss=0.237381
-Epoch 007 | Step 100 | lr=3.454915e-04 | loss=0.264126
-Epoch 007 | Step 110 | lr=3.454915e-04 | loss=0.226455
-Epoch 007 | Step 120 | lr=3.454915e-04 | loss=0.249108
-Epoch 007 | Step 130 | lr=3.454915e-04 | loss=0.231593
-Epoch 007 | Step 140 | lr=3.454915e-04 | loss=0.235225
-Epoch 007 | Step 150 | lr=3.454915e-04 | loss=0.249410
-Epoch 007 | Step 160 | lr=3.454915e-04 | loss=0.241309
-Epoch 007 | Step 170 | lr=3.454915e-04 | loss=0.237064
-Epoch 007 | Step 180 | lr=3.454915e-04 | loss=0.231319
-Epoch 007 | Step 190 | lr=3.454915e-04 | loss=0.231170
-Epoch 007 | Step 200 | lr=3.454915e-04 | loss=0.249054
-Epoch 007 | Step 210 | lr=3.454915e-04 | loss=0.228531
-Epoch 007 | Step 220 | lr=3.454915e-04 | loss=0.240012
-Epoch 007 | Step 230 | lr=3.454915e-04 | loss=0.236647
-Epoch 007 | Step 240 | lr=3.454915e-04 | loss=0.235864
-Epoch 007 | Step 250 | lr=3.454915e-04 | loss=0.228990
-Epoch 007 | Step 260 | lr=3.454915e-04 | loss=0.223969
-Epoch 007 | Step 270 | lr=3.454915e-04 | loss=0.221428
-Epoch 007 | Step 280 | lr=3.454915e-04 | loss=0.248223
-Epoch 007 | Step 290 | lr=3.454915e-04 | loss=0.224675
-Epoch 007 | Step 300 | lr=3.454915e-04 | loss=0.244845
-Epoch 007 | Step 310 | lr=3.454915e-04 | loss=0.239674
-Epoch 007 | Step 320 | lr=3.454915e-04 | loss=0.240372
-Epoch 007 | Step 330 | lr=3.454915e-04 | loss=0.243809
-Epoch 007 | Step 340 | lr=3.454915e-04 | loss=0.233031
-Epoch 007 | Step 350 | lr=3.454915e-04 | loss=0.241138
-Epoch 007 | Step 360 | lr=3.454915e-04 | loss=0.252739
-Epoch 007 | Step 370 | lr=3.454915e-04 | loss=0.231685
-Epoch 007 | Step 380 | lr=3.454915e-04 | loss=0.242977
-Epoch 007 | Step 390 | lr=3.454915e-04 | loss=0.236942
-Epoch 007 | Step 400 | lr=3.454915e-04 | loss=0.239117
-Epoch 007 | Step 410 | lr=3.454915e-04 | loss=0.246843
-Epoch 007 | Step 420 | lr=3.454915e-04 | loss=0.240972
-Epoch 007 | Step 430 | lr=3.454915e-04 | loss=0.241408
-Epoch 007 | Step 440 | lr=3.454915e-04 | loss=0.238204
-Epoch 007 | Step 450 | lr=3.454915e-04 | loss=0.235268
-Epoch 007 | Step 460 | lr=3.454915e-04 | loss=0.223289
-Epoch 007 | Step 470 | lr=3.454915e-04 | loss=0.234543
-Epoch 007 | Step 480 | lr=3.454915e-04 | loss=0.239019
-Epoch 007 | Step 490 | lr=3.454915e-04 | loss=0.224692
-Epoch 007 | Step 500 | lr=3.454915e-04 | loss=0.251961
-Epoch 007 | Step 510 | lr=3.454915e-04 | loss=0.225943
-Epoch 007 | Step 520 | lr=3.454915e-04 | loss=0.275737
-Epoch 007 | Step 530 | lr=3.454915e-04 | loss=0.231173
-Epoch 007 | Step 540 | lr=3.454915e-04 | loss=0.231461
-Epoch 007 | Step 550 | lr=3.454915e-04 | loss=0.223343
-Epoch 007 | Step 560 | lr=3.454915e-04 | loss=0.238183
-Epoch 007 | Step 570 | lr=3.454915e-04 | loss=0.252453
-Epoch 007 | Step 580 | lr=3.454915e-04 | loss=0.228376
-Epoch 007 | Step 590 | lr=3.454915e-04 | loss=0.239129
-Epoch 007 | Step 600 | lr=3.454915e-04 | loss=0.240158
-Epoch 007 | Step 610 | lr=3.454915e-04 | loss=0.241804
-Epoch 007 | Step 620 | lr=3.454915e-04 | loss=0.238312
-Epoch 007 | Step 630 | lr=3.454915e-04 | loss=0.239016
-Epoch 007 | Step 640 | lr=3.454915e-04 | loss=0.242235
-Epoch 007 | Step 650 | lr=3.454915e-04 | loss=0.232697
-Epoch 007 | Step 660 | lr=3.454915e-04 | loss=0.240001
-Epoch 007 | Step 670 | lr=3.454915e-04 | loss=0.231391
-Epoch 007 | Step 680 | lr=3.454915e-04 | loss=0.239979
-Epoch 007 | Step 690 | lr=3.454915e-04 | loss=0.236776
-Epoch 007 | Step 700 | lr=3.454915e-04 | loss=0.232152
-Epoch 007 | Step 710 | lr=3.454915e-04 | loss=0.238057
-Epoch 007 | Step 720 | lr=3.454915e-04 | loss=0.246507
-Epoch 007 | Step 730 | lr=3.454915e-04 | loss=0.240076
-Epoch 007 | Step 740 | lr=3.454915e-04 | loss=0.234444
-Epoch 007 | Step 750 | lr=3.454915e-04 | loss=0.214247
-Epoch 007 | Step 760 | lr=3.454915e-04 | loss=0.240216
-Epoch 007 | Step 770 | lr=3.454915e-04 | loss=0.229992
-Epoch 007 | Step 780 | lr=3.454915e-04 | loss=0.250298
-Epoch 007 | Step 790 | lr=3.454915e-04 | loss=0.249281
-Epoch 007 | Step 800 | lr=3.454915e-04 | loss=0.251229
-Epoch 007 | Step 810 | lr=3.454915e-04 | loss=0.236987
-Epoch 007 | Step 820 | lr=3.454915e-04 | loss=0.243641
-Epoch 007 | Step 830 | lr=3.454915e-04 | loss=0.237286
-Epoch 007 | Step 840 | lr=3.454915e-04 | loss=0.242195
-Epoch 007 | Step 850 | lr=3.454915e-04 | loss=0.234730
-Epoch 007 | Step 860 | lr=3.454915e-04 | loss=0.234307
-Epoch 007 | Step 870 | lr=3.454915e-04 | loss=0.229814
-Epoch 007 | Step 880 | lr=3.454915e-04 | loss=0.228491
-Epoch 007 | Step 890 | lr=3.454915e-04 | loss=0.248334
-Epoch 007 | Step 900 | lr=3.454915e-04 | loss=0.237570
-Epoch 007 | Step 910 | lr=3.454915e-04 | loss=0.238551
-Epoch 007 | Step 920 | lr=3.454915e-04 | loss=0.215174
-Epoch 007 | Step 930 | lr=3.454915e-04 | loss=0.257778
-Epoch 007 | Step 940 | lr=3.454915e-04 | loss=0.229608
-Epoch 007 | Step 950 | lr=3.454915e-04 | loss=0.243362
-Epoch 007 | Step 960 | lr=3.454915e-04 | loss=0.242978
-epoch 007 | train_kld=0.238416 | val_kld=0.235582 | val_mae=0.003463 | val_mse=0.000193 | ord_acc@10=0.3042 | recall@10=0.8208
-Epoch 008 | Step 10 | lr=2.061074e-04 | loss=0.217118
-Epoch 008 | Step 20 | lr=2.061074e-04 | loss=0.222292
-Epoch 008 | Step 30 | lr=2.061074e-04 | loss=0.229516
-Epoch 008 | Step 40 | lr=2.061074e-04 | loss=0.245856
-Epoch 008 | Step 50 | lr=2.061074e-04 | loss=0.225624
-Epoch 008 | Step 60 | lr=2.061074e-04 | loss=0.234423
-Epoch 008 | Step 70 | lr=2.061074e-04 | loss=0.219508
-Epoch 008 | Step 80 | lr=2.061074e-04 | loss=0.226803
-Epoch 008 | Step 90 | lr=2.061074e-04 | loss=0.226292
-Epoch 008 | Step 100 | lr=2.061074e-04 | loss=0.227810
-Epoch 008 | Step 110 | lr=2.061074e-04 | loss=0.227869
-Epoch 008 | Step 120 | lr=2.061074e-04 | loss=0.229056
-Epoch 008 | Step 130 | lr=2.061074e-04 | loss=0.223398
-Epoch 008 | Step 140 | lr=2.061074e-04 | loss=0.217959
-Epoch 008 | Step 150 | lr=2.061074e-04 | loss=0.236585
-Epoch 008 | Step 160 | lr=2.061074e-04 | loss=0.214463
-Epoch 008 | Step 170 | lr=2.061074e-04 | loss=0.231000
-Epoch 008 | Step 180 | lr=2.061074e-04 | loss=0.239879
-Epoch 008 | Step 190 | lr=2.061074e-04 | loss=0.219118
-Epoch 008 | Step 200 | lr=2.061074e-04 | loss=0.245754
-Epoch 008 | Step 210 | lr=2.061074e-04 | loss=0.221827
-Epoch 008 | Step 220 | lr=2.061074e-04 | loss=0.243506
-Epoch 008 | Step 230 | lr=2.061074e-04 | loss=0.229666
-Epoch 008 | Step 240 | lr=2.061074e-04 | loss=0.225760
-Epoch 008 | Step 250 | lr=2.061074e-04 | loss=0.227162
-Epoch 008 | Step 260 | lr=2.061074e-04 | loss=0.218152
-Epoch 008 | Step 270 | lr=2.061074e-04 | loss=0.227767
-Epoch 008 | Step 280 | lr=2.061074e-04 | loss=0.222269
-Epoch 008 | Step 290 | lr=2.061074e-04 | loss=0.227229
-Epoch 008 | Step 300 | lr=2.061074e-04 | loss=0.228933
-Epoch 008 | Step 310 | lr=2.061074e-04 | loss=0.215845
-Epoch 008 | Step 320 | lr=2.061074e-04 | loss=0.220774
-Epoch 008 | Step 330 | lr=2.061074e-04 | loss=0.220275
-Epoch 008 | Step 340 | lr=2.061074e-04 | loss=0.237882
-Epoch 008 | Step 350 | lr=2.061074e-04 | loss=0.225985
-Epoch 008 | Step 360 | lr=2.061074e-04 | loss=0.220052
-Epoch 008 | Step 370 | lr=2.061074e-04 | loss=0.218558
-Epoch 008 | Step 380 | lr=2.061074e-04 | loss=0.239036
-Epoch 008 | Step 390 | lr=2.061074e-04 | loss=0.229550
-Epoch 008 | Step 400 | lr=2.061074e-04 | loss=0.232505
-Epoch 008 | Step 410 | lr=2.061074e-04 | loss=0.224823
-Epoch 008 | Step 420 | lr=2.061074e-04 | loss=0.220154
-Epoch 008 | Step 430 | lr=2.061074e-04 | loss=0.236709
-Epoch 008 | Step 440 | lr=2.061074e-04 | loss=0.211664
-Epoch 008 | Step 450 | lr=2.061074e-04 | loss=0.217066
-Epoch 008 | Step 460 | lr=2.061074e-04 | loss=0.233525
-Epoch 008 | Step 470 | lr=2.061074e-04 | loss=0.239477
-Epoch 008 | Step 480 | lr=2.061074e-04 | loss=0.220511
-Epoch 008 | Step 490 | lr=2.061074e-04 | loss=0.230697
-Epoch 008 | Step 500 | lr=2.061074e-04 | loss=0.226830
-Epoch 008 | Step 510 | lr=2.061074e-04 | loss=0.240707
-Epoch 008 | Step 520 | lr=2.061074e-04 | loss=0.224600
-Epoch 008 | Step 530 | lr=2.061074e-04 | loss=0.228856
-Epoch 008 | Step 540 | lr=2.061074e-04 | loss=0.226806
-Epoch 008 | Step 550 | lr=2.061074e-04 | loss=0.221601
-Epoch 008 | Step 560 | lr=2.061074e-04 | loss=0.228108
-Epoch 008 | Step 570 | lr=2.061074e-04 | loss=0.229894
-Epoch 008 | Step 580 | lr=2.061074e-04 | loss=0.251014
-Epoch 008 | Step 590 | lr=2.061074e-04 | loss=0.218514
-Epoch 008 | Step 600 | lr=2.061074e-04 | loss=0.223938
-Epoch 008 | Step 610 | lr=2.061074e-04 | loss=0.232135
-Epoch 008 | Step 620 | lr=2.061074e-04 | loss=0.234562
-Epoch 008 | Step 630 | lr=2.061074e-04 | loss=0.225127
-Epoch 008 | Step 640 | lr=2.061074e-04 | loss=0.218157
-Epoch 008 | Step 650 | lr=2.061074e-04 | loss=0.225156
-Epoch 008 | Step 660 | lr=2.061074e-04 | loss=0.228346
-Epoch 008 | Step 670 | lr=2.061074e-04 | loss=0.233262
-Epoch 008 | Step 680 | lr=2.061074e-04 | loss=0.220645
-Epoch 008 | Step 690 | lr=2.061074e-04 | loss=0.225093
-Epoch 008 | Step 700 | lr=2.061074e-04 | loss=0.211490
-Epoch 008 | Step 710 | lr=2.061074e-04 | loss=0.232867
-Epoch 008 | Step 720 | lr=2.061074e-04 | loss=0.225487
-Epoch 008 | Step 730 | lr=2.061074e-04 | loss=0.224492
-Epoch 008 | Step 740 | lr=2.061074e-04 | loss=0.217037
-Epoch 008 | Step 750 | lr=2.061074e-04 | loss=0.227530
-Epoch 008 | Step 760 | lr=2.061074e-04 | loss=0.218042
-Epoch 008 | Step 770 | lr=2.061074e-04 | loss=0.231145
-Epoch 008 | Step 780 | lr=2.061074e-04 | loss=0.225039
-Epoch 008 | Step 790 | lr=2.061074e-04 | loss=0.225248
-Epoch 008 | Step 800 | lr=2.061074e-04 | loss=0.224136
-Epoch 008 | Step 810 | lr=2.061074e-04 | loss=0.228171
-Epoch 008 | Step 820 | lr=2.061074e-04 | loss=0.236734
-Epoch 008 | Step 830 | lr=2.061074e-04 | loss=0.228885
-Epoch 008 | Step 840 | lr=2.061074e-04 | loss=0.226876
-Epoch 008 | Step 850 | lr=2.061074e-04 | loss=0.236631
-Epoch 008 | Step 860 | lr=2.061074e-04 | loss=0.215742
-Epoch 008 | Step 870 | lr=2.061074e-04 | loss=0.218549
-Epoch 008 | Step 880 | lr=2.061074e-04 | loss=0.231360
-Epoch 008 | Step 890 | lr=2.061074e-04 | loss=0.223760
-Epoch 008 | Step 900 | lr=2.061074e-04 | loss=0.234728
-Epoch 008 | Step 910 | lr=2.061074e-04 | loss=0.221994
-Epoch 008 | Step 920 | lr=2.061074e-04 | loss=0.221732
-Epoch 008 | Step 930 | lr=2.061074e-04 | loss=0.217666
-Epoch 008 | Step 940 | lr=2.061074e-04 | loss=0.225788
-Epoch 008 | Step 950 | lr=2.061074e-04 | loss=0.226066
-Epoch 008 | Step 960 | lr=2.061074e-04 | loss=0.217141
-epoch 008 | train_kld=0.226719 | val_kld=0.227455 | val_mae=0.003302 | val_mse=0.000171 | ord_acc@10=0.3112 | recall@10=0.8218
-Epoch 009 | Step 10 | lr=9.549150e-05 | loss=0.230581
-Epoch 009 | Step 20 | lr=9.549150e-05 | loss=0.227352
-Epoch 009 | Step 30 | lr=9.549150e-05 | loss=0.217858
-Epoch 009 | Step 40 | lr=9.549150e-05 | loss=0.231774
-Epoch 009 | Step 50 | lr=9.549150e-05 | loss=0.211180
-Epoch 009 | Step 60 | lr=9.549150e-05 | loss=0.220243
-Epoch 009 | Step 70 | lr=9.549150e-05 | loss=0.212637
-Epoch 009 | Step 80 | lr=9.549150e-05 | loss=0.220509
-Epoch 009 | Step 90 | lr=9.549150e-05 | loss=0.214971
-Epoch 009 | Step 100 | lr=9.549150e-05 | loss=0.240334
-Epoch 009 | Step 110 | lr=9.549150e-05 | loss=0.208264
-Epoch 009 | Step 120 | lr=9.549150e-05 | loss=0.236998
-Epoch 009 | Step 130 | lr=9.549150e-05 | loss=0.211196
-Epoch 009 | Step 140 | lr=9.549150e-05 | loss=0.218097
-Epoch 009 | Step 150 | lr=9.549150e-05 | loss=0.211112
-Epoch 009 | Step 160 | lr=9.549150e-05 | loss=0.223730
-Epoch 009 | Step 170 | lr=9.549150e-05 | loss=0.236352
-Epoch 009 | Step 180 | lr=9.549150e-05 | loss=0.208272
-Epoch 009 | Step 190 | lr=9.549150e-05 | loss=0.214643
-Epoch 009 | Step 200 | lr=9.549150e-05 | loss=0.227902
-Epoch 009 | Step 210 | lr=9.549150e-05 | loss=0.211442
-Epoch 009 | Step 220 | lr=9.549150e-05 | loss=0.221301
-Epoch 009 | Step 230 | lr=9.549150e-05 | loss=0.221844
-Epoch 009 | Step 240 | lr=9.549150e-05 | loss=0.224751
-Epoch 009 | Step 250 | lr=9.549150e-05 | loss=0.230655
-Epoch 009 | Step 260 | lr=9.549150e-05 | loss=0.218920
-Epoch 009 | Step 270 | lr=9.549150e-05 | loss=0.229845
-Epoch 009 | Step 280 | lr=9.549150e-05 | loss=0.217781
-Epoch 009 | Step 290 | lr=9.549150e-05 | loss=0.237249
-Epoch 009 | Step 300 | lr=9.549150e-05 | loss=0.229566
-Epoch 009 | Step 310 | lr=9.549150e-05 | loss=0.228287
-Epoch 009 | Step 320 | lr=9.549150e-05 | loss=0.206458
-Epoch 009 | Step 330 | lr=9.549150e-05 | loss=0.219397
-Epoch 009 | Step 340 | lr=9.549150e-05 | loss=0.204254
-Epoch 009 | Step 350 | lr=9.549150e-05 | loss=0.229393
-Epoch 009 | Step 360 | lr=9.549150e-05 | loss=0.201798
-Epoch 009 | Step 370 | lr=9.549150e-05 | loss=0.223480
-Epoch 009 | Step 380 | lr=9.549150e-05 | loss=0.212840
-Epoch 009 | Step 390 | lr=9.549150e-05 | loss=0.213396
-Epoch 009 | Step 400 | lr=9.549150e-05 | loss=0.216494
-Epoch 009 | Step 410 | lr=9.549150e-05 | loss=0.218092
-Epoch 009 | Step 420 | lr=9.549150e-05 | loss=0.214694
-Epoch 009 | Step 430 | lr=9.549150e-05 | loss=0.219708
-Epoch 009 | Step 440 | lr=9.549150e-05 | loss=0.226388
-Epoch 009 | Step 450 | lr=9.549150e-05 | loss=0.219537
-Epoch 009 | Step 460 | lr=9.549150e-05 | loss=0.217215
-Epoch 009 | Step 470 | lr=9.549150e-05 | loss=0.221280
-Epoch 009 | Step 480 | lr=9.549150e-05 | loss=0.232014
-Epoch 009 | Step 490 | lr=9.549150e-05 | loss=0.225274
-Epoch 009 | Step 500 | lr=9.549150e-05 | loss=0.223231
-Epoch 009 | Step 510 | lr=9.549150e-05 | loss=0.208849
-Epoch 009 | Step 520 | lr=9.549150e-05 | loss=0.231939
-Epoch 009 | Step 530 | lr=9.549150e-05 | loss=0.227525
-Epoch 009 | Step 540 | lr=9.549150e-05 | loss=0.217388
-Epoch 009 | Step 550 | lr=9.549150e-05 | loss=0.215481
-Epoch 009 | Step 560 | lr=9.549150e-05 | loss=0.218306
-Epoch 009 | Step 570 | lr=9.549150e-05 | loss=0.227935
-Epoch 009 | Step 580 | lr=9.549150e-05 | loss=0.222558
-Epoch 009 | Step 590 | lr=9.549150e-05 | loss=0.220994
-Epoch 009 | Step 600 | lr=9.549150e-05 | loss=0.207771
-Epoch 009 | Step 610 | lr=9.549150e-05 | loss=0.227224
-Epoch 009 | Step 620 | lr=9.549150e-05 | loss=0.218073
-Epoch 009 | Step 630 | lr=9.549150e-05 | loss=0.225922
-Epoch 009 | Step 640 | lr=9.549150e-05 | loss=0.210697
-Epoch 009 | Step 650 | lr=9.549150e-05 | loss=0.222644
-Epoch 009 | Step 660 | lr=9.549150e-05 | loss=0.211844
-Epoch 009 | Step 670 | lr=9.549150e-05 | loss=0.237155
-Epoch 009 | Step 680 | lr=9.549150e-05 | loss=0.219898
-Epoch 009 | Step 690 | lr=9.549150e-05 | loss=0.215078
-Epoch 009 | Step 700 | lr=9.549150e-05 | loss=0.216542
-Epoch 009 | Step 710 | lr=9.549150e-05 | loss=0.224952
-Epoch 009 | Step 720 | lr=9.549150e-05 | loss=0.225012
-Epoch 009 | Step 730 | lr=9.549150e-05 | loss=0.209267
-Epoch 009 | Step 740 | lr=9.549150e-05 | loss=0.206489
-Epoch 009 | Step 750 | lr=9.549150e-05 | loss=0.216217
-Epoch 009 | Step 760 | lr=9.549150e-05 | loss=0.218311
-Epoch 009 | Step 770 | lr=9.549150e-05 | loss=0.227741
-Epoch 009 | Step 780 | lr=9.549150e-05 | loss=0.227261
-Epoch 009 | Step 790 | lr=9.549150e-05 | loss=0.225142
-Epoch 009 | Step 800 | lr=9.549150e-05 | loss=0.229247
-Epoch 009 | Step 810 | lr=9.549150e-05 | loss=0.217774
-Epoch 009 | Step 820 | lr=9.549150e-05 | loss=0.221873
-Epoch 009 | Step 830 | lr=9.549150e-05 | loss=0.217141
-Epoch 009 | Step 840 | lr=9.549150e-05 | loss=0.219568
-Epoch 009 | Step 850 | lr=9.549150e-05 | loss=0.224234
-Epoch 009 | Step 860 | lr=9.549150e-05 | loss=0.215089
-Epoch 009 | Step 870 | lr=9.549150e-05 | loss=0.216544
-Epoch 009 | Step 880 | lr=9.549150e-05 | loss=0.218489
-Epoch 009 | Step 890 | lr=9.549150e-05 | loss=0.216004
-Epoch 009 | Step 900 | lr=9.549150e-05 | loss=0.229603
-Epoch 009 | Step 910 | lr=9.549150e-05 | loss=0.229443
-Epoch 009 | Step 920 | lr=9.549150e-05 | loss=0.219838
-Epoch 009 | Step 930 | lr=9.549150e-05 | loss=0.228179
-Epoch 009 | Step 940 | lr=9.549150e-05 | loss=0.222233
-Epoch 009 | Step 950 | lr=9.549150e-05 | loss=0.219766
-Epoch 009 | Step 960 | lr=9.549150e-05 | loss=0.220581
-epoch 009 | train_kld=0.219827 | val_kld=0.222490 | val_mae=0.003222 | val_mse=0.000158 | ord_acc@10=0.3161 | recall@10=0.8243
-Epoch 010 | Step 10 | lr=2.447174e-05 | loss=0.208503
-Epoch 010 | Step 20 | lr=2.447174e-05 | loss=0.210652
-Epoch 010 | Step 30 | lr=2.447174e-05 | loss=0.215386
-Epoch 010 | Step 40 | lr=2.447174e-05 | loss=0.205444
-Epoch 010 | Step 50 | lr=2.447174e-05 | loss=0.211099
-Epoch 010 | Step 60 | lr=2.447174e-05 | loss=0.225824
-Epoch 010 | Step 70 | lr=2.447174e-05 | loss=0.214070
-Epoch 010 | Step 80 | lr=2.447174e-05 | loss=0.210425
-Epoch 010 | Step 90 | lr=2.447174e-05 | loss=0.222050
-Epoch 010 | Step 100 | lr=2.447174e-05 | loss=0.207630
-Epoch 010 | Step 110 | lr=2.447174e-05 | loss=0.224573
-Epoch 010 | Step 120 | lr=2.447174e-05 | loss=0.224861
-Epoch 010 | Step 130 | lr=2.447174e-05 | loss=0.223471
-Epoch 010 | Step 140 | lr=2.447174e-05 | loss=0.209314
-Epoch 010 | Step 150 | lr=2.447174e-05 | loss=0.204171
-Epoch 010 | Step 160 | lr=2.447174e-05 | loss=0.221368
-Epoch 010 | Step 170 | lr=2.447174e-05 | loss=0.213341
-Epoch 010 | Step 180 | lr=2.447174e-05 | loss=0.207841
-Epoch 010 | Step 190 | lr=2.447174e-05 | loss=0.218331
-Epoch 010 | Step 200 | lr=2.447174e-05 | loss=0.207283
-Epoch 010 | Step 210 | lr=2.447174e-05 | loss=0.222541
-Epoch 010 | Step 220 | lr=2.447174e-05 | loss=0.202252
-Epoch 010 | Step 230 | lr=2.447174e-05 | loss=0.215437
-Epoch 010 | Step 240 | lr=2.447174e-05 | loss=0.211419
-Epoch 010 | Step 250 | lr=2.447174e-05 | loss=0.210630
-Epoch 010 | Step 260 | lr=2.447174e-05 | loss=0.213642
-Epoch 010 | Step 270 | lr=2.447174e-05 | loss=0.206366
-Epoch 010 | Step 280 | lr=2.447174e-05 | loss=0.224340
-Epoch 010 | Step 290 | lr=2.447174e-05 | loss=0.212226
-Epoch 010 | Step 300 | lr=2.447174e-05 | loss=0.217684
-Epoch 010 | Step 310 | lr=2.447174e-05 | loss=0.219839
-Epoch 010 | Step 320 | lr=2.447174e-05 | loss=0.211711
-Epoch 010 | Step 330 | lr=2.447174e-05 | loss=0.216470
-Epoch 010 | Step 340 | lr=2.447174e-05 | loss=0.215750
-Epoch 010 | Step 350 | lr=2.447174e-05 | loss=0.195911
-Epoch 010 | Step 360 | lr=2.447174e-05 | loss=0.225010
-Epoch 010 | Step 370 | lr=2.447174e-05 | loss=0.206467
-Epoch 010 | Step 380 | lr=2.447174e-05 | loss=0.206775
-Epoch 010 | Step 390 | lr=2.447174e-05 | loss=0.229163
-Epoch 010 | Step 400 | lr=2.447174e-05 | loss=0.210979
-Epoch 010 | Step 410 | lr=2.447174e-05 | loss=0.224855
-Epoch 010 | Step 420 | lr=2.447174e-05 | loss=0.207037
-Epoch 010 | Step 430 | lr=2.447174e-05 | loss=0.217803
-Epoch 010 | Step 440 | lr=2.447174e-05 | loss=0.233596
-Epoch 010 | Step 450 | lr=2.447174e-05 | loss=0.219486
-Epoch 010 | Step 460 | lr=2.447174e-05 | loss=0.217634
-Epoch 010 | Step 470 | lr=2.447174e-05 | loss=0.219821
-Epoch 010 | Step 480 | lr=2.447174e-05 | loss=0.205842
-Epoch 010 | Step 490 | lr=2.447174e-05 | loss=0.232313
-Epoch 010 | Step 500 | lr=2.447174e-05 | loss=0.207264
-Epoch 010 | Step 510 | lr=2.447174e-05 | loss=0.222531
-Epoch 010 | Step 520 | lr=2.447174e-05 | loss=0.206795
-Epoch 010 | Step 530 | lr=2.447174e-05 | loss=0.218175
-Epoch 010 | Step 540 | lr=2.447174e-05 | loss=0.220550
-Epoch 010 | Step 550 | lr=2.447174e-05 | loss=0.218882
-Epoch 010 | Step 560 | lr=2.447174e-05 | loss=0.232360
-Epoch 010 | Step 570 | lr=2.447174e-05 | loss=0.205041
-Epoch 010 | Step 580 | lr=2.447174e-05 | loss=0.227003
-Epoch 010 | Step 590 | lr=2.447174e-05 | loss=0.208821
-Epoch 010 | Step 600 | lr=2.447174e-05 | loss=0.228464
-Epoch 010 | Step 610 | lr=2.447174e-05 | loss=0.224580
-Epoch 010 | Step 620 | lr=2.447174e-05 | loss=0.231417
-Epoch 010 | Step 630 | lr=2.447174e-05 | loss=0.216461
-Epoch 010 | Step 640 | lr=2.447174e-05 | loss=0.216261
-Epoch 010 | Step 650 | lr=2.447174e-05 | loss=0.221078
-Epoch 010 | Step 660 | lr=2.447174e-05 | loss=0.215323
-Epoch 010 | Step 670 | lr=2.447174e-05 | loss=0.226818
-Epoch 010 | Step 680 | lr=2.447174e-05 | loss=0.218631
-Epoch 010 | Step 690 | lr=2.447174e-05 | loss=0.220364
-Epoch 010 | Step 700 | lr=2.447174e-05 | loss=0.219407
-Epoch 010 | Step 710 | lr=2.447174e-05 | loss=0.205580
-Epoch 010 | Step 720 | lr=2.447174e-05 | loss=0.219878
-Epoch 010 | Step 730 | lr=2.447174e-05 | loss=0.224752
-Epoch 010 | Step 740 | lr=2.447174e-05 | loss=0.226430
-Epoch 010 | Step 750 | lr=2.447174e-05 | loss=0.211203
-Epoch 010 | Step 760 | lr=2.447174e-05 | loss=0.226213
-Epoch 010 | Step 770 | lr=2.447174e-05 | loss=0.225796
-Epoch 010 | Step 780 | lr=2.447174e-05 | loss=0.209982
-Epoch 010 | Step 790 | lr=2.447174e-05 | loss=0.209114
-Epoch 010 | Step 800 | lr=2.447174e-05 | loss=0.223233
-Epoch 010 | Step 810 | lr=2.447174e-05 | loss=0.201037
-Epoch 010 | Step 820 | lr=2.447174e-05 | loss=0.208239
-Epoch 010 | Step 830 | lr=2.447174e-05 | loss=0.208881
-Epoch 010 | Step 840 | lr=2.447174e-05 | loss=0.212522
-Epoch 010 | Step 850 | lr=2.447174e-05 | loss=0.213360
-Epoch 010 | Step 860 | lr=2.447174e-05 | loss=0.215720
-Epoch 010 | Step 870 | lr=2.447174e-05 | loss=0.218470
-Epoch 010 | Step 880 | lr=2.447174e-05 | loss=0.215528
-Epoch 010 | Step 890 | lr=2.447174e-05 | loss=0.213109
-Epoch 010 | Step 900 | lr=2.447174e-05 | loss=0.219421
-Epoch 010 | Step 910 | lr=2.447174e-05 | loss=0.223402
-Epoch 010 | Step 920 | lr=2.447174e-05 | loss=0.217013
-Epoch 010 | Step 930 | lr=2.447174e-05 | loss=0.227751
-Epoch 010 | Step 940 | lr=2.447174e-05 | loss=0.201795
-Epoch 010 | Step 950 | lr=2.447174e-05 | loss=0.210007
-Epoch 010 | Step 960 | lr=2.447174e-05 | loss=0.220199
-epoch 010 | train_kld=0.215417 | val_kld=0.220421 | val_mae=0.003184 | val_mse=0.000154 | ord_acc@10=0.3170 | recall@10=0.8257
-Saved epoch 1 batch metrics plot to input/Training_data/gist1M_learn/leafsize20K/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingTrue_loss_typekld_reverse/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingTrue_loss_typekld_reverse_epoch1_batch_metrics@10.png
-Saved epoch metrics plot to input/Training_data/gist1M_learn/leafsize20K/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingTrue_loss_typekld_reverse/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingTrue_loss_typekld_reverse_epoch_metrics.png
-best val_kld: 0.220421 at epoch 10
+Epoch 001 | Batch 10 | val_kld=10.478163 | val_ordacc@10=0.027280 | val_recall@10=0.306491
+Epoch 001 | Step 10 | lr=1.000000e-03 | loss=9.809797
+Epoch 001 | Batch 20 | val_kld=5.801908 | val_ordacc@10=0.051708 | val_recall@10=0.459351
+Epoch 001 | Step 20 | lr=1.000000e-03 | loss=6.576972
+Epoch 001 | Batch 30 | val_kld=2.894085 | val_ordacc@10=0.089793 | val_recall@10=0.577036
+Epoch 001 | Step 30 | lr=1.000000e-03 | loss=3.039118
+Epoch 001 | Batch 40 | val_kld=2.293857 | val_ordacc@10=0.111652 | val_recall@10=0.624855
+Epoch 001 | Step 40 | lr=1.000000e-03 | loss=2.693475
+Epoch 001 | Batch 50 | val_kld=1.944045 | val_ordacc@10=0.124503 | val_recall@10=0.653029
+Epoch 001 | Step 50 | lr=1.000000e-03 | loss=2.148692
+Epoch 001 | Batch 60 | val_kld=1.484238 | val_ordacc@10=0.136403 | val_recall@10=0.676328
+Epoch 001 | Step 60 | lr=1.000000e-03 | loss=1.681851
+Epoch 001 | Batch 70 | val_kld=1.405289 | val_ordacc@10=0.128792 | val_recall@10=0.662463
+Epoch 001 | Step 70 | lr=1.000000e-03 | loss=1.771016
+Epoch 001 | Batch 80 | val_kld=1.007347 | val_ordacc@10=0.175513 | val_recall@10=0.718476
+Epoch 001 | Step 80 | lr=1.000000e-03 | loss=1.195382
+Epoch 001 | Batch 90 | val_kld=0.864315 | val_ordacc@10=0.179601 | val_recall@10=0.718534
+Epoch 001 | Step 90 | lr=1.000000e-03 | loss=0.938998
+Epoch 001 | Batch 100 | val_kld=0.993377 | val_ordacc@10=0.151760 | val_recall@10=0.695285
+Epoch 001 | Step 100 | lr=1.000000e-03 | loss=1.232408
+Epoch 001 | Batch 110 | val_kld=0.885082 | val_ordacc@10=0.166967 | val_recall@10=0.728040
+Epoch 001 | Step 110 | lr=1.000000e-03 | loss=0.899179
+Epoch 001 | Batch 120 | val_kld=0.747518 | val_ordacc@10=0.199838 | val_recall@10=0.748195
+Epoch 001 | Step 120 | lr=1.000000e-03 | loss=0.818918
+Epoch 001 | Batch 130 | val_kld=0.813558 | val_ordacc@10=0.186344 | val_recall@10=0.732873
+Epoch 001 | Step 130 | lr=1.000000e-03 | loss=0.914856
+Epoch 001 | Batch 140 | val_kld=0.727634 | val_ordacc@10=0.197504 | val_recall@10=0.750695
+Epoch 001 | Step 140 | lr=1.000000e-03 | loss=0.771717
+Epoch 001 | Batch 150 | val_kld=0.747231 | val_ordacc@10=0.190483 | val_recall@10=0.743542
+Epoch 001 | Step 150 | lr=1.000000e-03 | loss=0.721748
+Epoch 001 | Batch 160 | val_kld=0.693368 | val_ordacc@10=0.205071 | val_recall@10=0.746760
+Epoch 001 | Step 160 | lr=1.000000e-03 | loss=0.774416
+Epoch 001 | Batch 170 | val_kld=0.678184 | val_ordacc@10=0.192465 | val_recall@10=0.744525
+Epoch 001 | Step 170 | lr=1.000000e-03 | loss=0.807701
+Epoch 001 | Batch 180 | val_kld=0.655878 | val_ordacc@10=0.208417 | val_recall@10=0.757549
+Epoch 001 | Step 180 | lr=1.000000e-03 | loss=0.680798
+Epoch 001 | Batch 190 | val_kld=0.704750 | val_ordacc@10=0.193803 | val_recall@10=0.747860
+Epoch 001 | Step 190 | lr=1.000000e-03 | loss=0.769847
+Epoch 001 | Batch 200 | val_kld=0.631847 | val_ordacc@10=0.211054 | val_recall@10=0.762358
+Epoch 001 | Step 200 | lr=1.000000e-03 | loss=0.652795
+Epoch 001 | Batch 210 | val_kld=0.612502 | val_ordacc@10=0.209377 | val_recall@10=0.761476
+Epoch 001 | Step 210 | lr=1.000000e-03 | loss=0.756856
+Epoch 001 | Batch 220 | val_kld=0.605386 | val_ordacc@10=0.215445 | val_recall@10=0.768646
+Epoch 001 | Step 220 | lr=1.000000e-03 | loss=0.675901
+Epoch 001 | Batch 230 | val_kld=0.576467 | val_ordacc@10=0.218813 | val_recall@10=0.768952
+Epoch 001 | Step 230 | lr=1.000000e-03 | loss=0.626440
+Epoch 001 | Batch 240 | val_kld=0.571488 | val_ordacc@10=0.216163 | val_recall@10=0.766509
+Epoch 001 | Step 240 | lr=1.000000e-03 | loss=0.654379
+Epoch 001 | Batch 250 | val_kld=0.533051 | val_ordacc@10=0.227741 | val_recall@10=0.775735
+Epoch 001 | Step 250 | lr=1.000000e-03 | loss=0.611776
+Epoch 001 | Batch 260 | val_kld=0.546003 | val_ordacc@10=0.213247 | val_recall@10=0.762896
+Epoch 001 | Step 260 | lr=1.000000e-03 | loss=0.631330
+Epoch 001 | Batch 270 | val_kld=0.515073 | val_ordacc@10=0.224760 | val_recall@10=0.775546
+Epoch 001 | Step 270 | lr=1.000000e-03 | loss=0.602323
+Epoch 001 | Batch 280 | val_kld=0.508386 | val_ordacc@10=0.222296 | val_recall@10=0.776147
+Epoch 001 | Step 280 | lr=1.000000e-03 | loss=0.595517
+Epoch 001 | Batch 290 | val_kld=0.508308 | val_ordacc@10=0.224526 | val_recall@10=0.776793
+Epoch 001 | Step 290 | lr=1.000000e-03 | loss=0.575509
+Epoch 001 | Batch 300 | val_kld=0.639258 | val_ordacc@10=0.189479 | val_recall@10=0.745621
+Epoch 001 | Step 300 | lr=1.000000e-03 | loss=0.548155
+Epoch 001 | Batch 310 | val_kld=0.523811 | val_ordacc@10=0.216303 | val_recall@10=0.771166
+Epoch 001 | Step 310 | lr=1.000000e-03 | loss=0.550459
+Epoch 001 | Batch 320 | val_kld=0.457876 | val_ordacc@10=0.240293 | val_recall@10=0.788458
+Epoch 001 | Step 320 | lr=1.000000e-03 | loss=0.532760
+Epoch 001 | Batch 330 | val_kld=0.464035 | val_ordacc@10=0.225781 | val_recall@10=0.784071
+Epoch 001 | Step 330 | lr=1.000000e-03 | loss=0.534225
+Epoch 001 | Batch 340 | val_kld=0.463168 | val_ordacc@10=0.237362 | val_recall@10=0.795582
+Epoch 001 | Step 340 | lr=1.000000e-03 | loss=0.509949
+Epoch 001 | Batch 350 | val_kld=0.459677 | val_ordacc@10=0.235401 | val_recall@10=0.785301
+Epoch 001 | Step 350 | lr=1.000000e-03 | loss=0.500900
+Epoch 001 | Batch 360 | val_kld=0.437430 | val_ordacc@10=0.234401 | val_recall@10=0.790958
+Epoch 001 | Step 360 | lr=1.000000e-03 | loss=0.495206
+Epoch 001 | Batch 370 | val_kld=0.454695 | val_ordacc@10=0.237130 | val_recall@10=0.779695
+Epoch 001 | Step 370 | lr=1.000000e-03 | loss=0.470622
+Epoch 001 | Batch 380 | val_kld=0.463551 | val_ordacc@10=0.236538 | val_recall@10=0.791824
+Epoch 001 | Step 380 | lr=1.000000e-03 | loss=0.488226
+Epoch 001 | Batch 390 | val_kld=0.439459 | val_ordacc@10=0.239241 | val_recall@10=0.793300
+Epoch 001 | Step 390 | lr=1.000000e-03 | loss=0.480082
+Epoch 001 | Batch 400 | val_kld=0.470899 | val_ordacc@10=0.231379 | val_recall@10=0.781215
+Epoch 001 | Step 400 | lr=1.000000e-03 | loss=0.510903
+Epoch 001 | Batch 410 | val_kld=0.441913 | val_ordacc@10=0.240742 | val_recall@10=0.792456
+Epoch 001 | Step 410 | lr=1.000000e-03 | loss=0.507601
+Epoch 001 | Batch 420 | val_kld=0.429116 | val_ordacc@10=0.244966 | val_recall@10=0.793317
+Epoch 001 | Step 420 | lr=1.000000e-03 | loss=0.485475
+Epoch 001 | Batch 430 | val_kld=0.413873 | val_ordacc@10=0.245754 | val_recall@10=0.792438
+Epoch 001 | Step 430 | lr=1.000000e-03 | loss=0.462158
+Epoch 001 | Batch 440 | val_kld=0.453766 | val_ordacc@10=0.238893 | val_recall@10=0.799111
+Epoch 001 | Step 440 | lr=1.000000e-03 | loss=0.474628
+Epoch 001 | Batch 450 | val_kld=0.401421 | val_ordacc@10=0.239842 | val_recall@10=0.793312
+Epoch 001 | Step 450 | lr=1.000000e-03 | loss=0.460545
+Epoch 001 | Batch 460 | val_kld=0.408821 | val_ordacc@10=0.237777 | val_recall@10=0.796954
+Epoch 001 | Step 460 | lr=1.000000e-03 | loss=0.444508
+Epoch 001 | Batch 470 | val_kld=0.397460 | val_ordacc@10=0.254096 | val_recall@10=0.799741
+Epoch 001 | Step 470 | lr=1.000000e-03 | loss=0.446889
+Epoch 001 | Batch 480 | val_kld=0.401391 | val_ordacc@10=0.252732 | val_recall@10=0.797059
+Epoch 001 | Step 480 | lr=1.000000e-03 | loss=0.424955
+Epoch 001 | Batch 490 | val_kld=0.411812 | val_ordacc@10=0.237697 | val_recall@10=0.779082
+Epoch 001 | Step 490 | lr=1.000000e-03 | loss=0.472466
+Epoch 001 | Batch 500 | val_kld=0.386673 | val_ordacc@10=0.250953 | val_recall@10=0.801940
+Epoch 001 | Step 500 | lr=1.000000e-03 | loss=0.398952
+Epoch 001 | Batch 510 | val_kld=0.402759 | val_ordacc@10=0.241259 | val_recall@10=0.793155
+Epoch 001 | Step 510 | lr=1.000000e-03 | loss=0.373315
+Epoch 001 | Batch 520 | val_kld=0.393425 | val_ordacc@10=0.249976 | val_recall@10=0.800423
+Epoch 001 | Step 520 | lr=1.000000e-03 | loss=0.415038
+Epoch 001 | Batch 530 | val_kld=0.401936 | val_ordacc@10=0.245225 | val_recall@10=0.807223
+Epoch 001 | Step 530 | lr=1.000000e-03 | loss=0.450323
+Epoch 001 | Batch 540 | val_kld=0.372530 | val_ordacc@10=0.252400 | val_recall@10=0.796833
+Epoch 001 | Step 540 | lr=1.000000e-03 | loss=0.414923
+Epoch 001 | Batch 550 | val_kld=0.369537 | val_ordacc@10=0.256046 | val_recall@10=0.804817
+Epoch 001 | Step 550 | lr=1.000000e-03 | loss=0.409669
+Epoch 001 | Batch 560 | val_kld=0.366552 | val_ordacc@10=0.255711 | val_recall@10=0.803863
+Epoch 001 | Step 560 | lr=1.000000e-03 | loss=0.406343
+Epoch 001 | Batch 570 | val_kld=0.362370 | val_ordacc@10=0.257652 | val_recall@10=0.805815
+Epoch 001 | Step 570 | lr=1.000000e-03 | loss=0.446560
+Epoch 001 | Batch 580 | val_kld=0.363343 | val_ordacc@10=0.263066 | val_recall@10=0.800725
+Epoch 001 | Step 580 | lr=1.000000e-03 | loss=0.377413
+Epoch 001 | Batch 590 | val_kld=0.365999 | val_ordacc@10=0.255682 | val_recall@10=0.806718
+Epoch 001 | Step 590 | lr=1.000000e-03 | loss=0.424474
+Epoch 001 | Batch 600 | val_kld=0.350949 | val_ordacc@10=0.262781 | val_recall@10=0.805433
+Epoch 001 | Step 600 | lr=1.000000e-03 | loss=0.378049
+Epoch 001 | Batch 610 | val_kld=0.354161 | val_ordacc@10=0.257317 | val_recall@10=0.808488
+Epoch 001 | Step 610 | lr=1.000000e-03 | loss=0.375066
+Epoch 001 | Batch 620 | val_kld=0.359941 | val_ordacc@10=0.257900 | val_recall@10=0.806124
+Epoch 001 | Step 620 | lr=1.000000e-03 | loss=0.450913
+Epoch 001 | Batch 630 | val_kld=0.357897 | val_ordacc@10=0.257733 | val_recall@10=0.804556
+Epoch 001 | Step 630 | lr=1.000000e-03 | loss=0.403229
+Epoch 001 | Batch 640 | val_kld=0.363180 | val_ordacc@10=0.255661 | val_recall@10=0.801977
+Epoch 001 | Step 640 | lr=1.000000e-03 | loss=0.385115
+Epoch 001 | Batch 650 | val_kld=0.344399 | val_ordacc@10=0.263425 | val_recall@10=0.808701
+Epoch 001 | Step 650 | lr=1.000000e-03 | loss=0.390455
+Epoch 001 | Batch 660 | val_kld=0.336228 | val_ordacc@10=0.263329 | val_recall@10=0.811661
+Epoch 001 | Step 660 | lr=1.000000e-03 | loss=0.394943
+Epoch 001 | Batch 670 | val_kld=0.362213 | val_ordacc@10=0.261996 | val_recall@10=0.803175
+Epoch 001 | Step 670 | lr=1.000000e-03 | loss=0.406735
+Epoch 001 | Batch 680 | val_kld=0.347953 | val_ordacc@10=0.257496 | val_recall@10=0.806558
+Epoch 001 | Step 680 | lr=1.000000e-03 | loss=0.389465
+Epoch 001 | Batch 690 | val_kld=0.345970 | val_ordacc@10=0.257421 | val_recall@10=0.808432
+Epoch 001 | Step 690 | lr=1.000000e-03 | loss=0.387373
+Epoch 001 | Batch 700 | val_kld=0.340031 | val_ordacc@10=0.261466 | val_recall@10=0.808450
+Epoch 001 | Step 700 | lr=1.000000e-03 | loss=0.370575
+Epoch 001 | Batch 710 | val_kld=0.337478 | val_ordacc@10=0.260818 | val_recall@10=0.808009
+Epoch 001 | Step 710 | lr=1.000000e-03 | loss=0.400477
+Epoch 001 | Batch 720 | val_kld=0.351725 | val_ordacc@10=0.255719 | val_recall@10=0.807827
+Epoch 001 | Step 720 | lr=1.000000e-03 | loss=0.383490
+Epoch 001 | Batch 730 | val_kld=0.345072 | val_ordacc@10=0.264375 | val_recall@10=0.804097
+Epoch 001 | Step 730 | lr=1.000000e-03 | loss=0.393158
+Epoch 001 | Batch 740 | val_kld=0.341704 | val_ordacc@10=0.259041 | val_recall@10=0.811246
+Epoch 001 | Step 740 | lr=1.000000e-03 | loss=0.395888
+Epoch 001 | Batch 750 | val_kld=0.340569 | val_ordacc@10=0.263185 | val_recall@10=0.809949
+Epoch 001 | Step 750 | lr=1.000000e-03 | loss=0.450145
+Epoch 001 | Batch 760 | val_kld=0.343232 | val_ordacc@10=0.265600 | val_recall@10=0.808825
+Epoch 001 | Step 760 | lr=1.000000e-03 | loss=0.436719
+Epoch 001 | Batch 770 | val_kld=0.335865 | val_ordacc@10=0.262032 | val_recall@10=0.804008
+Epoch 001 | Step 770 | lr=1.000000e-03 | loss=0.376725
+Epoch 001 | Batch 780 | val_kld=0.358129 | val_ordacc@10=0.251193 | val_recall@10=0.811806
+Epoch 001 | Step 780 | lr=1.000000e-03 | loss=0.373106
+Epoch 001 | Batch 790 | val_kld=0.327102 | val_ordacc@10=0.265362 | val_recall@10=0.811979
+Epoch 001 | Step 790 | lr=1.000000e-03 | loss=0.362730
+Epoch 001 | Batch 800 | val_kld=0.324130 | val_ordacc@10=0.266341 | val_recall@10=0.813349
+Epoch 001 | Step 800 | lr=1.000000e-03 | loss=0.375100
+Epoch 001 | Batch 810 | val_kld=0.329324 | val_ordacc@10=0.269955 | val_recall@10=0.811405
+Epoch 001 | Step 810 | lr=1.000000e-03 | loss=0.383320
+Epoch 001 | Batch 820 | val_kld=0.341943 | val_ordacc@10=0.257248 | val_recall@10=0.809394
+Epoch 001 | Step 820 | lr=1.000000e-03 | loss=0.370141
+Epoch 001 | Batch 830 | val_kld=0.374377 | val_ordacc@10=0.253017 | val_recall@10=0.796536
+Epoch 001 | Step 830 | lr=1.000000e-03 | loss=0.385769
+Epoch 001 | Batch 840 | val_kld=0.340023 | val_ordacc@10=0.263337 | val_recall@10=0.809488
+Epoch 001 | Step 840 | lr=1.000000e-03 | loss=0.416881
+Epoch 001 | Batch 850 | val_kld=0.332386 | val_ordacc@10=0.268388 | val_recall@10=0.818753
+Epoch 001 | Step 850 | lr=1.000000e-03 | loss=0.326446
+Epoch 001 | Batch 860 | val_kld=0.324080 | val_ordacc@10=0.268856 | val_recall@10=0.814407
+Epoch 001 | Step 860 | lr=1.000000e-03 | loss=0.366955
+Epoch 001 | Batch 870 | val_kld=0.325872 | val_ordacc@10=0.267557 | val_recall@10=0.810642
+Epoch 001 | Step 870 | lr=1.000000e-03 | loss=0.343792
+Epoch 001 | Batch 880 | val_kld=0.320828 | val_ordacc@10=0.270199 | val_recall@10=0.812934
+Epoch 001 | Step 880 | lr=1.000000e-03 | loss=0.340944
+Epoch 001 | Batch 890 | val_kld=0.340763 | val_ordacc@10=0.258878 | val_recall@10=0.803105
+Epoch 001 | Step 890 | lr=1.000000e-03 | loss=0.378625
+Epoch 001 | Batch 900 | val_kld=0.317853 | val_ordacc@10=0.270817 | val_recall@10=0.811918
+Epoch 001 | Step 900 | lr=1.000000e-03 | loss=0.369356
+Epoch 001 | Batch 910 | val_kld=0.330222 | val_ordacc@10=0.268227 | val_recall@10=0.812716
+Epoch 001 | Step 910 | lr=1.000000e-03 | loss=0.344559
+Epoch 001 | Batch 920 | val_kld=0.326824 | val_ordacc@10=0.269366 | val_recall@10=0.811962
+Epoch 001 | Step 920 | lr=1.000000e-03 | loss=0.346756
+Epoch 001 | Batch 930 | val_kld=0.328843 | val_ordacc@10=0.269029 | val_recall@10=0.815440
+Epoch 001 | Step 930 | lr=1.000000e-03 | loss=0.389952
+Epoch 001 | Batch 940 | val_kld=0.326125 | val_ordacc@10=0.266614 | val_recall@10=0.817121
+Epoch 001 | Step 940 | lr=1.000000e-03 | loss=0.325450
+Epoch 001 | Batch 950 | val_kld=0.316447 | val_ordacc@10=0.270220 | val_recall@10=0.811197
+Epoch 001 | Step 950 | lr=1.000000e-03 | loss=0.347581
+Epoch 001 | Batch 960 | val_kld=0.323670 | val_ordacc@10=0.271888 | val_recall@10=0.814028
+Epoch 001 | Step 960 | lr=1.000000e-03 | loss=0.339307
+epoch 001 | train_kld=0.821236 | val_kld=0.315026 | val_mae=0.004225 | val_mse=0.000369 | ord_acc@10=0.2731 | recall@10=0.8112
+Epoch 002 | Step 10 | lr=9.755283e-04 | loss=0.373971
+Epoch 002 | Step 20 | lr=9.755283e-04 | loss=0.337388
+Epoch 002 | Step 30 | lr=9.755283e-04 | loss=0.324689
+Epoch 002 | Step 40 | lr=9.755283e-04 | loss=0.322931
+Epoch 002 | Step 50 | lr=9.755283e-04 | loss=0.335694
+Epoch 002 | Step 60 | lr=9.755283e-04 | loss=0.335383
+Epoch 002 | Step 70 | lr=9.755283e-04 | loss=0.367899
+Epoch 002 | Step 80 | lr=9.755283e-04 | loss=0.324678
+Epoch 002 | Step 90 | lr=9.755283e-04 | loss=0.335219
+Epoch 002 | Step 100 | lr=9.755283e-04 | loss=0.329510
+Epoch 002 | Step 110 | lr=9.755283e-04 | loss=0.346272
+Epoch 002 | Step 120 | lr=9.755283e-04 | loss=0.349050
+Epoch 002 | Step 130 | lr=9.755283e-04 | loss=0.352989
+Epoch 002 | Step 140 | lr=9.755283e-04 | loss=0.314266
+Epoch 002 | Step 150 | lr=9.755283e-04 | loss=0.311596
+Epoch 002 | Step 160 | lr=9.755283e-04 | loss=0.340872
+Epoch 002 | Step 170 | lr=9.755283e-04 | loss=0.395479
+Epoch 002 | Step 180 | lr=9.755283e-04 | loss=0.355183
+Epoch 002 | Step 190 | lr=9.755283e-04 | loss=0.342700
+Epoch 002 | Step 200 | lr=9.755283e-04 | loss=0.341855
+Epoch 002 | Step 210 | lr=9.755283e-04 | loss=0.345532
+Epoch 002 | Step 220 | lr=9.755283e-04 | loss=0.352922
+Epoch 002 | Step 230 | lr=9.755283e-04 | loss=0.361543
+Epoch 002 | Step 240 | lr=9.755283e-04 | loss=0.333234
+Epoch 002 | Step 250 | lr=9.755283e-04 | loss=0.372688
+Epoch 002 | Step 260 | lr=9.755283e-04 | loss=0.320235
+Epoch 002 | Step 270 | lr=9.755283e-04 | loss=0.346572
+Epoch 002 | Step 280 | lr=9.755283e-04 | loss=0.319525
+Epoch 002 | Step 290 | lr=9.755283e-04 | loss=0.367954
+Epoch 002 | Step 300 | lr=9.755283e-04 | loss=0.324611
+Epoch 002 | Step 310 | lr=9.755283e-04 | loss=0.319432
+Epoch 002 | Step 320 | lr=9.755283e-04 | loss=0.384133
+Epoch 002 | Step 330 | lr=9.755283e-04 | loss=0.330227
+Epoch 002 | Step 340 | lr=9.755283e-04 | loss=0.321348
+Epoch 002 | Step 350 | lr=9.755283e-04 | loss=0.357032
+Epoch 002 | Step 360 | lr=9.755283e-04 | loss=0.304314
+Epoch 002 | Step 370 | lr=9.755283e-04 | loss=0.319497
+Epoch 002 | Step 380 | lr=9.755283e-04 | loss=0.372143
+Epoch 002 | Step 390 | lr=9.755283e-04 | loss=0.338410
+Epoch 002 | Step 400 | lr=9.755283e-04 | loss=0.331323
+Epoch 002 | Step 410 | lr=9.755283e-04 | loss=0.349089
+Epoch 002 | Step 420 | lr=9.755283e-04 | loss=0.336288
+Epoch 002 | Step 430 | lr=9.755283e-04 | loss=0.346848
+Epoch 002 | Step 440 | lr=9.755283e-04 | loss=0.316957
+Epoch 002 | Step 450 | lr=9.755283e-04 | loss=0.356177
+Epoch 002 | Step 460 | lr=9.755283e-04 | loss=0.345118
+Epoch 002 | Step 470 | lr=9.755283e-04 | loss=0.310832
+Epoch 002 | Step 480 | lr=9.755283e-04 | loss=0.318819
+Epoch 002 | Step 490 | lr=9.755283e-04 | loss=0.318147
+Epoch 002 | Step 500 | lr=9.755283e-04 | loss=0.319297
+Epoch 002 | Step 510 | lr=9.755283e-04 | loss=0.313578
+Epoch 002 | Step 520 | lr=9.755283e-04 | loss=0.329623
+Epoch 002 | Step 530 | lr=9.755283e-04 | loss=0.316578
+Epoch 002 | Step 540 | lr=9.755283e-04 | loss=0.330586
+Epoch 002 | Step 550 | lr=9.755283e-04 | loss=0.312673
+Epoch 002 | Step 560 | lr=9.755283e-04 | loss=0.309963
+Epoch 002 | Step 570 | lr=9.755283e-04 | loss=0.290541
+Epoch 002 | Step 580 | lr=9.755283e-04 | loss=0.331348
+Epoch 002 | Step 590 | lr=9.755283e-04 | loss=0.312932
+Epoch 002 | Step 600 | lr=9.755283e-04 | loss=0.322506
+Epoch 002 | Step 610 | lr=9.755283e-04 | loss=0.294802
+Epoch 002 | Step 620 | lr=9.755283e-04 | loss=0.341512
+Epoch 002 | Step 630 | lr=9.755283e-04 | loss=0.301151
+Epoch 002 | Step 640 | lr=9.755283e-04 | loss=0.312114
+Epoch 002 | Step 650 | lr=9.755283e-04 | loss=0.297637
+Epoch 002 | Step 660 | lr=9.755283e-04 | loss=0.295371
+Epoch 002 | Step 670 | lr=9.755283e-04 | loss=0.315580
+Epoch 002 | Step 680 | lr=9.755283e-04 | loss=0.303661
+Epoch 002 | Step 690 | lr=9.755283e-04 | loss=0.295469
+Epoch 002 | Step 700 | lr=9.755283e-04 | loss=0.319387
+Epoch 002 | Step 710 | lr=9.755283e-04 | loss=0.317425
+Epoch 002 | Step 720 | lr=9.755283e-04 | loss=0.313813
+Epoch 002 | Step 730 | lr=9.755283e-04 | loss=0.311330
+Epoch 002 | Step 740 | lr=9.755283e-04 | loss=0.318993
+Epoch 002 | Step 750 | lr=9.755283e-04 | loss=0.295435
+Epoch 002 | Step 760 | lr=9.755283e-04 | loss=0.314342
+Epoch 002 | Step 770 | lr=9.755283e-04 | loss=0.336287
+Epoch 002 | Step 780 | lr=9.755283e-04 | loss=0.301767
+Epoch 002 | Step 790 | lr=9.755283e-04 | loss=0.283199
+Epoch 002 | Step 800 | lr=9.755283e-04 | loss=0.334053
+Epoch 002 | Step 810 | lr=9.755283e-04 | loss=0.292829
+Epoch 002 | Step 820 | lr=9.755283e-04 | loss=0.328573
+Epoch 002 | Step 830 | lr=9.755283e-04 | loss=0.350250
+Epoch 002 | Step 840 | lr=9.755283e-04 | loss=0.328514
+Epoch 002 | Step 850 | lr=9.755283e-04 | loss=0.325857
+Epoch 002 | Step 860 | lr=9.755283e-04 | loss=0.322947
+Epoch 002 | Step 870 | lr=9.755283e-04 | loss=0.306158
+Epoch 002 | Step 880 | lr=9.755283e-04 | loss=0.311415
+Epoch 002 | Step 890 | lr=9.755283e-04 | loss=0.370702
+Epoch 002 | Step 900 | lr=9.755283e-04 | loss=0.310048
+Epoch 002 | Step 910 | lr=9.755283e-04 | loss=0.314727
+Epoch 002 | Step 920 | lr=9.755283e-04 | loss=0.341783
+Epoch 002 | Step 930 | lr=9.755283e-04 | loss=0.319658
+Epoch 002 | Step 940 | lr=9.755283e-04 | loss=0.336444
+Epoch 002 | Step 950 | lr=9.755283e-04 | loss=0.308612
+Epoch 002 | Step 960 | lr=9.755283e-04 | loss=0.300937
+epoch 002 | train_kld=0.326539 | val_kld=0.295513 | val_mae=0.003938 | val_mse=0.000308 | ord_acc@10=0.2830 | recall@10=0.8182
+Epoch 003 | Step 10 | lr=9.045085e-04 | loss=0.296870
+Epoch 003 | Step 20 | lr=9.045085e-04 | loss=0.321022
+Epoch 003 | Step 30 | lr=9.045085e-04 | loss=0.309971
+Epoch 003 | Step 40 | lr=9.045085e-04 | loss=0.343738
+Epoch 003 | Step 50 | lr=9.045085e-04 | loss=0.287611
+Epoch 003 | Step 60 | lr=9.045085e-04 | loss=0.306026
+Epoch 003 | Step 70 | lr=9.045085e-04 | loss=0.293071
+Epoch 003 | Step 80 | lr=9.045085e-04 | loss=0.283055
+Epoch 003 | Step 90 | lr=9.045085e-04 | loss=0.292554
+Epoch 003 | Step 100 | lr=9.045085e-04 | loss=0.305018
+Epoch 003 | Step 110 | lr=9.045085e-04 | loss=0.303997
+Epoch 003 | Step 120 | lr=9.045085e-04 | loss=0.326136
+Epoch 003 | Step 130 | lr=9.045085e-04 | loss=0.290381
+Epoch 003 | Step 140 | lr=9.045085e-04 | loss=0.307891
+Epoch 003 | Step 150 | lr=9.045085e-04 | loss=0.306538
+Epoch 003 | Step 160 | lr=9.045085e-04 | loss=0.301302
+Epoch 003 | Step 170 | lr=9.045085e-04 | loss=0.322255
+Epoch 003 | Step 180 | lr=9.045085e-04 | loss=0.317445
+Epoch 003 | Step 190 | lr=9.045085e-04 | loss=0.369364
+Epoch 003 | Step 200 | lr=9.045085e-04 | loss=0.301381
+Epoch 003 | Step 210 | lr=9.045085e-04 | loss=0.287148
+Epoch 003 | Step 220 | lr=9.045085e-04 | loss=0.311034
+Epoch 003 | Step 230 | lr=9.045085e-04 | loss=0.282719
+Epoch 003 | Step 240 | lr=9.045085e-04 | loss=0.281916
+Epoch 003 | Step 250 | lr=9.045085e-04 | loss=0.293307
+Epoch 003 | Step 260 | lr=9.045085e-04 | loss=0.314025
+Epoch 003 | Step 270 | lr=9.045085e-04 | loss=0.287787
+Epoch 003 | Step 280 | lr=9.045085e-04 | loss=0.295721
+Epoch 003 | Step 290 | lr=9.045085e-04 | loss=0.286789
+Epoch 003 | Step 300 | lr=9.045085e-04 | loss=0.314929
+Epoch 003 | Step 310 | lr=9.045085e-04 | loss=0.286825
+Epoch 003 | Step 320 | lr=9.045085e-04 | loss=0.283063
+Epoch 003 | Step 330 | lr=9.045085e-04 | loss=0.283744
+Epoch 003 | Step 340 | lr=9.045085e-04 | loss=0.298784
+Epoch 003 | Step 350 | lr=9.045085e-04 | loss=0.296172
+Epoch 003 | Step 360 | lr=9.045085e-04 | loss=0.306693
+Epoch 003 | Step 370 | lr=9.045085e-04 | loss=0.283336
+Epoch 003 | Step 380 | lr=9.045085e-04 | loss=0.276552
+Epoch 003 | Step 390 | lr=9.045085e-04 | loss=0.297649
+Epoch 003 | Step 400 | lr=9.045085e-04 | loss=0.302146
+Epoch 003 | Step 410 | lr=9.045085e-04 | loss=0.321064
+Epoch 003 | Step 420 | lr=9.045085e-04 | loss=0.301781
+Epoch 003 | Step 430 | lr=9.045085e-04 | loss=0.281898
+Epoch 003 | Step 440 | lr=9.045085e-04 | loss=0.285112
+Epoch 003 | Step 450 | lr=9.045085e-04 | loss=0.279495
+Epoch 003 | Step 460 | lr=9.045085e-04 | loss=0.286459
+Epoch 003 | Step 470 | lr=9.045085e-04 | loss=0.291239
+Epoch 003 | Step 480 | lr=9.045085e-04 | loss=0.278407
+Epoch 003 | Step 490 | lr=9.045085e-04 | loss=0.291334
+Epoch 003 | Step 500 | lr=9.045085e-04 | loss=0.297019
+Epoch 003 | Step 510 | lr=9.045085e-04 | loss=0.314666
+Epoch 003 | Step 520 | lr=9.045085e-04 | loss=0.285494
+Epoch 003 | Step 530 | lr=9.045085e-04 | loss=0.277479
+Epoch 003 | Step 540 | lr=9.045085e-04 | loss=0.329123
+Epoch 003 | Step 550 | lr=9.045085e-04 | loss=0.326787
+Epoch 003 | Step 560 | lr=9.045085e-04 | loss=0.295901
+Epoch 003 | Step 570 | lr=9.045085e-04 | loss=0.305417
+Epoch 003 | Step 580 | lr=9.045085e-04 | loss=0.288403
+Epoch 003 | Step 590 | lr=9.045085e-04 | loss=0.278614
+Epoch 003 | Step 600 | lr=9.045085e-04 | loss=0.311631
+Epoch 003 | Step 610 | lr=9.045085e-04 | loss=0.288016
+Epoch 003 | Step 620 | lr=9.045085e-04 | loss=0.271772
+Epoch 003 | Step 630 | lr=9.045085e-04 | loss=0.277099
+Epoch 003 | Step 640 | lr=9.045085e-04 | loss=0.291947
+Epoch 003 | Step 650 | lr=9.045085e-04 | loss=0.321591
+Epoch 003 | Step 660 | lr=9.045085e-04 | loss=0.267023
+Epoch 003 | Step 670 | lr=9.045085e-04 | loss=0.260921
+Epoch 003 | Step 680 | lr=9.045085e-04 | loss=0.281831
+Epoch 003 | Step 690 | lr=9.045085e-04 | loss=0.299402
+Epoch 003 | Step 700 | lr=9.045085e-04 | loss=0.300753
+Epoch 003 | Step 710 | lr=9.045085e-04 | loss=0.305689
+Epoch 003 | Step 720 | lr=9.045085e-04 | loss=0.270747
+Epoch 003 | Step 730 | lr=9.045085e-04 | loss=0.292271
+Epoch 003 | Step 740 | lr=9.045085e-04 | loss=0.284335
+Epoch 003 | Step 750 | lr=9.045085e-04 | loss=0.291510
+Epoch 003 | Step 760 | lr=9.045085e-04 | loss=0.280843
+Epoch 003 | Step 770 | lr=9.045085e-04 | loss=0.299484
+Epoch 003 | Step 780 | lr=9.045085e-04 | loss=0.286370
+Epoch 003 | Step 790 | lr=9.045085e-04 | loss=0.295802
+Epoch 003 | Step 800 | lr=9.045085e-04 | loss=0.293397
+Epoch 003 | Step 810 | lr=9.045085e-04 | loss=0.287938
+Epoch 003 | Step 820 | lr=9.045085e-04 | loss=0.280094
+Epoch 003 | Step 830 | lr=9.045085e-04 | loss=0.291843
+Epoch 003 | Step 840 | lr=9.045085e-04 | loss=0.292197
+Epoch 003 | Step 850 | lr=9.045085e-04 | loss=0.300566
+Epoch 003 | Step 860 | lr=9.045085e-04 | loss=0.294588
+Epoch 003 | Step 870 | lr=9.045085e-04 | loss=0.307596
+Epoch 003 | Step 880 | lr=9.045085e-04 | loss=0.316957
+Epoch 003 | Step 890 | lr=9.045085e-04 | loss=0.280540
+Epoch 003 | Step 900 | lr=9.045085e-04 | loss=0.267342
+Epoch 003 | Step 910 | lr=9.045085e-04 | loss=0.285770
+Epoch 003 | Step 920 | lr=9.045085e-04 | loss=0.296116
+Epoch 003 | Step 930 | lr=9.045085e-04 | loss=0.280613
+Epoch 003 | Step 940 | lr=9.045085e-04 | loss=0.281483
+Epoch 003 | Step 950 | lr=9.045085e-04 | loss=0.297456
+Epoch 003 | Step 960 | lr=9.045085e-04 | loss=0.275303
+epoch 003 | train_kld=0.300886 | val_kld=0.275641 | val_mae=0.003843 | val_mse=0.000287 | ord_acc@10=0.2897 | recall@10=0.8126
+Epoch 004 | Step 10 | lr=7.938926e-04 | loss=0.285819
+Epoch 004 | Step 20 | lr=7.938926e-04 | loss=0.292504
+Epoch 004 | Step 30 | lr=7.938926e-04 | loss=0.304576
+Epoch 004 | Step 40 | lr=7.938926e-04 | loss=0.325550
+Epoch 004 | Step 50 | lr=7.938926e-04 | loss=0.303056
+Epoch 004 | Step 60 | lr=7.938926e-04 | loss=0.300008
+Epoch 004 | Step 70 | lr=7.938926e-04 | loss=0.275314
+Epoch 004 | Step 80 | lr=7.938926e-04 | loss=0.287799
+Epoch 004 | Step 90 | lr=7.938926e-04 | loss=0.283964
+Epoch 004 | Step 100 | lr=7.938926e-04 | loss=0.303462
+Epoch 004 | Step 110 | lr=7.938926e-04 | loss=0.279307
+Epoch 004 | Step 120 | lr=7.938926e-04 | loss=0.272843
+Epoch 004 | Step 130 | lr=7.938926e-04 | loss=0.278416
+Epoch 004 | Step 140 | lr=7.938926e-04 | loss=0.272977
+Epoch 004 | Step 150 | lr=7.938926e-04 | loss=0.287742
+Epoch 004 | Step 160 | lr=7.938926e-04 | loss=0.283512
+Epoch 004 | Step 170 | lr=7.938926e-04 | loss=0.277369
+Epoch 004 | Step 180 | lr=7.938926e-04 | loss=0.274902
+Epoch 004 | Step 190 | lr=7.938926e-04 | loss=0.272105
+Epoch 004 | Step 200 | lr=7.938926e-04 | loss=0.289447
+Epoch 004 | Step 210 | lr=7.938926e-04 | loss=0.285394
+Epoch 004 | Step 220 | lr=7.938926e-04 | loss=0.282407
+Epoch 004 | Step 230 | lr=7.938926e-04 | loss=0.285124
+Epoch 004 | Step 240 | lr=7.938926e-04 | loss=0.281060
+Epoch 004 | Step 250 | lr=7.938926e-04 | loss=0.291286
+Epoch 004 | Step 260 | lr=7.938926e-04 | loss=0.299248
+Epoch 004 | Step 270 | lr=7.938926e-04 | loss=0.287978
+Epoch 004 | Step 280 | lr=7.938926e-04 | loss=0.288392
+Epoch 004 | Step 290 | lr=7.938926e-04 | loss=0.286784
+Epoch 004 | Step 300 | lr=7.938926e-04 | loss=0.267391
+Epoch 004 | Step 310 | lr=7.938926e-04 | loss=0.282904
+Epoch 004 | Step 320 | lr=7.938926e-04 | loss=0.269402
+Epoch 004 | Step 330 | lr=7.938926e-04 | loss=0.321212
+Epoch 004 | Step 340 | lr=7.938926e-04 | loss=0.286194
+Epoch 004 | Step 350 | lr=7.938926e-04 | loss=0.295798
+Epoch 004 | Step 360 | lr=7.938926e-04 | loss=0.276348
+Epoch 004 | Step 370 | lr=7.938926e-04 | loss=0.331113
+Epoch 004 | Step 380 | lr=7.938926e-04 | loss=0.264849
+Epoch 004 | Step 390 | lr=7.938926e-04 | loss=0.284016
+Epoch 004 | Step 400 | lr=7.938926e-04 | loss=0.278365
+Epoch 004 | Step 410 | lr=7.938926e-04 | loss=0.271683
+Epoch 004 | Step 420 | lr=7.938926e-04 | loss=0.290403
+Epoch 004 | Step 430 | lr=7.938926e-04 | loss=0.277681
+Epoch 004 | Step 440 | lr=7.938926e-04 | loss=0.278832
+Epoch 004 | Step 450 | lr=7.938926e-04 | loss=0.290073
+Epoch 004 | Step 460 | lr=7.938926e-04 | loss=0.289099
+Epoch 004 | Step 470 | lr=7.938926e-04 | loss=0.283280
+Epoch 004 | Step 480 | lr=7.938926e-04 | loss=0.288169
+Epoch 004 | Step 490 | lr=7.938926e-04 | loss=0.260585
+Epoch 004 | Step 500 | lr=7.938926e-04 | loss=0.307510
+Epoch 004 | Step 510 | lr=7.938926e-04 | loss=0.294280
+Epoch 004 | Step 520 | lr=7.938926e-04 | loss=0.307281
+Epoch 004 | Step 530 | lr=7.938926e-04 | loss=0.284747
+Epoch 004 | Step 540 | lr=7.938926e-04 | loss=0.281982
+Epoch 004 | Step 550 | lr=7.938926e-04 | loss=0.280207
+Epoch 004 | Step 560 | lr=7.938926e-04 | loss=0.272757
+Epoch 004 | Step 570 | lr=7.938926e-04 | loss=0.284822
+Epoch 004 | Step 580 | lr=7.938926e-04 | loss=0.262852
+Epoch 004 | Step 590 | lr=7.938926e-04 | loss=0.278920
+Epoch 004 | Step 600 | lr=7.938926e-04 | loss=0.280899
+Epoch 004 | Step 610 | lr=7.938926e-04 | loss=0.291268
+Epoch 004 | Step 620 | lr=7.938926e-04 | loss=0.271841
+Epoch 004 | Step 630 | lr=7.938926e-04 | loss=0.266695
+Epoch 004 | Step 640 | lr=7.938926e-04 | loss=0.273500
+Epoch 004 | Step 650 | lr=7.938926e-04 | loss=0.276486
+Epoch 004 | Step 660 | lr=7.938926e-04 | loss=0.284132
+Epoch 004 | Step 670 | lr=7.938926e-04 | loss=0.298727
+Epoch 004 | Step 680 | lr=7.938926e-04 | loss=0.282928
+Epoch 004 | Step 690 | lr=7.938926e-04 | loss=0.288154
+Epoch 004 | Step 700 | lr=7.938926e-04 | loss=0.308728
+Epoch 004 | Step 710 | lr=7.938926e-04 | loss=0.300583
+Epoch 004 | Step 720 | lr=7.938926e-04 | loss=0.306293
+Epoch 004 | Step 730 | lr=7.938926e-04 | loss=0.283468
+Epoch 004 | Step 740 | lr=7.938926e-04 | loss=0.259945
+Epoch 004 | Step 750 | lr=7.938926e-04 | loss=0.267439
+Epoch 004 | Step 760 | lr=7.938926e-04 | loss=0.299781
+Epoch 004 | Step 770 | lr=7.938926e-04 | loss=0.285935
+Epoch 004 | Step 780 | lr=7.938926e-04 | loss=0.293017
+Epoch 004 | Step 790 | lr=7.938926e-04 | loss=0.275949
+Epoch 004 | Step 800 | lr=7.938926e-04 | loss=0.290754
+Epoch 004 | Step 810 | lr=7.938926e-04 | loss=0.301005
+Epoch 004 | Step 820 | lr=7.938926e-04 | loss=0.349568
+Epoch 004 | Step 830 | lr=7.938926e-04 | loss=0.307292
+Epoch 004 | Step 840 | lr=7.938926e-04 | loss=0.277091
+Epoch 004 | Step 850 | lr=7.938926e-04 | loss=0.314993
+Epoch 004 | Step 860 | lr=7.938926e-04 | loss=0.280802
+Epoch 004 | Step 870 | lr=7.938926e-04 | loss=0.284457
+Epoch 004 | Step 880 | lr=7.938926e-04 | loss=0.269308
+Epoch 004 | Step 890 | lr=7.938926e-04 | loss=0.279641
+Epoch 004 | Step 900 | lr=7.938926e-04 | loss=0.275423
+Epoch 004 | Step 910 | lr=7.938926e-04 | loss=0.261824
+Epoch 004 | Step 920 | lr=7.938926e-04 | loss=0.308856
+Epoch 004 | Step 930 | lr=7.938926e-04 | loss=0.264357
+Epoch 004 | Step 940 | lr=7.938926e-04 | loss=0.247092
+Epoch 004 | Step 950 | lr=7.938926e-04 | loss=0.293752
+Epoch 004 | Step 960 | lr=7.938926e-04 | loss=0.288563
+epoch 004 | train_kld=0.286434 | val_kld=0.265680 | val_mae=0.003746 | val_mse=0.000266 | ord_acc@10=0.2951 | recall@10=0.8145
+Epoch 005 | Step 10 | lr=6.545085e-04 | loss=0.262156
+Epoch 005 | Step 20 | lr=6.545085e-04 | loss=0.273296
+Epoch 005 | Step 30 | lr=6.545085e-04 | loss=0.264328
+Epoch 005 | Step 40 | lr=6.545085e-04 | loss=0.278621
+Epoch 005 | Step 50 | lr=6.545085e-04 | loss=0.268976
+Epoch 005 | Step 60 | lr=6.545085e-04 | loss=0.282888
+Epoch 005 | Step 70 | lr=6.545085e-04 | loss=0.271044
+Epoch 005 | Step 80 | lr=6.545085e-04 | loss=0.271486
+Epoch 005 | Step 90 | lr=6.545085e-04 | loss=0.297128
+Epoch 005 | Step 100 | lr=6.545085e-04 | loss=0.262693
+Epoch 005 | Step 110 | lr=6.545085e-04 | loss=0.272472
+Epoch 005 | Step 120 | lr=6.545085e-04 | loss=0.269869
+Epoch 005 | Step 130 | lr=6.545085e-04 | loss=0.261195
+Epoch 005 | Step 140 | lr=6.545085e-04 | loss=0.272614
+Epoch 005 | Step 150 | lr=6.545085e-04 | loss=0.277667
+Epoch 005 | Step 160 | lr=6.545085e-04 | loss=0.270669
+Epoch 005 | Step 170 | lr=6.545085e-04 | loss=0.285262
+Epoch 005 | Step 180 | lr=6.545085e-04 | loss=0.266956
+Epoch 005 | Step 190 | lr=6.545085e-04 | loss=0.260236
+Epoch 005 | Step 200 | lr=6.545085e-04 | loss=0.274159
+Epoch 005 | Step 210 | lr=6.545085e-04 | loss=0.259526
+Epoch 005 | Step 220 | lr=6.545085e-04 | loss=0.268823
+Epoch 005 | Step 230 | lr=6.545085e-04 | loss=0.310082
+Epoch 005 | Step 240 | lr=6.545085e-04 | loss=0.264089
+Epoch 005 | Step 250 | lr=6.545085e-04 | loss=0.253598
+Epoch 005 | Step 260 | lr=6.545085e-04 | loss=0.263626
+Epoch 005 | Step 270 | lr=6.545085e-04 | loss=0.303938
+Epoch 005 | Step 280 | lr=6.545085e-04 | loss=0.263854
+Epoch 005 | Step 290 | lr=6.545085e-04 | loss=0.260120
+Epoch 005 | Step 300 | lr=6.545085e-04 | loss=0.275177
+Epoch 005 | Step 310 | lr=6.545085e-04 | loss=0.282207
+Epoch 005 | Step 320 | lr=6.545085e-04 | loss=0.270603
+Epoch 005 | Step 330 | lr=6.545085e-04 | loss=0.322935
+Epoch 005 | Step 340 | lr=6.545085e-04 | loss=0.282993
+Epoch 005 | Step 350 | lr=6.545085e-04 | loss=0.267371
+Epoch 005 | Step 360 | lr=6.545085e-04 | loss=0.273928
+Epoch 005 | Step 370 | lr=6.545085e-04 | loss=0.279508
+Epoch 005 | Step 380 | lr=6.545085e-04 | loss=0.262205
+Epoch 005 | Step 390 | lr=6.545085e-04 | loss=0.255549
+Epoch 005 | Step 400 | lr=6.545085e-04 | loss=0.287075
+Epoch 005 | Step 410 | lr=6.545085e-04 | loss=0.270790
+Epoch 005 | Step 420 | lr=6.545085e-04 | loss=0.316011
+Epoch 005 | Step 430 | lr=6.545085e-04 | loss=0.288402
+Epoch 005 | Step 440 | lr=6.545085e-04 | loss=0.306786
+Epoch 005 | Step 450 | lr=6.545085e-04 | loss=0.263872
+Epoch 005 | Step 460 | lr=6.545085e-04 | loss=0.296097
+Epoch 005 | Step 470 | lr=6.545085e-04 | loss=0.301509
+Epoch 005 | Step 480 | lr=6.545085e-04 | loss=0.288215
+Epoch 005 | Step 490 | lr=6.545085e-04 | loss=0.256120
+Epoch 005 | Step 500 | lr=6.545085e-04 | loss=0.269199
+Epoch 005 | Step 510 | lr=6.545085e-04 | loss=0.303646
+Epoch 005 | Step 520 | lr=6.545085e-04 | loss=0.272518
+Epoch 005 | Step 530 | lr=6.545085e-04 | loss=0.299792
+Epoch 005 | Step 540 | lr=6.545085e-04 | loss=0.270964
+Epoch 005 | Step 550 | lr=6.545085e-04 | loss=0.260516
+Epoch 005 | Step 560 | lr=6.545085e-04 | loss=0.269912
+Epoch 005 | Step 570 | lr=6.545085e-04 | loss=0.258752
+Epoch 005 | Step 580 | lr=6.545085e-04 | loss=0.301125
+Epoch 005 | Step 590 | lr=6.545085e-04 | loss=0.270742
+Epoch 005 | Step 600 | lr=6.545085e-04 | loss=0.299982
+Epoch 005 | Step 610 | lr=6.545085e-04 | loss=0.271875
+Epoch 005 | Step 620 | lr=6.545085e-04 | loss=0.272079
+Epoch 005 | Step 630 | lr=6.545085e-04 | loss=0.277146
+Epoch 005 | Step 640 | lr=6.545085e-04 | loss=0.272898
+Epoch 005 | Step 650 | lr=6.545085e-04 | loss=0.285408
+Epoch 005 | Step 660 | lr=6.545085e-04 | loss=0.271738
+Epoch 005 | Step 670 | lr=6.545085e-04 | loss=0.272994
+Epoch 005 | Step 680 | lr=6.545085e-04 | loss=0.282437
+Epoch 005 | Step 690 | lr=6.545085e-04 | loss=0.274126
+Epoch 005 | Step 700 | lr=6.545085e-04 | loss=0.275228
+Epoch 005 | Step 710 | lr=6.545085e-04 | loss=0.276243
+Epoch 005 | Step 720 | lr=6.545085e-04 | loss=0.260521
+Epoch 005 | Step 730 | lr=6.545085e-04 | loss=0.277441
+Epoch 005 | Step 740 | lr=6.545085e-04 | loss=0.255370
+Epoch 005 | Step 750 | lr=6.545085e-04 | loss=0.247204
+Epoch 005 | Step 760 | lr=6.545085e-04 | loss=0.268057
+Epoch 005 | Step 770 | lr=6.545085e-04 | loss=0.276825
+Epoch 005 | Step 780 | lr=6.545085e-04 | loss=0.271579
+Epoch 005 | Step 790 | lr=6.545085e-04 | loss=0.292534
+Epoch 005 | Step 800 | lr=6.545085e-04 | loss=0.272414
+Epoch 005 | Step 810 | lr=6.545085e-04 | loss=0.272797
+Epoch 005 | Step 820 | lr=6.545085e-04 | loss=0.263005
+Epoch 005 | Step 830 | lr=6.545085e-04 | loss=0.261123
+Epoch 005 | Step 840 | lr=6.545085e-04 | loss=0.255679
+Epoch 005 | Step 850 | lr=6.545085e-04 | loss=0.282151
+Epoch 005 | Step 860 | lr=6.545085e-04 | loss=0.262053
+Epoch 005 | Step 870 | lr=6.545085e-04 | loss=0.287820
+Epoch 005 | Step 880 | lr=6.545085e-04 | loss=0.256193
+Epoch 005 | Step 890 | lr=6.545085e-04 | loss=0.270564
+Epoch 005 | Step 900 | lr=6.545085e-04 | loss=0.263820
+Epoch 005 | Step 910 | lr=6.545085e-04 | loss=0.270892
+Epoch 005 | Step 920 | lr=6.545085e-04 | loss=0.256157
+Epoch 005 | Step 930 | lr=6.545085e-04 | loss=0.260270
+Epoch 005 | Step 940 | lr=6.545085e-04 | loss=0.260515
+Epoch 005 | Step 950 | lr=6.545085e-04 | loss=0.262551
+Epoch 005 | Step 960 | lr=6.545085e-04 | loss=0.265573
+epoch 005 | train_kld=0.273803 | val_kld=0.256192 | val_mae=0.003615 | val_mse=0.000249 | ord_acc@10=0.3000 | recall@10=0.8227
+Epoch 006 | Step 10 | lr=5.000000e-04 | loss=0.293407
+Epoch 006 | Step 20 | lr=5.000000e-04 | loss=0.264907
+Epoch 006 | Step 30 | lr=5.000000e-04 | loss=0.242365
+Epoch 006 | Step 40 | lr=5.000000e-04 | loss=0.276051
+Epoch 006 | Step 50 | lr=5.000000e-04 | loss=0.250890
+Epoch 006 | Step 60 | lr=5.000000e-04 | loss=0.259980
+Epoch 006 | Step 70 | lr=5.000000e-04 | loss=0.252850
+Epoch 006 | Step 80 | lr=5.000000e-04 | loss=0.265792
+Epoch 006 | Step 90 | lr=5.000000e-04 | loss=0.266495
+Epoch 006 | Step 100 | lr=5.000000e-04 | loss=0.254716
+Epoch 006 | Step 110 | lr=5.000000e-04 | loss=0.258737
+Epoch 006 | Step 120 | lr=5.000000e-04 | loss=0.263622
+Epoch 006 | Step 130 | lr=5.000000e-04 | loss=0.257737
+Epoch 006 | Step 140 | lr=5.000000e-04 | loss=0.254514
+Epoch 006 | Step 150 | lr=5.000000e-04 | loss=0.261491
+Epoch 006 | Step 160 | lr=5.000000e-04 | loss=0.281579
+Epoch 006 | Step 170 | lr=5.000000e-04 | loss=0.269374
+Epoch 006 | Step 180 | lr=5.000000e-04 | loss=0.266608
+Epoch 006 | Step 190 | lr=5.000000e-04 | loss=0.315334
+Epoch 006 | Step 200 | lr=5.000000e-04 | loss=0.312950
+Epoch 006 | Step 210 | lr=5.000000e-04 | loss=0.290830
+Epoch 006 | Step 220 | lr=5.000000e-04 | loss=0.262893
+Epoch 006 | Step 230 | lr=5.000000e-04 | loss=0.256214
+Epoch 006 | Step 240 | lr=5.000000e-04 | loss=0.267249
+Epoch 006 | Step 250 | lr=5.000000e-04 | loss=0.264692
+Epoch 006 | Step 260 | lr=5.000000e-04 | loss=0.267890
+Epoch 006 | Step 270 | lr=5.000000e-04 | loss=0.272333
+Epoch 006 | Step 280 | lr=5.000000e-04 | loss=0.251374
+Epoch 006 | Step 290 | lr=5.000000e-04 | loss=0.251414
+Epoch 006 | Step 300 | lr=5.000000e-04 | loss=0.250232
+Epoch 006 | Step 310 | lr=5.000000e-04 | loss=0.266061
+Epoch 006 | Step 320 | lr=5.000000e-04 | loss=0.267504
+Epoch 006 | Step 330 | lr=5.000000e-04 | loss=0.250258
+Epoch 006 | Step 340 | lr=5.000000e-04 | loss=0.251796
+Epoch 006 | Step 350 | lr=5.000000e-04 | loss=0.249440
+Epoch 006 | Step 360 | lr=5.000000e-04 | loss=0.249615
+Epoch 006 | Step 370 | lr=5.000000e-04 | loss=0.255493
+Epoch 006 | Step 380 | lr=5.000000e-04 | loss=0.253108
+Epoch 006 | Step 390 | lr=5.000000e-04 | loss=0.262364
+Epoch 006 | Step 400 | lr=5.000000e-04 | loss=0.252302
+Epoch 006 | Step 410 | lr=5.000000e-04 | loss=0.259990
+Epoch 006 | Step 420 | lr=5.000000e-04 | loss=0.268808
+Epoch 006 | Step 430 | lr=5.000000e-04 | loss=0.242853
+Epoch 006 | Step 440 | lr=5.000000e-04 | loss=0.244813
+Epoch 006 | Step 450 | lr=5.000000e-04 | loss=0.256381
+Epoch 006 | Step 460 | lr=5.000000e-04 | loss=0.258610
+Epoch 006 | Step 470 | lr=5.000000e-04 | loss=0.279640
+Epoch 006 | Step 480 | lr=5.000000e-04 | loss=0.293909
+Epoch 006 | Step 490 | lr=5.000000e-04 | loss=0.242825
+Epoch 006 | Step 500 | lr=5.000000e-04 | loss=0.257111
+Epoch 006 | Step 510 | lr=5.000000e-04 | loss=0.261696
+Epoch 006 | Step 520 | lr=5.000000e-04 | loss=0.256939
+Epoch 006 | Step 530 | lr=5.000000e-04 | loss=0.298582
+Epoch 006 | Step 540 | lr=5.000000e-04 | loss=0.246633
+Epoch 006 | Step 550 | lr=5.000000e-04 | loss=0.252098
+Epoch 006 | Step 560 | lr=5.000000e-04 | loss=0.247564
+Epoch 006 | Step 570 | lr=5.000000e-04 | loss=0.293002
+Epoch 006 | Step 580 | lr=5.000000e-04 | loss=0.263509
+Epoch 006 | Step 590 | lr=5.000000e-04 | loss=0.295561
+Epoch 006 | Step 600 | lr=5.000000e-04 | loss=0.261625
+Epoch 006 | Step 610 | lr=5.000000e-04 | loss=0.274670
+Epoch 006 | Step 620 | lr=5.000000e-04 | loss=0.258059
+Epoch 006 | Step 630 | lr=5.000000e-04 | loss=0.245895
+Epoch 006 | Step 640 | lr=5.000000e-04 | loss=0.252911
+Epoch 006 | Step 650 | lr=5.000000e-04 | loss=0.274968
+Epoch 006 | Step 660 | lr=5.000000e-04 | loss=0.251968
+Epoch 006 | Step 670 | lr=5.000000e-04 | loss=0.242091
+Epoch 006 | Step 680 | lr=5.000000e-04 | loss=0.262669
+Epoch 006 | Step 690 | lr=5.000000e-04 | loss=0.314135
+Epoch 006 | Step 700 | lr=5.000000e-04 | loss=0.254688
+Epoch 006 | Step 710 | lr=5.000000e-04 | loss=0.290036
+Epoch 006 | Step 720 | lr=5.000000e-04 | loss=0.249170
+Epoch 006 | Step 730 | lr=5.000000e-04 | loss=0.235079
+Epoch 006 | Step 740 | lr=5.000000e-04 | loss=0.263754
+Epoch 006 | Step 750 | lr=5.000000e-04 | loss=0.270357
+Epoch 006 | Step 760 | lr=5.000000e-04 | loss=0.242734
+Epoch 006 | Step 770 | lr=5.000000e-04 | loss=0.261593
+Epoch 006 | Step 780 | lr=5.000000e-04 | loss=0.264368
+Epoch 006 | Step 790 | lr=5.000000e-04 | loss=0.253428
+Epoch 006 | Step 800 | lr=5.000000e-04 | loss=0.255810
+Epoch 006 | Step 810 | lr=5.000000e-04 | loss=0.264520
+Epoch 006 | Step 820 | lr=5.000000e-04 | loss=0.240772
+Epoch 006 | Step 830 | lr=5.000000e-04 | loss=0.245182
+Epoch 006 | Step 840 | lr=5.000000e-04 | loss=0.268483
+Epoch 006 | Step 850 | lr=5.000000e-04 | loss=0.248486
+Epoch 006 | Step 860 | lr=5.000000e-04 | loss=0.265516
+Epoch 006 | Step 870 | lr=5.000000e-04 | loss=0.257372
+Epoch 006 | Step 880 | lr=5.000000e-04 | loss=0.279129
+Epoch 006 | Step 890 | lr=5.000000e-04 | loss=0.280667
+Epoch 006 | Step 900 | lr=5.000000e-04 | loss=0.268365
+Epoch 006 | Step 910 | lr=5.000000e-04 | loss=0.247511
+Epoch 006 | Step 920 | lr=5.000000e-04 | loss=0.244775
+Epoch 006 | Step 930 | lr=5.000000e-04 | loss=0.253293
+Epoch 006 | Step 940 | lr=5.000000e-04 | loss=0.291007
+Epoch 006 | Step 950 | lr=5.000000e-04 | loss=0.254659
+Epoch 006 | Step 960 | lr=5.000000e-04 | loss=0.259102
+epoch 006 | train_kld=0.263356 | val_kld=0.247344 | val_mae=0.003476 | val_mse=0.000225 | ord_acc@10=0.3011 | recall@10=0.8236
+Epoch 007 | Step 10 | lr=3.454915e-04 | loss=0.283022
+Epoch 007 | Step 20 | lr=3.454915e-04 | loss=0.266623
+Epoch 007 | Step 30 | lr=3.454915e-04 | loss=0.240930
+Epoch 007 | Step 40 | lr=3.454915e-04 | loss=0.224391
+Epoch 007 | Step 50 | lr=3.454915e-04 | loss=0.258028
+Epoch 007 | Step 60 | lr=3.454915e-04 | loss=0.266399
+Epoch 007 | Step 70 | lr=3.454915e-04 | loss=0.231140
+Epoch 007 | Step 80 | lr=3.454915e-04 | loss=0.256789
+Epoch 007 | Step 90 | lr=3.454915e-04 | loss=0.244297
+Epoch 007 | Step 100 | lr=3.454915e-04 | loss=0.235722
+Epoch 007 | Step 110 | lr=3.454915e-04 | loss=0.272293
+Epoch 007 | Step 120 | lr=3.454915e-04 | loss=0.260348
+Epoch 007 | Step 130 | lr=3.454915e-04 | loss=0.251542
+Epoch 007 | Step 140 | lr=3.454915e-04 | loss=0.241097
+Epoch 007 | Step 150 | lr=3.454915e-04 | loss=0.245583
+Epoch 007 | Step 160 | lr=3.454915e-04 | loss=0.248428
+Epoch 007 | Step 170 | lr=3.454915e-04 | loss=0.262294
+Epoch 007 | Step 180 | lr=3.454915e-04 | loss=0.232670
+Epoch 007 | Step 190 | lr=3.454915e-04 | loss=0.247726
+Epoch 007 | Step 200 | lr=3.454915e-04 | loss=0.259650
+Epoch 007 | Step 210 | lr=3.454915e-04 | loss=0.251852
+Epoch 007 | Step 220 | lr=3.454915e-04 | loss=0.259745
+Epoch 007 | Step 230 | lr=3.454915e-04 | loss=0.261872
+Epoch 007 | Step 240 | lr=3.454915e-04 | loss=0.235166
+Epoch 007 | Step 250 | lr=3.454915e-04 | loss=0.247316
+Epoch 007 | Step 260 | lr=3.454915e-04 | loss=0.262862
+Epoch 007 | Step 270 | lr=3.454915e-04 | loss=0.241807
+Epoch 007 | Step 280 | lr=3.454915e-04 | loss=0.241561
+Epoch 007 | Step 290 | lr=3.454915e-04 | loss=0.278974
+Epoch 007 | Step 300 | lr=3.454915e-04 | loss=0.255925
+Epoch 007 | Step 310 | lr=3.454915e-04 | loss=0.287196
+Epoch 007 | Step 320 | lr=3.454915e-04 | loss=0.239628
+Epoch 007 | Step 330 | lr=3.454915e-04 | loss=0.261548
+Epoch 007 | Step 340 | lr=3.454915e-04 | loss=0.274337
+Epoch 007 | Step 350 | lr=3.454915e-04 | loss=0.236969
+Epoch 007 | Step 360 | lr=3.454915e-04 | loss=0.234340
+Epoch 007 | Step 370 | lr=3.454915e-04 | loss=0.233723
+Epoch 007 | Step 380 | lr=3.454915e-04 | loss=0.256929
+Epoch 007 | Step 390 | lr=3.454915e-04 | loss=0.249340
+Epoch 007 | Step 400 | lr=3.454915e-04 | loss=0.254449
+Epoch 007 | Step 410 | lr=3.454915e-04 | loss=0.240721
+Epoch 007 | Step 420 | lr=3.454915e-04 | loss=0.245356
+Epoch 007 | Step 430 | lr=3.454915e-04 | loss=0.255008
+Epoch 007 | Step 440 | lr=3.454915e-04 | loss=0.263426
+Epoch 007 | Step 450 | lr=3.454915e-04 | loss=0.246926
+Epoch 007 | Step 460 | lr=3.454915e-04 | loss=0.240022
+Epoch 007 | Step 470 | lr=3.454915e-04 | loss=0.228700
+Epoch 007 | Step 480 | lr=3.454915e-04 | loss=0.258498
+Epoch 007 | Step 490 | lr=3.454915e-04 | loss=0.232794
+Epoch 007 | Step 500 | lr=3.454915e-04 | loss=0.251848
+Epoch 007 | Step 510 | lr=3.454915e-04 | loss=0.237800
+Epoch 007 | Step 520 | lr=3.454915e-04 | loss=0.240171
+Epoch 007 | Step 530 | lr=3.454915e-04 | loss=0.240292
+Epoch 007 | Step 540 | lr=3.454915e-04 | loss=0.237603
+Epoch 007 | Step 550 | lr=3.454915e-04 | loss=0.239493
+Epoch 007 | Step 560 | lr=3.454915e-04 | loss=0.251904
+Epoch 007 | Step 570 | lr=3.454915e-04 | loss=0.236739
+Epoch 007 | Step 580 | lr=3.454915e-04 | loss=0.230001
+Epoch 007 | Step 590 | lr=3.454915e-04 | loss=0.236287
+Epoch 007 | Step 600 | lr=3.454915e-04 | loss=0.237240
+Epoch 007 | Step 610 | lr=3.454915e-04 | loss=0.277599
+Epoch 007 | Step 620 | lr=3.454915e-04 | loss=0.280654
+Epoch 007 | Step 630 | lr=3.454915e-04 | loss=0.283769
+Epoch 007 | Step 640 | lr=3.454915e-04 | loss=0.248262
+Epoch 007 | Step 650 | lr=3.454915e-04 | loss=0.244714
+Epoch 007 | Step 660 | lr=3.454915e-04 | loss=0.254720
+Epoch 007 | Step 670 | lr=3.454915e-04 | loss=0.241626
+Epoch 007 | Step 680 | lr=3.454915e-04 | loss=0.275001
+Epoch 007 | Step 690 | lr=3.454915e-04 | loss=0.248463
+Epoch 007 | Step 700 | lr=3.454915e-04 | loss=0.237917
+Epoch 007 | Step 710 | lr=3.454915e-04 | loss=0.274659
+Epoch 007 | Step 720 | lr=3.454915e-04 | loss=0.261688
+Epoch 007 | Step 730 | lr=3.454915e-04 | loss=0.247917
+Epoch 007 | Step 740 | lr=3.454915e-04 | loss=0.253161
+Epoch 007 | Step 750 | lr=3.454915e-04 | loss=0.250527
+Epoch 007 | Step 760 | lr=3.454915e-04 | loss=0.254114
+Epoch 007 | Step 770 | lr=3.454915e-04 | loss=0.233827
+Epoch 007 | Step 780 | lr=3.454915e-04 | loss=0.286936
+Epoch 007 | Step 790 | lr=3.454915e-04 | loss=0.314374
+Epoch 007 | Step 800 | lr=3.454915e-04 | loss=0.235083
+Epoch 007 | Step 810 | lr=3.454915e-04 | loss=0.232292
+Epoch 007 | Step 820 | lr=3.454915e-04 | loss=0.261180
+Epoch 007 | Step 830 | lr=3.454915e-04 | loss=0.234505
+Epoch 007 | Step 840 | lr=3.454915e-04 | loss=0.254737
+Epoch 007 | Step 850 | lr=3.454915e-04 | loss=0.242780
+Epoch 007 | Step 860 | lr=3.454915e-04 | loss=0.240713
+Epoch 007 | Step 870 | lr=3.454915e-04 | loss=0.269227
+Epoch 007 | Step 880 | lr=3.454915e-04 | loss=0.251274
+Epoch 007 | Step 890 | lr=3.454915e-04 | loss=0.273095
+Epoch 007 | Step 900 | lr=3.454915e-04 | loss=0.243677
+Epoch 007 | Step 910 | lr=3.454915e-04 | loss=0.260970
+Epoch 007 | Step 920 | lr=3.454915e-04 | loss=0.281220
+Epoch 007 | Step 930 | lr=3.454915e-04 | loss=0.234408
+Epoch 007 | Step 940 | lr=3.454915e-04 | loss=0.236668
+Epoch 007 | Step 950 | lr=3.454915e-04 | loss=0.278229
+Epoch 007 | Step 960 | lr=3.454915e-04 | loss=0.241601
+epoch 007 | train_kld=0.252159 | val_kld=0.245882 | val_mae=0.003493 | val_mse=0.000224 | ord_acc@10=0.3016 | recall@10=0.8243
+Epoch 008 | Step 10 | lr=2.061074e-04 | loss=0.242235
+Epoch 008 | Step 20 | lr=2.061074e-04 | loss=0.228369
+Epoch 008 | Step 30 | lr=2.061074e-04 | loss=0.240548
+Epoch 008 | Step 40 | lr=2.061074e-04 | loss=0.259728
+Epoch 008 | Step 50 | lr=2.061074e-04 | loss=0.237087
+Epoch 008 | Step 60 | lr=2.061074e-04 | loss=0.242941
+Epoch 008 | Step 70 | lr=2.061074e-04 | loss=0.229057
+Epoch 008 | Step 80 | lr=2.061074e-04 | loss=0.242890
+Epoch 008 | Step 90 | lr=2.061074e-04 | loss=0.237465
+Epoch 008 | Step 100 | lr=2.061074e-04 | loss=0.251197
+Epoch 008 | Step 110 | lr=2.061074e-04 | loss=0.240664
+Epoch 008 | Step 120 | lr=2.061074e-04 | loss=0.236831
+Epoch 008 | Step 130 | lr=2.061074e-04 | loss=0.238408
+Epoch 008 | Step 140 | lr=2.061074e-04 | loss=0.217718
+Epoch 008 | Step 150 | lr=2.061074e-04 | loss=0.234238
+Epoch 008 | Step 160 | lr=2.061074e-04 | loss=0.244632
+Epoch 008 | Step 170 | lr=2.061074e-04 | loss=0.224809
+Epoch 008 | Step 180 | lr=2.061074e-04 | loss=0.238462
+Epoch 008 | Step 190 | lr=2.061074e-04 | loss=0.289011
+Epoch 008 | Step 200 | lr=2.061074e-04 | loss=0.241443
+Epoch 008 | Step 210 | lr=2.061074e-04 | loss=0.238108
+Epoch 008 | Step 220 | lr=2.061074e-04 | loss=0.243311
+Epoch 008 | Step 230 | lr=2.061074e-04 | loss=0.302668
+Epoch 008 | Step 240 | lr=2.061074e-04 | loss=0.242920
+Epoch 008 | Step 250 | lr=2.061074e-04 | loss=0.250266
+Epoch 008 | Step 260 | lr=2.061074e-04 | loss=0.225294
+Epoch 008 | Step 270 | lr=2.061074e-04 | loss=0.229062
+Epoch 008 | Step 280 | lr=2.061074e-04 | loss=0.242254
+Epoch 008 | Step 290 | lr=2.061074e-04 | loss=0.250710
+Epoch 008 | Step 300 | lr=2.061074e-04 | loss=0.230885
+Epoch 008 | Step 310 | lr=2.061074e-04 | loss=0.237904
+Epoch 008 | Step 320 | lr=2.061074e-04 | loss=0.248455
+Epoch 008 | Step 330 | lr=2.061074e-04 | loss=0.221796
+Epoch 008 | Step 340 | lr=2.061074e-04 | loss=0.233140
+Epoch 008 | Step 350 | lr=2.061074e-04 | loss=0.236968
+Epoch 008 | Step 360 | lr=2.061074e-04 | loss=0.278635
+Epoch 008 | Step 370 | lr=2.061074e-04 | loss=0.223343
+Epoch 008 | Step 380 | lr=2.061074e-04 | loss=0.234298
+Epoch 008 | Step 390 | lr=2.061074e-04 | loss=0.224892
+Epoch 008 | Step 400 | lr=2.061074e-04 | loss=0.237887
+Epoch 008 | Step 410 | lr=2.061074e-04 | loss=0.244173
+Epoch 008 | Step 420 | lr=2.061074e-04 | loss=0.239814
+Epoch 008 | Step 430 | lr=2.061074e-04 | loss=0.231807
+Epoch 008 | Step 440 | lr=2.061074e-04 | loss=0.237783
+Epoch 008 | Step 450 | lr=2.061074e-04 | loss=0.244762
+Epoch 008 | Step 460 | lr=2.061074e-04 | loss=0.224237
+Epoch 008 | Step 470 | lr=2.061074e-04 | loss=0.261511
+Epoch 008 | Step 480 | lr=2.061074e-04 | loss=0.250614
+Epoch 008 | Step 490 | lr=2.061074e-04 | loss=0.242829
+Epoch 008 | Step 500 | lr=2.061074e-04 | loss=0.250481
+Epoch 008 | Step 510 | lr=2.061074e-04 | loss=0.246584
+Epoch 008 | Step 520 | lr=2.061074e-04 | loss=0.239976
+Epoch 008 | Step 530 | lr=2.061074e-04 | loss=0.244273
+Epoch 008 | Step 540 | lr=2.061074e-04 | loss=0.265755
+Epoch 008 | Step 550 | lr=2.061074e-04 | loss=0.253472
+Epoch 008 | Step 560 | lr=2.061074e-04 | loss=0.243722
+Epoch 008 | Step 570 | lr=2.061074e-04 | loss=0.238061
+Epoch 008 | Step 580 | lr=2.061074e-04 | loss=0.234413
+Epoch 008 | Step 590 | lr=2.061074e-04 | loss=0.234534
+Epoch 008 | Step 600 | lr=2.061074e-04 | loss=0.236991
+Epoch 008 | Step 610 | lr=2.061074e-04 | loss=0.249761
+Epoch 008 | Step 620 | lr=2.061074e-04 | loss=0.245278
+Epoch 008 | Step 630 | lr=2.061074e-04 | loss=0.228145
+Epoch 008 | Step 640 | lr=2.061074e-04 | loss=0.229758
+Epoch 008 | Step 650 | lr=2.061074e-04 | loss=0.229367
+Epoch 008 | Step 660 | lr=2.061074e-04 | loss=0.237098
+Epoch 008 | Step 670 | lr=2.061074e-04 | loss=0.222961
+Epoch 008 | Step 680 | lr=2.061074e-04 | loss=0.222852
+Epoch 008 | Step 690 | lr=2.061074e-04 | loss=0.239787
+Epoch 008 | Step 700 | lr=2.061074e-04 | loss=0.238429
+Epoch 008 | Step 710 | lr=2.061074e-04 | loss=0.220754
+Epoch 008 | Step 720 | lr=2.061074e-04 | loss=0.249696
+Epoch 008 | Step 730 | lr=2.061074e-04 | loss=0.249848
+Epoch 008 | Step 740 | lr=2.061074e-04 | loss=0.227930
+Epoch 008 | Step 750 | lr=2.061074e-04 | loss=0.263990
+Epoch 008 | Step 760 | lr=2.061074e-04 | loss=0.245811
+Epoch 008 | Step 770 | lr=2.061074e-04 | loss=0.249276
+Epoch 008 | Step 780 | lr=2.061074e-04 | loss=0.234449
+Epoch 008 | Step 790 | lr=2.061074e-04 | loss=0.248579
+Epoch 008 | Step 800 | lr=2.061074e-04 | loss=0.228694
+Epoch 008 | Step 810 | lr=2.061074e-04 | loss=0.248490
+Epoch 008 | Step 820 | lr=2.061074e-04 | loss=0.232062
+Epoch 008 | Step 830 | lr=2.061074e-04 | loss=0.224837
+Epoch 008 | Step 840 | lr=2.061074e-04 | loss=0.235543
+Epoch 008 | Step 850 | lr=2.061074e-04 | loss=0.234634
+Epoch 008 | Step 860 | lr=2.061074e-04 | loss=0.223515
+Epoch 008 | Step 870 | lr=2.061074e-04 | loss=0.238207
+Epoch 008 | Step 880 | lr=2.061074e-04 | loss=0.250935
+Epoch 008 | Step 890 | lr=2.061074e-04 | loss=0.239439
+Epoch 008 | Step 900 | lr=2.061074e-04 | loss=0.231971
+Epoch 008 | Step 910 | lr=2.061074e-04 | loss=0.240509
+Epoch 008 | Step 920 | lr=2.061074e-04 | loss=0.219190
+Epoch 008 | Step 930 | lr=2.061074e-04 | loss=0.253381
+Epoch 008 | Step 940 | lr=2.061074e-04 | loss=0.236181
+Epoch 008 | Step 950 | lr=2.061074e-04 | loss=0.237630
+Epoch 008 | Step 960 | lr=2.061074e-04 | loss=0.249963
+epoch 008 | train_kld=0.242042 | val_kld=0.227880 | val_mae=0.003275 | val_mse=0.000172 | ord_acc@10=0.3128 | recall@10=0.8265
+Epoch 009 | Step 10 | lr=9.549150e-05 | loss=0.241522
+Epoch 009 | Step 20 | lr=9.549150e-05 | loss=0.232647
+Epoch 009 | Step 30 | lr=9.549150e-05 | loss=0.221919
+Epoch 009 | Step 40 | lr=9.549150e-05 | loss=0.226817
+Epoch 009 | Step 50 | lr=9.549150e-05 | loss=0.235199
+Epoch 009 | Step 60 | lr=9.549150e-05 | loss=0.255626
+Epoch 009 | Step 70 | lr=9.549150e-05 | loss=0.228319
+Epoch 009 | Step 80 | lr=9.549150e-05 | loss=0.258547
+Epoch 009 | Step 90 | lr=9.549150e-05 | loss=0.239374
+Epoch 009 | Step 100 | lr=9.549150e-05 | loss=0.217285
+Epoch 009 | Step 110 | lr=9.549150e-05 | loss=0.228429
+Epoch 009 | Step 120 | lr=9.549150e-05 | loss=0.225029
+Epoch 009 | Step 130 | lr=9.549150e-05 | loss=0.222541
+Epoch 009 | Step 140 | lr=9.549150e-05 | loss=0.236815
+Epoch 009 | Step 150 | lr=9.549150e-05 | loss=0.218839
+Epoch 009 | Step 160 | lr=9.549150e-05 | loss=0.251184
+Epoch 009 | Step 170 | lr=9.549150e-05 | loss=0.228393
+Epoch 009 | Step 180 | lr=9.549150e-05 | loss=0.219527
+Epoch 009 | Step 190 | lr=9.549150e-05 | loss=0.222722
+Epoch 009 | Step 200 | lr=9.549150e-05 | loss=0.219413
+Epoch 009 | Step 210 | lr=9.549150e-05 | loss=0.226365
+Epoch 009 | Step 220 | lr=9.549150e-05 | loss=0.212398
+Epoch 009 | Step 230 | lr=9.549150e-05 | loss=0.218992
+Epoch 009 | Step 240 | lr=9.549150e-05 | loss=0.233988
+Epoch 009 | Step 250 | lr=9.549150e-05 | loss=0.237383
+Epoch 009 | Step 260 | lr=9.549150e-05 | loss=0.222438
+Epoch 009 | Step 270 | lr=9.549150e-05 | loss=0.230540
+Epoch 009 | Step 280 | lr=9.549150e-05 | loss=0.226074
+Epoch 009 | Step 290 | lr=9.549150e-05 | loss=0.227390
+Epoch 009 | Step 300 | lr=9.549150e-05 | loss=0.234465
+Epoch 009 | Step 310 | lr=9.549150e-05 | loss=0.226648
+Epoch 009 | Step 320 | lr=9.549150e-05 | loss=0.211995
+Epoch 009 | Step 330 | lr=9.549150e-05 | loss=0.223575
+Epoch 009 | Step 340 | lr=9.549150e-05 | loss=0.231099
+Epoch 009 | Step 350 | lr=9.549150e-05 | loss=0.221265
+Epoch 009 | Step 360 | lr=9.549150e-05 | loss=0.246962
+Epoch 009 | Step 370 | lr=9.549150e-05 | loss=0.229908
+Epoch 009 | Step 380 | lr=9.549150e-05 | loss=0.208925
+Epoch 009 | Step 390 | lr=9.549150e-05 | loss=0.224686
+Epoch 009 | Step 400 | lr=9.549150e-05 | loss=0.233907
+Epoch 009 | Step 410 | lr=9.549150e-05 | loss=0.237825
+Epoch 009 | Step 420 | lr=9.549150e-05 | loss=0.222973
+Epoch 009 | Step 430 | lr=9.549150e-05 | loss=0.236555
+Epoch 009 | Step 440 | lr=9.549150e-05 | loss=0.229594
+Epoch 009 | Step 450 | lr=9.549150e-05 | loss=0.250442
+Epoch 009 | Step 460 | lr=9.549150e-05 | loss=0.222889
+Epoch 009 | Step 470 | lr=9.549150e-05 | loss=0.225408
+Epoch 009 | Step 480 | lr=9.549150e-05 | loss=0.229237
+Epoch 009 | Step 490 | lr=9.549150e-05 | loss=0.228497
+Epoch 009 | Step 500 | lr=9.549150e-05 | loss=0.234784
+Epoch 009 | Step 510 | lr=9.549150e-05 | loss=0.240109
+Epoch 009 | Step 520 | lr=9.549150e-05 | loss=0.229079
+Epoch 009 | Step 530 | lr=9.549150e-05 | loss=0.217310
+Epoch 009 | Step 540 | lr=9.549150e-05 | loss=0.217817
+Epoch 009 | Step 550 | lr=9.549150e-05 | loss=0.227377
+Epoch 009 | Step 560 | lr=9.549150e-05 | loss=0.226745
+Epoch 009 | Step 570 | lr=9.549150e-05 | loss=0.228747
+Epoch 009 | Step 580 | lr=9.549150e-05 | loss=0.208196
+Epoch 009 | Step 590 | lr=9.549150e-05 | loss=0.226784
+Epoch 009 | Step 600 | lr=9.549150e-05 | loss=0.222086
+Epoch 009 | Step 610 | lr=9.549150e-05 | loss=0.221834
+Epoch 009 | Step 620 | lr=9.549150e-05 | loss=0.230146
+Epoch 009 | Step 630 | lr=9.549150e-05 | loss=0.209934
+Epoch 009 | Step 640 | lr=9.549150e-05 | loss=0.225979
+Epoch 009 | Step 650 | lr=9.549150e-05 | loss=0.221052
+Epoch 009 | Step 660 | lr=9.549150e-05 | loss=0.211518
+Epoch 009 | Step 670 | lr=9.549150e-05 | loss=0.215754
+Epoch 009 | Step 680 | lr=9.549150e-05 | loss=0.217810
+Epoch 009 | Step 690 | lr=9.549150e-05 | loss=0.238624
+Epoch 009 | Step 700 | lr=9.549150e-05 | loss=0.228659
+Epoch 009 | Step 710 | lr=9.549150e-05 | loss=0.236179
+Epoch 009 | Step 720 | lr=9.549150e-05 | loss=0.239394
+Epoch 009 | Step 730 | lr=9.549150e-05 | loss=0.222735
+Epoch 009 | Step 740 | lr=9.549150e-05 | loss=0.231521
+Epoch 009 | Step 750 | lr=9.549150e-05 | loss=0.210202
+Epoch 009 | Step 760 | lr=9.549150e-05 | loss=0.228227
+Epoch 009 | Step 770 | lr=9.549150e-05 | loss=0.215377
+Epoch 009 | Step 780 | lr=9.549150e-05 | loss=0.251313
+Epoch 009 | Step 790 | lr=9.549150e-05 | loss=0.232626
+Epoch 009 | Step 800 | lr=9.549150e-05 | loss=0.215583
+Epoch 009 | Step 810 | lr=9.549150e-05 | loss=0.219065
+Epoch 009 | Step 820 | lr=9.549150e-05 | loss=0.226153
+Epoch 009 | Step 830 | lr=9.549150e-05 | loss=0.226206
+Epoch 009 | Step 840 | lr=9.549150e-05 | loss=0.217252
+Epoch 009 | Step 850 | lr=9.549150e-05 | loss=0.213390
+Epoch 009 | Step 860 | lr=9.549150e-05 | loss=0.218476
+Epoch 009 | Step 870 | lr=9.549150e-05 | loss=0.233389
+Epoch 009 | Step 880 | lr=9.549150e-05 | loss=0.228044
+Epoch 009 | Step 890 | lr=9.549150e-05 | loss=0.236361
+Epoch 009 | Step 900 | lr=9.549150e-05 | loss=0.225717
+Epoch 009 | Step 910 | lr=9.549150e-05 | loss=0.221968
+Epoch 009 | Step 920 | lr=9.549150e-05 | loss=0.222155
+Epoch 009 | Step 930 | lr=9.549150e-05 | loss=0.226574
+Epoch 009 | Step 940 | lr=9.549150e-05 | loss=0.229154
+Epoch 009 | Step 950 | lr=9.549150e-05 | loss=0.219259
+Epoch 009 | Step 960 | lr=9.549150e-05 | loss=0.224357
+epoch 009 | train_kld=0.226562 | val_kld=0.223970 | val_mae=0.003244 | val_mse=0.000168 | ord_acc@10=0.3166 | recall@10=0.8233
+Epoch 010 | Step 10 | lr=2.447174e-05 | loss=0.213872
+Epoch 010 | Step 20 | lr=2.447174e-05 | loss=0.235482
+Epoch 010 | Step 30 | lr=2.447174e-05 | loss=0.221309
+Epoch 010 | Step 40 | lr=2.447174e-05 | loss=0.230461
+Epoch 010 | Step 50 | lr=2.447174e-05 | loss=0.214005
+Epoch 010 | Step 60 | lr=2.447174e-05 | loss=0.226432
+Epoch 010 | Step 70 | lr=2.447174e-05 | loss=0.227285
+Epoch 010 | Step 80 | lr=2.447174e-05 | loss=0.212784
+Epoch 010 | Step 90 | lr=2.447174e-05 | loss=0.221405
+Epoch 010 | Step 100 | lr=2.447174e-05 | loss=0.213366
+Epoch 010 | Step 110 | lr=2.447174e-05 | loss=0.213934
+Epoch 010 | Step 120 | lr=2.447174e-05 | loss=0.213471
+Epoch 010 | Step 130 | lr=2.447174e-05 | loss=0.210343
+Epoch 010 | Step 140 | lr=2.447174e-05 | loss=0.217684
+Epoch 010 | Step 150 | lr=2.447174e-05 | loss=0.214062
+Epoch 010 | Step 160 | lr=2.447174e-05 | loss=0.216622
+Epoch 010 | Step 170 | lr=2.447174e-05 | loss=0.227437
+Epoch 010 | Step 180 | lr=2.447174e-05 | loss=0.231677
+Epoch 010 | Step 190 | lr=2.447174e-05 | loss=0.222753
+Epoch 010 | Step 200 | lr=2.447174e-05 | loss=0.217282
+Epoch 010 | Step 210 | lr=2.447174e-05 | loss=0.222314
+Epoch 010 | Step 220 | lr=2.447174e-05 | loss=0.220266
+Epoch 010 | Step 230 | lr=2.447174e-05 | loss=0.217716
+Epoch 010 | Step 240 | lr=2.447174e-05 | loss=0.213861
+Epoch 010 | Step 250 | lr=2.447174e-05 | loss=0.223743
+Epoch 010 | Step 260 | lr=2.447174e-05 | loss=0.214186
+Epoch 010 | Step 270 | lr=2.447174e-05 | loss=0.223964
+Epoch 010 | Step 280 | lr=2.447174e-05 | loss=0.254411
+Epoch 010 | Step 290 | lr=2.447174e-05 | loss=0.230759
+Epoch 010 | Step 300 | lr=2.447174e-05 | loss=0.238890
+Epoch 010 | Step 310 | lr=2.447174e-05 | loss=0.223009
+Epoch 010 | Step 320 | lr=2.447174e-05 | loss=0.229738
+Epoch 010 | Step 330 | lr=2.447174e-05 | loss=0.223848
+Epoch 010 | Step 340 | lr=2.447174e-05 | loss=0.219729
+Epoch 010 | Step 350 | lr=2.447174e-05 | loss=0.214312
+Epoch 010 | Step 360 | lr=2.447174e-05 | loss=0.221796
+Epoch 010 | Step 370 | lr=2.447174e-05 | loss=0.217385
+Epoch 010 | Step 380 | lr=2.447174e-05 | loss=0.216847
+Epoch 010 | Step 390 | lr=2.447174e-05 | loss=0.210557
+Epoch 010 | Step 400 | lr=2.447174e-05 | loss=0.218494
+Epoch 010 | Step 410 | lr=2.447174e-05 | loss=0.203455
+Epoch 010 | Step 420 | lr=2.447174e-05 | loss=0.227412
+Epoch 010 | Step 430 | lr=2.447174e-05 | loss=0.221408
+Epoch 010 | Step 440 | lr=2.447174e-05 | loss=0.212614
+Epoch 010 | Step 450 | lr=2.447174e-05 | loss=0.219728
+Epoch 010 | Step 460 | lr=2.447174e-05 | loss=0.216398
+Epoch 010 | Step 470 | lr=2.447174e-05 | loss=0.224806
+Epoch 010 | Step 480 | lr=2.447174e-05 | loss=0.232528
+Epoch 010 | Step 490 | lr=2.447174e-05 | loss=0.217229
+Epoch 010 | Step 500 | lr=2.447174e-05 | loss=0.226318
+Epoch 010 | Step 510 | lr=2.447174e-05 | loss=0.219899
+Epoch 010 | Step 520 | lr=2.447174e-05 | loss=0.225970
+Epoch 010 | Step 530 | lr=2.447174e-05 | loss=0.211718
+Epoch 010 | Step 540 | lr=2.447174e-05 | loss=0.224639
+Epoch 010 | Step 550 | lr=2.447174e-05 | loss=0.226564
+Epoch 010 | Step 560 | lr=2.447174e-05 | loss=0.222448
+Epoch 010 | Step 570 | lr=2.447174e-05 | loss=0.215438
+Epoch 010 | Step 580 | lr=2.447174e-05 | loss=0.216191
+Epoch 010 | Step 590 | lr=2.447174e-05 | loss=0.210256
+Epoch 010 | Step 600 | lr=2.447174e-05 | loss=0.222637
+Epoch 010 | Step 610 | lr=2.447174e-05 | loss=0.217998
+Epoch 010 | Step 620 | lr=2.447174e-05 | loss=0.215483
+Epoch 010 | Step 630 | lr=2.447174e-05 | loss=0.207561
+Epoch 010 | Step 640 | lr=2.447174e-05 | loss=0.218160
+Epoch 010 | Step 650 | lr=2.447174e-05 | loss=0.226613
+Epoch 010 | Step 660 | lr=2.447174e-05 | loss=0.219572
+Epoch 010 | Step 670 | lr=2.447174e-05 | loss=0.215223
+Epoch 010 | Step 680 | lr=2.447174e-05 | loss=0.207111
+Epoch 010 | Step 690 | lr=2.447174e-05 | loss=0.224979
+Epoch 010 | Step 700 | lr=2.447174e-05 | loss=0.225857
+Epoch 010 | Step 710 | lr=2.447174e-05 | loss=0.214900
+Epoch 010 | Step 720 | lr=2.447174e-05 | loss=0.214343
+Epoch 010 | Step 730 | lr=2.447174e-05 | loss=0.217499
+Epoch 010 | Step 740 | lr=2.447174e-05 | loss=0.218668
+Epoch 010 | Step 750 | lr=2.447174e-05 | loss=0.220593
+Epoch 010 | Step 760 | lr=2.447174e-05 | loss=0.232741
+Epoch 010 | Step 770 | lr=2.447174e-05 | loss=0.226531
+Epoch 010 | Step 780 | lr=2.447174e-05 | loss=0.226167
+Epoch 010 | Step 790 | lr=2.447174e-05 | loss=0.216888
+Epoch 010 | Step 800 | lr=2.447174e-05 | loss=0.211446
+Epoch 010 | Step 810 | lr=2.447174e-05 | loss=0.216443
+Epoch 010 | Step 820 | lr=2.447174e-05 | loss=0.208996
+Epoch 010 | Step 830 | lr=2.447174e-05 | loss=0.219565
+Epoch 010 | Step 840 | lr=2.447174e-05 | loss=0.213224
+Epoch 010 | Step 850 | lr=2.447174e-05 | loss=0.223685
+Epoch 010 | Step 860 | lr=2.447174e-05 | loss=0.210974
+Epoch 010 | Step 870 | lr=2.447174e-05 | loss=0.225188
+Epoch 010 | Step 880 | lr=2.447174e-05 | loss=0.211853
+Epoch 010 | Step 890 | lr=2.447174e-05 | loss=0.220535
+Epoch 010 | Step 900 | lr=2.447174e-05 | loss=0.214587
+Epoch 010 | Step 910 | lr=2.447174e-05 | loss=0.212350
+Epoch 010 | Step 920 | lr=2.447174e-05 | loss=0.218989
+Epoch 010 | Step 930 | lr=2.447174e-05 | loss=0.222288
+Epoch 010 | Step 940 | lr=2.447174e-05 | loss=0.237379
+Epoch 010 | Step 950 | lr=2.447174e-05 | loss=0.220059
+Epoch 010 | Step 960 | lr=2.447174e-05 | loss=0.214359
+epoch 010 | train_kld=0.221606 | val_kld=0.221141 | val_mae=0.003189 | val_mse=0.000159 | ord_acc@10=0.3181 | recall@10=0.8235
+Saved epoch 1 batch metrics plot to input/Training_data/gist1M_learn/leafsize20K/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingFalse_loss_typekld_reverse_use_type_embedTrue/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingFalse_loss_typekld_reverse_use_type_embedTrue_epoch1_batch_metrics@10.png
+Saved epoch metrics plot to input/Training_data/gist1M_learn/leafsize20K/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingFalse_loss_typekld_reverse_use_type_embedTrue/model_d256_L4_H8_ff512_topk10_bs512_ep10_lr0.001_wd0.01_bilinear_normalizeTrue_posTrue_gatingFalse_loss_typekld_reverse_use_type_embedTrue_epoch_metrics.png
+best val_kld: 0.221141 at epoch 10
