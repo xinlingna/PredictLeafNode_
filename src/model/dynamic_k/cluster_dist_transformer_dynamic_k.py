@@ -29,8 +29,8 @@ class DynamicKNPZClusterDataset(Dataset):
         k_values: List[int] = [1, 5, 10, 100],
         mode: str = "random",  # "random", "all", "specific"
         # 新增参数：支持用户提供的标签NPZ文件
-        queries_path: Optional[str] = None,
-        centroids_path: Optional[str] = None,
+        queries_path: Optional[str] = None, # 支持npz文件和npy文件
+        centroids_path: Optional[str] = None, # 支持npz文件和npy文件
         labels_path: Optional[str] = None,  # 包含所有K值标签的NPZ文件路径
     ):
         
@@ -95,25 +95,55 @@ class DynamicKNPZClusterDataset(Dataset):
                 
             if self.queries.size == 0:
                 raise ValueError(f"Empty queries array loaded from {queries_path}")
+                
+            # 验证查询向量的形状
+            if self.queries.ndim != 2:
+                raise ValueError(f"Queries must be 2D array [N, D], got shape {self.queries.shape}")
+                
+        except (FileNotFoundError, IOError) as e:
+            raise ValueError(f"Failed to load queries file {queries_path}: {str(e)}")
+        except (ValueError, KeyError) as e:
+            raise ValueError(f"Invalid queries data in {queries_path}: {str(e)}")
         except Exception as e:
-            raise ValueError(f"Failed to load queries from {queries_path}: {str(e)}")
+            raise ValueError(f"Unexpected error loading queries from {queries_path}: {str(e)}")
         
         # 加载质心向量
-        if centroids_path.endswith('.npz'):
-            centroids_data = np.load(centroids_path)
-            if 'centroids' in centroids_data:
-                self.centroids = centroids_data['centroids'].astype(np.float32)
-            else:
-                # 如果NPZ文件中没有'centroids'键，尝试使用第一个数组
-                key = list(centroids_data.keys())[0]
-                self.centroids = centroids_data[key].astype(np.float32)
-                print(f"Warning: 'centroids' key not found, using '{key}' as centroids")
-        else:
-            self.centroids = np.load(centroids_path).astype(np.float32)
+        try:
+            if centroids_path.endswith('.npz'): # npz文件
+                centroids_data = np.load(centroids_path)
+                if 'centroids' in centroids_data:
+                    self.centroids = centroids_data['centroids'].astype(np.float32)
+                else:
+                    # 如果NPZ文件中没有'centroids'键，尝试使用第一个数组
+                    if len(centroids_data.keys()) == 0:
+                        raise ValueError(f"Empty NPZ file: {centroids_path}")
+                    key = list(centroids_data.keys())[0]
+                    self.centroids = centroids_data[key].astype(np.float32)
+                    print(f"Warning: 'centroids' key not found, using '{key}' as centroids")
+            else: # npy文件
+                self.centroids = np.load(centroids_path).astype(np.float32)
+            
+            # 验证质心数据
+            if self.centroids.size == 0:
+                raise ValueError(f"Empty centroids array loaded from {centroids_path}")
+            if self.centroids.ndim != 2:
+                raise ValueError(f"Centroids must be 2D array [K, D], got shape {self.centroids.shape}")
+                
+        except (FileNotFoundError, IOError) as e:
+            raise ValueError(f"Failed to load centroids file {centroids_path}: {str(e)}")
+        except Exception as e:
+            raise ValueError(f"Error loading centroids from {centroids_path}: {str(e)}")
         
         # 加载多K值标签（从单个NPZ文件中）
         print(f"  Loading multi-K labels from: {labels_path}")
-        labels_data = np.load(labels_path)
+        try:
+            labels_data = np.load(labels_path)
+            if len(labels_data.keys()) == 0:
+                raise ValueError(f"Empty labels NPZ file: {labels_path}")
+        except (FileNotFoundError, IOError) as e:
+            raise ValueError(f"Failed to load labels file {labels_path}: {str(e)}")
+        except Exception as e:
+            raise ValueError(f"Error loading labels from {labels_path}: {str(e)}")
         
         self.multi_k_targets = {}
         for k in k_values:
@@ -323,8 +353,8 @@ class DynamicKClusterDistTransformer(nn.Module):
         
         self.score_type = score_type
         if score_type == "bilinear":
-            self.query_head = nn.Linear(d_model, d_model, bias=False)
-            self.centroid_head = nn.Linear(d_model, d_model, bias=False)
+            self.query_head = nn.Linear(d_model, d_model, bias=True)
+            self.centroid_head = nn.Linear(d_model, d_model, bias=True)
         elif score_type == "mlp":
             self.scorer = nn.Sequential(
                 nn.Linear(2 * d_model, d_model),
@@ -334,13 +364,48 @@ class DynamicKClusterDistTransformer(nn.Module):
         else:
             raise ValueError("score_type must be 'bilinear' or 'mlp'")
     
+    def _k_values_to_indices(self, k_values: torch.Tensor) -> torch.Tensor:
+        """
+        高效地将K值批量转换为对应的索引
+        
+        Args:
+            k_values: [B] K值tensor
+        Returns:
+            k_indices: [B] 对应的索引tensor
+        """
+        device = k_values.device
+        
+        # 创建K值到索引的映射tensor (在GPU上)
+        if not hasattr(self, '_k_values_tensor') or self._k_values_tensor.device != device:
+            self._k_values_tensor = torch.tensor(self.k_values, device=device, dtype=k_values.dtype)
+            self._k_indices_tensor = torch.arange(len(self.k_values), device=device, dtype=torch.long)
+        
+        # 验证输入K值的有效性
+        if torch.any(k_values < 0):
+            raise ValueError(f"K values must be non-negative, got: {k_values}")
+        
+        # 批量化处理：找到每个K值对应的索引
+        # 使用广播计算距离矩阵
+        distances = torch.abs(k_values.unsqueeze(1) - self._k_values_tensor.unsqueeze(0))  # [B, num_k_values]
+        closest_indices = torch.argmin(distances, dim=1)  # [B]
+        
+        # 验证是否找到了精确匹配
+        matched_k_values = self._k_values_tensor[closest_indices]
+        if not torch.allclose(k_values.float(), matched_k_values.float(), atol=1e-6):
+            mismatched = k_values[~torch.isclose(k_values.float(), matched_k_values.float(), atol=1e-6)]
+            if len(mismatched) > 0:
+                print(f"Warning: Some K values not found in supported list: {mismatched.unique().tolist()}")
+                print(f"Supported K values: {self.k_values}")
+        
+        return closest_indices
+    
     def forward(self, x: torch.Tensor, k_values: torch.Tensor = None) -> torch.Tensor:
         """
         Args:
-            x: [B, M+1, D] 输入特征，其中M是聚类数量
-            k_values: [B] K值，必须提供
+            x: [B, M+1, D] 输入特征,其中M是聚类数量
+            k_values: [B] K值,必须提供
         Returns:
-            logits: [B, M] 预测的聚类分布logits，M是聚类数量
+            logits: [B, M] 预测的聚类分布logits,M是聚类数量
         """
         bsz, seqlen, feat_dim = x.size()
         
@@ -348,15 +413,8 @@ class DynamicKClusterDistTransformer(nn.Module):
         if k_values is None:
             raise ValueError("k_values must be provided")
         
-        # 将K值转换为对应的索引
-        k_indices = torch.zeros_like(k_values)
-        for i, k_val in enumerate(k_values):
-            if k_val.item() in self.k_to_idx:
-                k_indices[i] = self.k_to_idx[k_val.item()]
-            else:
-                # 如果K值不在预定义列表中，使用最接近的K值
-                closest_k = min(self.k_values, key=lambda x: abs(x - k_val.item()))
-                k_indices[i] = self.k_to_idx[closest_k]
+        # 将K值转换为对应的索引 - 优化版本
+        k_indices = self._k_values_to_indices(k_values)
         
         # 获取K值嵌入
         k_embed = self.k_embedding(k_indices)  # [B, k_embed_dim]
@@ -367,7 +425,7 @@ class DynamicKClusterDistTransformer(nn.Module):
         # 为每个序列位置添加K值嵌入
         k_embed_expanded = k_embed.unsqueeze(1).expand(-1, seqlen, -1)  # [B, M+1, k_embed_dim]
         
-        # 拼接特征和K值嵌入
+        # 拼接特征和K值嵌入 - 这确保K值信息融入到每个token
         combined = torch.cat([feat_proj, k_embed_expanded], dim=-1)  # [B, M+1, d_model]
         
         # 最终投影
@@ -420,10 +478,10 @@ def build_dynamic_k_loaders(
     k_values: List[int] = [1, 5, 10, 100],
     mode: str = "random",
     # 新增参数：支持用户提供的标签文件
-    train_queries_path: Optional[str] = None,
-    train_labels_path: Optional[str] = None,
-    val_queries_path: Optional[str] = None,
-    val_labels_path: Optional[str] = None,
+    train_queries_path: Optional[str] = None, # 训练数据
+    train_labels_path: Optional[str] = None,  # 训练标签
+    val_queries_path: Optional[str] = None,  # 验证数据
+    val_labels_path: Optional[str] = None,  # 验证标签
 ):
     """构建支持动态K值的数据加载器
     
@@ -448,7 +506,7 @@ def build_dynamic_k_loaders(
         k_values: 支持的K值列表
         mode: 训练模式 ("all" 推荐, "random")
     """
-    # 加载质心
+    # 加载质心 npz文件或npy文件
     centroids = load_centroids(centroids_path) if centroids_path else None
     
     # 确定使用哪种数据格式
@@ -721,7 +779,7 @@ def train_dynamic_k(
         
         for batch_data in train_loader:
             if len(batch_data) == 3:
-                x, y, k_vals = batch_data
+                x, y, k_vals = batch_data  # x:[B,M+1,D] y：[B, M] k_vals:[B]
             else:
                 x, y = batch_data
                 k_vals = None
@@ -812,7 +870,7 @@ def train_dynamic_k(
                     lr_now = opt.param_groups[0]['lr']
                     # 安全地获取K值信息
                     if k_vals is not None:
-                        k_info = f" | k_vals={k_vals[:5].tolist()}"
+                        k_info = f" | k_vals={k_vals[:5].tolist()}" # 只输出前5个k_vals值
                     else:
                         k_info = " | k_vals=None"
                     print(f"Epoch {ep:03d} | Step {step_idx} | lr={lr_now:.6e} | loss={loss.item():.6f}{k_info}")
@@ -973,7 +1031,7 @@ def main():
         seed=args.seed,
         k_values=args.k_values, # 
         mode=args.training_mode,
-        # 新增的用户数据参数
+        # 用户数据参数
         train_queries_path=args.train_queries_path,
         train_labels_path=args.train_labels_path,
         val_queries_path=args.val_queries_path,
@@ -1091,25 +1149,37 @@ def main():
         test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, 
                                num_workers=args.num_workers, pin_memory=True)
         
-        # 为每个K值分别评估
+        # 为每个K值分别评估 - 优化版本
         print("\nEvaluating for each K value:")
-        for k_val in args.k_values:
-            # 过滤出特定K值的测试样本
-            k_specific_samples = []
-            for i in range(len(test_ds)):
+        
+        # 一次性收集所有测试样本并按K值分组
+        k_specific_samples = {k: [] for k in args.k_values}
+        
+        for i in range(len(test_ds)):
+            try:
                 x, y, k = test_ds[i]
-                if k == k_val:
-                    k_specific_samples.append((x, y, k))
-            
-            if k_specific_samples:
+                if k in k_specific_samples:
+                    k_specific_samples[k].append((x, y, k))
+            except Exception as e:
+                print(f"Warning: Skipping test sample {i} due to error: {e}")
+                continue
+        
+        # 为每个K值评估
+        for k_val in args.k_values:
+            if k_specific_samples[k_val]:
                 # 创建临时加载器
-                k_loader = DataLoader(k_specific_samples, batch_size=args.batch_size, 
+                k_loader = DataLoader(k_specific_samples[k_val], batch_size=args.batch_size, 
                                     shuffle=False, num_workers=0)
                 
-                kld, mae, mse, ordacc, recall = evaluate_dynamic_k(
-                    model, k_loader, device, topk=args.topk, loss_type=args.loss_type
-                )
-                print(f"[TEST K={k_val}] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | ord_acc@{args.topk}={ordacc:.4f} | recall@{args.topk}={recall:.4f}")
+                try:
+                    kld, mae, mse, ordacc, recall = evaluate_dynamic_k(
+                        model, k_loader, device, topk=args.topk, loss_type=args.loss_type
+                    )
+                    print(f"[TEST K={k_val}] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | ord_acc@{args.topk}={ordacc:.4f} | recall@{args.topk}={recall:.4f}")
+                except Exception as e:
+                    print(f"Error evaluating K={k_val}: {e}")
+            else:
+                print(f"[TEST K={k_val}] No test samples found")
         
         # 全体测试
         kld, mae, mse, ordacc, recall = evaluate_dynamic_k(
@@ -1181,36 +1251,34 @@ python -m src.model.cluster_dist_transformer_dynamic_k \
 #   - queries.npy: [N, D] 查询向量
 #   - centroids.npy: [K, D] 质心向量
 #   - labels.npz: 包含 targets_k1, targets_k5, targets_k10, targets_k100 等属性的NPZ文件
-#     每个属性为 [N, K] 形状，表示对应K值下每个query的最近邻在聚簇中的分布
+#     每个属性为 [N, K] 形状,表示对应K值下每个query的最近邻在聚簇中的分布
 
-python -m src.model.cluster_dist_transformer_dynamic_k \
-  --train_queries_path data/train_queries.npy \
-  --centroids_path data/centroids.npy \
-  --train_labels_path data/train_labels.npz \
-  --val_queries_path data/val_queries.npy \
-  --val_labels_path data/val_labels.npz \
+python -m src.model.dynamic_k.cluster_dist_transformer_dynamic_k \
+  --train_queries_path input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_queries.npz \
+  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+  --train_labels_path input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_labels.npz \
+  --val_split 0.1 \
   --normalize \
   --topk 10 \
   --epochs 20 \
-  --batch_size 512 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
-  --d_model 256 \
+  --batch_size 128 \
+  --lr 5e-4 \
+  --weight_decay 5e-3 \
+  --d_model 512 \
   --nhead 8 \
-  --num_layers 4 \
-  --dim_ff 512 \
+  --num_layers 6 \
+  --dim_ff 1024 \
   --dropout 0.1 \
   --score_type bilinear \
   --log_interval 10 \
   --pos_exist \
   --use_type_embed \
   --use_gating \
-  --k_values 1 5 10 100 \
+  --k_values 1 10 20 50 100 \
   --k_embed_dim 32 \
   --training_mode all \
   --loss_type kld \
-  --experiment_id user_data_v1
-
+  --experiment_id DynamicK_v1
 # 说明：
 # 1. 每个标签文件应包含 [N, K] 形状的数组,其中N是查询数量,K是聚类数量
 # 2. 每行标签与查询向量按顺序一一对应
