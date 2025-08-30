@@ -516,7 +516,7 @@ def train(
         
 
         for x, y in train_loader:
-            x = x.to(device)  # query的拼接方式：
+            x = x.to(device)
             y = y.to(device)
             opt.zero_grad(set_to_none=True)
             with torch.amp.autocast(device_type="cuda", enabled=amp and device.type == "cuda"):
@@ -686,11 +686,6 @@ def parse_args():
     p.add_argument("--num_workers", type=int, default=4, help="DataLoader workers")
     p.add_argument("--seed", type=int, default=42, help="Random seed")
     p.add_argument("--save_dir", type=str, default="./results", help="Directory to save synthetic data and models")
-    
-    # ===== 新增：实验标识符 =====
-    p.add_argument("--experiment_id", type=str, default=None, 
-                   help="Experiment identifier prefix for result directories (e.g., 'A', 'exp1', 'batch1')")
-    
     # model
     p.add_argument("--d_model", type=int, default=256, help="Transformer hidden size")
     p.add_argument("--nhead", type=int, default=8, help="Number of attention heads")
@@ -702,6 +697,7 @@ def parse_args():
     p.add_argument("--no_amp", action="store_true", help="Disable mixed precision")
     p.add_argument("--topk", type=int, default=10, help="Top-K for recall metric")
     p.add_argument("--log_interval", type=int, default=100, help="Steps between batch logs (0 to disable)")
+
 
     p.add_argument("--pos_exist", action="store_true", help="Whether to use positional encoding")
     p.add_argument("--use_type_embed", action="store_true", help="Whether to use type embedding")
@@ -759,22 +755,14 @@ def main():
     # Save checkpoints next to the centroids file
     ckpt_dir = os.path.dirname(args.centroids_path)
     os.makedirs(ckpt_dir, exist_ok=True)
-    
     # Build a descriptive checkpoint name using key hyperparameters
     ckpt_name = (
         f"model_d{args.d_model}_L{args.num_layers}_H{args.nhead}_ff{args.dim_ff}_topk{args.topk}"
         f"_bs{args.batch_size}_ep{args.epochs}_lr{args.lr}_wd{args.weight_decay}_{args.score_type}_normalize{args.normalize}"
         f"_pos{args.pos_exist}_gating{args.use_gating}_loss_type{args.loss_type}_use_type_embed{args.use_type_embed}.pt"
     )
-    
     # Create a subdirectory under ckpt_dir named after ckpt_name without the .pt suffix
     subdir_name = os.path.splitext(ckpt_name)[0]
-    
-    # ===== 新增：添加实验标识符前缀 =====
-    if args.experiment_id:
-        subdir_name = f"{args.experiment_id}_{subdir_name}"
-        print(f"Using experiment ID: {args.experiment_id}")
-    
     result_dir = os.path.join(ckpt_dir, subdir_name)
     os.makedirs(result_dir, exist_ok=True)
 
@@ -867,17 +855,6 @@ def main():
         )
         print(f"[TEST] kld={kld:.6f} | mae={mae:.6f} | mse={mse:.6f} | ord_acc@{args.topk}={ordacc:.4f} | recall@{args.topk}={recall:.4f}")
 
-        # 将模型预测的概率保存到文件中
-        print("Saving model predictions to file...")
-        model.eval()
-        out_pred = os.path.join(result_dir, os.path.basename(ckpt_name).rsplit('.', 1)[0] + "_pred.txt")
-        with torch.no_grad(), open(out_pred, "w") as f:
-            for x, _ in test_loader:
-                x = x.to(device)
-                probs = torch.softmax(model(x), dim=-1).cpu()
-                for row in probs:
-                    f.write(" ".join(f"{v.item():.6f}" for v in row) + "\n")
-        print(f"Saved predictions -> {out_pred}")
 
 if __name__ == "__main__":
     main()
@@ -971,13 +948,12 @@ python -m src.model.cluster_dist_transformer_original \
   --log_interval 10 \
   --pos_exist \
   --use_gating \
+  --loss_type pairwise_hinge \
   --pair_num_pos 2 \
   --pair_num_neg 15 \
-  --pair_margin 0.2 \
-  --loss_type pairwise_hinge \
-  --experiment_id A
-
+  --pair_margin 0.2
 '''
+
 
 '''
 python -m src.model.cluster_dist_transformer \

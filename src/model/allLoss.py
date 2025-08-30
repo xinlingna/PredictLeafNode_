@@ -141,7 +141,8 @@ def recall_focused_loss(logits: torch.Tensor, y: torch.Tensor, topk: int = 22) -
             
             # 计算所有对的损失
             pairwise_diff = missing_vals - wrong_vals  # [n_missing, n_wrong]
-            pairwise_loss = torch.nn.functional.softplus(margin - pairwise_diff)
+            print(f"pairwise_diff: {pairwise_diff}")
+            pairwise_loss = torch.nn.functional.softplus(margin - pairwise_diff) # 计算所有对的损失, 希望缺少和错误logit的差值大于margin
             recall_loss = recall_loss + pairwise_loss.sum()
     
     return recall_loss / B
@@ -151,7 +152,7 @@ def recall_focused_loss_batched(
     logits: torch.Tensor,
     y: torch.Tensor,
     topk: int = 22,
-    margin: float = 1.0,
+    margin: float = 0.5,
     reduction: str = "mean",
 ) -> torch.Tensor:
     """
@@ -194,6 +195,7 @@ def recall_focused_loss_batched(
 
     # 所有 (i, j) 的分数差：logits_i - logits_j
     diffs = logits.unsqueeze(2) - logits.unsqueeze(1)  # [B, K, K] - 梯度从这里传播
+    # print(f"diffs: {diffs}")
 
     # 仅保留 missing vs wrong 的组合
     pairwise_loss = torch.nn.functional.softplus(margin - diffs) * pair_mask.float()  # [B, K, K]
@@ -264,6 +266,10 @@ def _safe_normalize_rows(x: torch.Tensor, eps: float = 1e-12) -> torch.Tensor:
     s = x.sum(dim=-1, keepdim=True)
     return x / (s + eps)
 
+
+
+# 函数的本质：对logits做softmax，然后计算logits和targets的交叉熵
+# 交叉熵 = 熵 + KL散度
 def listnet_top1_loss(
     logits: torch.Tensor,
     targets: torch.Tensor,
@@ -291,6 +297,8 @@ def listnet_top1_loss(
     loss = -(P_tgt * torch.log(P_pred + eps)).sum(dim=-1).mean()
     return loss  # 对 logits 的梯度可通过 softmax 与 log 链式传递
 
+
+# Plackett–Luce 模型 定义排序概率
 def listmle_loss(
     logits: torch.Tensor,
     targets: torch.Tensor,
@@ -318,12 +326,11 @@ def listmle_loss(
     for j in range(M - 1, -1, -1):
         curr = s_sorted[:, j:j+1]
         running = curr if running is None else torch.logsumexp(
-            torch.cat([curr, running], dim=1), dim=1, keepdim=True
-        )
+            torch.cat([curr, running], dim=1), dim=1, keepdim=True)
         lse_suffix.append(running)
     lse_suffix = torch.cat(lse_suffix[::-1], dim=1)  # [B, M]
 
-    loss = -(s_sorted - lse_suffix).sum(dim=1).mean()
+    loss = -(s_sorted - lse_suffix).sum(dim=1).mean() # 逼迫模型打分函数让真实排序概率尽可能高
     return loss  # 对 logits 的梯度通过 gather->logsumexp 路径正常回传
 
 def pairwise_hinge_loss(
@@ -351,9 +358,9 @@ def pairwise_hinge_loss(
     _, pos_idx = torch.topk(targets, k=P, dim=-1)  # [B, P]
 
     # 构造负样本候选的权重（不依赖 logits），并做归一化（数值安全）
-    mask = torch.ones(B, K, dtype=torch.bool, device=logits.device)
-    mask.scatter_(1, pos_idx, False)
-    neg_weights = (1.0 - targets).clamp_min(0.0) * mask
+    mask = torch.ones(B, K, dtype=torch.bool, device=logits.device) # 构建一个元素值全是True的矩阵，形状为[B,K]
+    mask.scatter_(1, pos_idx, False) # 将pos_idx位置的元素设置为False，其他位置保持True
+    neg_weights = (1.0 - targets).clamp_min(0.0) * mask # 将targets中大于0的元素设置为0，其他位置保持1.0-targets
     neg_weights = _safe_normalize_rows(neg_weights)  # 若某行全 0，这里会均匀（不过通常上游应避免）
 
     # 负样本采样（不影响对 logits 的梯度）
@@ -365,7 +372,91 @@ def pairwise_hinge_loss(
     s_neg = torch.gather(logits, 1, neg_idx)  # [B, N]
 
     # pairwise margin：ReLU(margin - (s_p - s_n)) （对 logits 可微，分段线性）
-    diff = s_pos.unsqueeze(2) - s_neg.unsqueeze(1)  # [B, P, N]
+    diff = s_pos.unsqueeze(2) - s_neg.unsqueeze(1)  # 构造正负对 [B, P, N]
     loss = F.relu(margin - diff).mean()
     return loss
 # ========= /Ranking-Optimized Losses =========
+
+
+import torch
+import torch.nn.functional as F
+
+def _safe_normalize_rows(x: torch.Tensor, eps: float = 1e-12) -> torch.Tensor:
+    # 对每一行做归一化；若行和为 0，则回退为均匀分布（避免除零）
+    row_sum = x.sum(dim=1, keepdim=True)
+    zero_row = row_sum <= eps
+    # 均匀分布（仅在零行处启用）
+    uniform = torch.full_like(x, 1.0 / x.size(1))
+    normed = x / row_sum.clamp_min(eps)
+    return torch.where(zero_row, uniform, normed)
+
+def pairwise_hinge_loss_strict_pos(
+    logits: torch.Tensor,
+    targets: torch.Tensor,
+    num_pos: int = 1,     # 每行从正样本集合中最多取多少个用于配对（>0 才能被选）
+    num_neg: int = 20,    # 每行从负样本集合中最多采多少个用于配对（==0 才能被选）
+    margin: float = 0.1,
+) -> torch.Tensor:
+    """
+    修改要点：
+    - 正样本：严格定义为 targets > 0
+    - 负样本：严格定义为 targets == 0
+    - 正样本选择不依赖 logits；从正集合中选至多 num_pos 个（按 targets 值挑大的）
+    - 负样本只从 neg_mask 中采样；权重固定为 1（也可按需要改成别的先验）
+    - 仅对“有效行”（同时有正有负）计算 pairwise hinge；其他行贡献为 0
+    - 使用 pair_mask 只对有效的正-负对计算 ReLU(margin - (s_p - s_n)) 并做平均
+    """
+    assert logits.shape == targets.shape, "logits 和 targets 形状需一致 [B, K]"
+    B, K = logits.shape
+
+    device = logits.device
+    pos_mask = (targets > 0)
+    neg_mask = (targets == 0)
+
+    # 仅保留同时有正且有负的行；若全无有效行，返回与 logits 相连通的 0
+    valid_rows = pos_mask.any(dim=1) & neg_mask.any(dim=1)
+    if valid_rows.sum() == 0:
+        return logits.sum() * 0.0
+
+    # 过滤到有效行
+    logits_v  = logits[valid_rows]          # [Bv, K]
+    targets_v = targets[valid_rows]         # [Bv, K]
+    pos_mask_v = pos_mask[valid_rows]       # [Bv, K]
+    neg_mask_v = neg_mask[valid_rows]       # [Bv, K]
+    Bv = logits_v.size(0)
+
+    # ---------- 选正样本索引（只在 pos_mask 内部） ----------
+    # 用 -inf 屏蔽负位置后 topk；这样绝不会选到非正位置
+    # 对于正样本数量不足 num_pos 的行，topk 仍会返回 K 中的若干索引，
+    # 但我们稍后会用 pos_valid 掩掉无效位置，避免参与损失。
+    pos_scores = torch.where(pos_mask_v, targets_v, torch.tensor(float('-inf'), device=device))
+    P = min(num_pos, K)  # 统一一个上界，实际有效个数由 pos_valid 决定
+    P = max(P, 1)        # 至少取 1，方便张量形状；无效位置后续会被掩蔽
+    _, pos_idx = torch.topk(pos_scores, k=P, dim=1)  # [Bv, P]
+    s_pos = torch.gather(logits_v, 1, pos_idx)       # [Bv, P]
+    pos_valid = torch.gather(pos_mask_v, 1, pos_idx) # [Bv, P] 仅真正的正样本为 True
+
+    # ---------- 负样本采样（严格在 neg_mask 内） ----------
+    # 负样本权重：只给 neg_mask 处 1，其余 0；行归一化后用 multinomial 采样
+    neg_weights = neg_mask_v.float()
+    neg_weights = _safe_normalize_rows(neg_weights)
+    N = min(num_neg, K)
+    N = max(N, 1)
+    neg_idx = torch.multinomial(neg_weights, num_samples=N, replacement=True)  # [Bv, N]
+    s_neg = torch.gather(logits_v, 1, neg_idx)        # [Bv, N]
+    neg_valid = torch.gather(neg_mask_v, 1, neg_idx)  # [Bv, N] 理论上全 True，但保守起见保留
+
+    # ---------- 计算 pairwise hinge ----------
+    # diff[b, i, j] = s_pos[b, i] - s_neg[b, j]
+    diff = s_pos.unsqueeze(2) - s_neg.unsqueeze(1)    # [Bv, P, N]
+    pair_mask = (pos_valid.unsqueeze(2) & neg_valid.unsqueeze(1))  # [Bv, P, N]
+    hinge = F.relu(margin - diff)                     # [Bv, P, N]
+
+    # 只对有效的正-负对计入损失；若极端情况下没有有效对，则返回 0*
+    valid_counts = pair_mask.sum()
+    if valid_counts == 0:
+        return logits.sum() * 0.0
+
+    loss = (hinge * pair_mask.float()).sum() / valid_counts.float()
+    return loss
+
