@@ -1,0 +1,1308 @@
+/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/transformer.py:379: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+Using user data format:
+  Train queries: input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_queries.npz
+  Train labels: input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_labels.npz
+Detected K=116, D=960
+Supporting K values: [1, 10, 20, 50, 100]
+Using user data format for data loading
+Loading user data files:
+  Queries: input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_queries.npz
+  Centroids: input/Training_data/gist1M_learn/leafsize20K/centroids.npy
+  Labels: input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_labels.npz
+Warning: 'queries' key not found, using 'query_vectors' as queries
+  Loading multi-K labels from: input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_labels.npz
+  Loaded K=1 labels: targets_k1, shape=(500000, 116)
+  Loaded K=1 labels: shape=(500000, 116), sum_range=[1.000000, 1.000000]
+  Loaded K=10 labels: targets_k10, shape=(500000, 116)
+  Loaded K=10 labels: shape=(500000, 116), sum_range=[1.000000, 1.000000]
+  Loaded K=20 labels: targets_k20, shape=(500000, 116)
+  Loaded K=20 labels: shape=(500000, 116), sum_range=[1.000000, 1.000000]
+  Loaded K=50 labels: targets_k50, shape=(500000, 116)
+  Loaded K=50 labels: shape=(500000, 116), sum_range=[1.000000, 1.000000]
+  Loaded K=100 labels: targets_k100, shape=(500000, 116)
+  Loaded K=100 labels: shape=(500000, 116), sum_range=[1.000000, 1.000000]
+Using stratified split by K values to ensure balanced distribution
+  K=1: train=450000, val=50000
+  K=10: train=450000, val=50000
+  K=20: train=450000, val=50000
+  K=50: train=450000, val=50000
+  K=100: train=450000, val=50000
+Stratified split completed: train_size=2250000, val_size=250000
+Total samples per K-value: train=450000, val=50000
+
+ Training Configuration:
+  Original queries: 500000
+  K values: [1, 10, 20, 50, 100]
+  Training mode: all
+  Dataset size: 2500000
+  Expected size (N*K): 500000 * 5 = 2500000
+  Each query has 5 training samples (one per K value)
+  Batch size: 128
+  Batches per epoch: 17579
+
+Enabling torch.compile optimization...
+Using experiment ID: I
+/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/_inductor/compile_fx.py:167: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+  warnings.warn(
+Epoch 001 | Batch 10 | val_kld=2.168368 | val_ordacc@10=0.038586 | val_recall@10=0.335700
+Epoch 001 | Batch 20 | val_kld=1.565751 | val_ordacc@10=0.075932 | val_recall@10=0.460376
+Epoch 001 | Batch 30 | val_kld=1.418698 | val_ordacc@10=0.082217 | val_recall@10=0.477216
+Epoch 001 | Step 30 | lr=5.000000e-04 | loss=1.621956 | k_vals=[50, 100, 20, 100, 20]
+Epoch 001 | Batch 40 | val_kld=1.322459 | val_ordacc@10=0.090175 | val_recall@10=0.493352
+Epoch 001 | Batch 50 | val_kld=1.187041 | val_ordacc@10=0.103828 | val_recall@10=0.497322
+Epoch 001 | Batch 60 | val_kld=1.140632 | val_ordacc@10=0.110193 | val_recall@10=0.511775
+Epoch 001 | Step 60 | lr=5.000000e-04 | loss=1.294637 | k_vals=[1, 100, 1, 10, 50]
+Epoch 001 | Batch 70 | val_kld=1.120164 | val_ordacc@10=0.115849 | val_recall@10=0.526805
+Epoch 001 | Batch 80 | val_kld=1.136190 | val_ordacc@10=0.105001 | val_recall@10=0.521605
+Epoch 001 | Batch 90 | val_kld=1.100982 | val_ordacc@10=0.110602 | val_recall@10=0.524509
+Epoch 001 | Step 90 | lr=5.000000e-04 | loss=1.184750 | k_vals=[100, 20, 100, 20, 50]
+Epoch 001 | Batch 100 | val_kld=1.125627 | val_ordacc@10=0.102963 | val_recall@10=0.522690
+Epoch 001 | Batch 110 | val_kld=1.032569 | val_ordacc@10=0.119209 | val_recall@10=0.532898
+Epoch 001 | Batch 120 | val_kld=1.012984 | val_ordacc@10=0.121882 | val_recall@10=0.538981
+Epoch 001 | Step 120 | lr=5.000000e-04 | loss=1.008404 | k_vals=[100, 10, 100, 50, 10]
+Epoch 001 | Batch 130 | val_kld=1.009556 | val_ordacc@10=0.123095 | val_recall@10=0.536438
+Epoch 001 | Batch 140 | val_kld=1.037122 | val_ordacc@10=0.119636 | val_recall@10=0.532784
+Epoch 001 | Batch 150 | val_kld=1.126096 | val_ordacc@10=0.105493 | val_recall@10=0.528827
+Epoch 001 | Step 150 | lr=5.000000e-04 | loss=1.010406 | k_vals=[100, 50, 10, 1, 100]
+Epoch 001 | Batch 160 | val_kld=1.018624 | val_ordacc@10=0.118512 | val_recall@10=0.532087
+Epoch 001 | Batch 170 | val_kld=0.969075 | val_ordacc@10=0.131658 | val_recall@10=0.542994
+Epoch 001 | Batch 180 | val_kld=0.983197 | val_ordacc@10=0.126423 | val_recall@10=0.535736
+Epoch 001 | Step 180 | lr=5.000000e-04 | loss=1.054467 | k_vals=[20, 1, 20, 10, 100]
+Epoch 001 | Batch 190 | val_kld=0.966737 | val_ordacc@10=0.129756 | val_recall@10=0.539314
+Epoch 001 | Batch 200 | val_kld=1.005476 | val_ordacc@10=0.122127 | val_recall@10=0.544793
+Epoch 001 | Batch 210 | val_kld=0.968988 | val_ordacc@10=0.128052 | val_recall@10=0.535255
+Epoch 001 | Step 210 | lr=5.000000e-04 | loss=1.197106 | k_vals=[1, 1, 1, 50, 1]
+Epoch 001 | Batch 220 | val_kld=0.950586 | val_ordacc@10=0.131522 | val_recall@10=0.543437
+Epoch 001 | Batch 230 | val_kld=0.985142 | val_ordacc@10=0.120177 | val_recall@10=0.533947
+Epoch 001 | Batch 240 | val_kld=0.979182 | val_ordacc@10=0.127527 | val_recall@10=0.544932
+Epoch 001 | Step 240 | lr=5.000000e-04 | loss=0.879380 | k_vals=[1, 100, 10, 1, 100]
+Epoch 001 | Batch 250 | val_kld=1.017897 | val_ordacc@10=0.117146 | val_recall@10=0.542844
+Epoch 001 | Batch 260 | val_kld=0.948692 | val_ordacc@10=0.131837 | val_recall@10=0.544447
+Epoch 001 | Batch 270 | val_kld=0.967664 | val_ordacc@10=0.127397 | val_recall@10=0.542922
+Epoch 001 | Step 270 | lr=5.000000e-04 | loss=0.948999 | k_vals=[1, 20, 100, 50, 100]
+Epoch 001 | Batch 280 | val_kld=0.951182 | val_ordacc@10=0.129280 | val_recall@10=0.548008
+Epoch 001 | Batch 290 | val_kld=0.929694 | val_ordacc@10=0.135879 | val_recall@10=0.545708
+Epoch 001 | Batch 300 | val_kld=0.968999 | val_ordacc@10=0.124397 | val_recall@10=0.548340
+Epoch 001 | Step 300 | lr=5.000000e-04 | loss=1.148445 | k_vals=[50, 20, 10, 50, 20]
+Epoch 001 | Batch 310 | val_kld=0.950859 | val_ordacc@10=0.127070 | val_recall@10=0.542952
+Epoch 001 | Batch 320 | val_kld=0.932315 | val_ordacc@10=0.134635 | val_recall@10=0.543908
+Epoch 001 | Batch 330 | val_kld=0.947556 | val_ordacc@10=0.130123 | val_recall@10=0.543806
+Epoch 001 | Step 330 | lr=5.000000e-04 | loss=1.082348 | k_vals=[50, 20, 1, 1, 100]
+Epoch 001 | Batch 340 | val_kld=0.925682 | val_ordacc@10=0.133508 | val_recall@10=0.542855
+Epoch 001 | Batch 350 | val_kld=0.930176 | val_ordacc@10=0.135476 | val_recall@10=0.544252
+Epoch 001 | Batch 360 | val_kld=0.933192 | val_ordacc@10=0.131933 | val_recall@10=0.538304
+Epoch 001 | Step 360 | lr=5.000000e-04 | loss=0.998025 | k_vals=[50, 1, 50, 100, 10]
+Epoch 001 | Batch 370 | val_kld=0.925941 | val_ordacc@10=0.130628 | val_recall@10=0.555782
+Epoch 001 | Batch 380 | val_kld=0.923648 | val_ordacc@10=0.132678 | val_recall@10=0.554025
+Epoch 001 | Batch 390 | val_kld=0.901197 | val_ordacc@10=0.136548 | val_recall@10=0.549178
+Epoch 001 | Step 390 | lr=5.000000e-04 | loss=0.866083 | k_vals=[20, 10, 1, 10, 20]
+Epoch 001 | Batch 400 | val_kld=0.934117 | val_ordacc@10=0.133739 | val_recall@10=0.554877
+Epoch 001 | Batch 410 | val_kld=0.920692 | val_ordacc@10=0.134298 | val_recall@10=0.551476
+Epoch 001 | Batch 420 | val_kld=0.943811 | val_ordacc@10=0.127686 | val_recall@10=0.537704
+Epoch 001 | Step 420 | lr=5.000000e-04 | loss=0.932802 | k_vals=[10, 100, 20, 50, 100]
+Epoch 001 | Batch 430 | val_kld=0.902573 | val_ordacc@10=0.136312 | val_recall@10=0.553770
+Epoch 001 | Batch 440 | val_kld=0.932185 | val_ordacc@10=0.128014 | val_recall@10=0.540212
+Epoch 001 | Batch 450 | val_kld=0.896755 | val_ordacc@10=0.140421 | val_recall@10=0.551945
+Epoch 001 | Step 450 | lr=5.000000e-04 | loss=1.138121 | k_vals=[100, 10, 100, 50, 20]
+Epoch 001 | Batch 460 | val_kld=0.892515 | val_ordacc@10=0.141162 | val_recall@10=0.558429
+Epoch 001 | Batch 470 | val_kld=0.897472 | val_ordacc@10=0.140096 | val_recall@10=0.552594
+Epoch 001 | Batch 480 | val_kld=0.889784 | val_ordacc@10=0.139803 | val_recall@10=0.551819
+Epoch 001 | Step 480 | lr=5.000000e-04 | loss=0.900766 | k_vals=[10, 10, 1, 50, 100]
+Epoch 001 | Batch 490 | val_kld=0.915248 | val_ordacc@10=0.133567 | val_recall@10=0.552844
+Epoch 001 | Batch 500 | val_kld=0.922578 | val_ordacc@10=0.133721 | val_recall@10=0.545820
+Epoch 001 | Batch 510 | val_kld=0.903609 | val_ordacc@10=0.135188 | val_recall@10=0.549405
+Epoch 001 | Step 510 | lr=5.000000e-04 | loss=0.862438 | k_vals=[20, 1, 100, 1, 20]
+Epoch 001 | Batch 520 | val_kld=0.916249 | val_ordacc@10=0.131720 | val_recall@10=0.561688
+Epoch 001 | Batch 530 | val_kld=0.980584 | val_ordacc@10=0.121514 | val_recall@10=0.536658
+Epoch 001 | Batch 540 | val_kld=0.905182 | val_ordacc@10=0.136477 | val_recall@10=0.562469
+Epoch 001 | Step 540 | lr=5.000000e-04 | loss=0.848309 | k_vals=[1, 100, 100, 50, 20]
+Epoch 001 | Batch 550 | val_kld=0.895132 | val_ordacc@10=0.138098 | val_recall@10=0.555888
+Epoch 001 | Batch 560 | val_kld=0.912882 | val_ordacc@10=0.135192 | val_recall@10=0.562539
+Epoch 001 | Batch 570 | val_kld=0.890548 | val_ordacc@10=0.141133 | val_recall@10=0.554096
+Epoch 001 | Step 570 | lr=5.000000e-04 | loss=0.953111 | k_vals=[50, 100, 10, 1, 1]
+Epoch 001 | Batch 580 | val_kld=0.896376 | val_ordacc@10=0.136803 | val_recall@10=0.555813
+Epoch 001 | Batch 590 | val_kld=0.882156 | val_ordacc@10=0.140023 | val_recall@10=0.557956
+Epoch 001 | Batch 600 | val_kld=0.905612 | val_ordacc@10=0.135183 | val_recall@10=0.549943
+Epoch 001 | Step 600 | lr=5.000000e-04 | loss=0.954187 | k_vals=[100, 1, 10, 50, 20]
+Epoch 001 | Batch 610 | val_kld=0.871029 | val_ordacc@10=0.142964 | val_recall@10=0.556348
+Epoch 001 | Batch 620 | val_kld=0.895059 | val_ordacc@10=0.138668 | val_recall@10=0.560216
+Epoch 001 | Batch 630 | val_kld=0.901125 | val_ordacc@10=0.135813 | val_recall@10=0.551198
+Epoch 001 | Step 630 | lr=5.000000e-04 | loss=0.926416 | k_vals=[100, 100, 20, 10, 100]
+Epoch 001 | Batch 640 | val_kld=0.897863 | val_ordacc@10=0.135935 | val_recall@10=0.555863
+Epoch 001 | Batch 650 | val_kld=0.888216 | val_ordacc@10=0.138785 | val_recall@10=0.550572
+Epoch 001 | Batch 660 | val_kld=0.916640 | val_ordacc@10=0.131727 | val_recall@10=0.551502
+Epoch 001 | Step 660 | lr=5.000000e-04 | loss=0.949067 | k_vals=[100, 20, 10, 20, 50]
+Epoch 001 | Batch 670 | val_kld=0.880665 | val_ordacc@10=0.140001 | val_recall@10=0.556093
+Epoch 001 | Batch 680 | val_kld=0.878927 | val_ordacc@10=0.141413 | val_recall@10=0.555483
+Epoch 001 | Batch 690 | val_kld=0.898716 | val_ordacc@10=0.137452 | val_recall@10=0.560408
+Epoch 001 | Step 690 | lr=5.000000e-04 | loss=1.051773 | k_vals=[100, 10, 1, 1, 20]
+Epoch 001 | Batch 700 | val_kld=0.905358 | val_ordacc@10=0.136747 | val_recall@10=0.545997
+Epoch 001 | Batch 710 | val_kld=0.886777 | val_ordacc@10=0.139216 | val_recall@10=0.559703
+Epoch 001 | Batch 720 | val_kld=0.882756 | val_ordacc@10=0.138495 | val_recall@10=0.551240
+Epoch 001 | Step 720 | lr=5.000000e-04 | loss=0.965430 | k_vals=[1, 1, 10, 100, 20]
+Epoch 001 | Batch 730 | val_kld=0.869101 | val_ordacc@10=0.143554 | val_recall@10=0.561526
+Epoch 001 | Batch 740 | val_kld=0.864200 | val_ordacc@10=0.144004 | val_recall@10=0.567412
+Epoch 001 | Batch 750 | val_kld=0.869730 | val_ordacc@10=0.141990 | val_recall@10=0.559353
+Epoch 001 | Step 750 | lr=5.000000e-04 | loss=1.015908 | k_vals=[100, 100, 1, 1, 1]
+Epoch 001 | Batch 760 | val_kld=0.877473 | val_ordacc@10=0.140125 | val_recall@10=0.556570
+Epoch 001 | Batch 770 | val_kld=0.884659 | val_ordacc@10=0.137124 | val_recall@10=0.565482
+Epoch 001 | Batch 780 | val_kld=0.903102 | val_ordacc@10=0.136772 | val_recall@10=0.558682
+Epoch 001 | Step 780 | lr=5.000000e-04 | loss=1.047249 | k_vals=[1, 20, 10, 20, 20]
+Epoch 001 | Batch 790 | val_kld=0.873721 | val_ordacc@10=0.140348 | val_recall@10=0.563620
+Epoch 001 | Batch 800 | val_kld=0.904161 | val_ordacc@10=0.134165 | val_recall@10=0.562809
+Epoch 001 | Batch 810 | val_kld=0.891703 | val_ordacc@10=0.139430 | val_recall@10=0.562909
+Epoch 001 | Step 810 | lr=5.000000e-04 | loss=0.830446 | k_vals=[10, 100, 20, 50, 20]
+Epoch 001 | Batch 820 | val_kld=0.897522 | val_ordacc@10=0.138226 | val_recall@10=0.563007
+Epoch 001 | Batch 830 | val_kld=0.901463 | val_ordacc@10=0.133636 | val_recall@10=0.547965
+Epoch 001 | Batch 840 | val_kld=0.882662 | val_ordacc@10=0.138792 | val_recall@10=0.568677
+Epoch 001 | Step 840 | lr=5.000000e-04 | loss=0.785379 | k_vals=[100, 50, 10, 50, 10]
+Epoch 001 | Batch 850 | val_kld=0.866755 | val_ordacc@10=0.142210 | val_recall@10=0.554572
+Epoch 001 | Batch 860 | val_kld=0.877907 | val_ordacc@10=0.139261 | val_recall@10=0.554498
+Epoch 001 | Batch 870 | val_kld=0.916470 | val_ordacc@10=0.131947 | val_recall@10=0.552073
+Epoch 001 | Step 870 | lr=5.000000e-04 | loss=0.895187 | k_vals=[100, 1, 20, 100, 1]
+Epoch 001 | Batch 880 | val_kld=0.870456 | val_ordacc@10=0.141508 | val_recall@10=0.556091
+Epoch 001 | Batch 890 | val_kld=0.867515 | val_ordacc@10=0.143070 | val_recall@10=0.562595
+Epoch 001 | Batch 900 | val_kld=0.863501 | val_ordacc@10=0.141303 | val_recall@10=0.560466
+Epoch 001 | Step 900 | lr=5.000000e-04 | loss=0.951359 | k_vals=[20, 1, 20, 1, 1]
+Epoch 001 | Batch 910 | val_kld=0.874102 | val_ordacc@10=0.142476 | val_recall@10=0.564925
+Epoch 001 | Batch 920 | val_kld=0.901804 | val_ordacc@10=0.136738 | val_recall@10=0.555382
+Epoch 001 | Batch 930 | val_kld=0.900820 | val_ordacc@10=0.134896 | val_recall@10=0.562938
+Epoch 001 | Step 930 | lr=5.000000e-04 | loss=0.873881 | k_vals=[50, 20, 100, 10, 100]
+Epoch 001 | Batch 940 | val_kld=0.854516 | val_ordacc@10=0.144334 | val_recall@10=0.560667
+Epoch 001 | Batch 950 | val_kld=0.879597 | val_ordacc@10=0.138626 | val_recall@10=0.556850
+Epoch 001 | Batch 960 | val_kld=0.860589 | val_ordacc@10=0.143860 | val_recall@10=0.562547
+Epoch 001 | Step 960 | lr=5.000000e-04 | loss=0.914657 | k_vals=[20, 20, 10, 1, 10]
+Epoch 001 | Batch 970 | val_kld=0.853753 | val_ordacc@10=0.142524 | val_recall@10=0.556851
+Epoch 001 | Batch 980 | val_kld=0.874691 | val_ordacc@10=0.140693 | val_recall@10=0.563097
+Epoch 001 | Batch 990 | val_kld=0.865762 | val_ordacc@10=0.142518 | val_recall@10=0.561019
+Epoch 001 | Step 990 | lr=5.000000e-04 | loss=0.907507 | k_vals=[50, 100, 10, 100, 20]
+Epoch 001 | Batch 1000 | val_kld=0.874853 | val_ordacc@10=0.138336 | val_recall@10=0.564466
+Epoch 001 | Batch 1010 | val_kld=0.879268 | val_ordacc@10=0.141411 | val_recall@10=0.562532
+Epoch 001 | Batch 1020 | val_kld=0.866058 | val_ordacc@10=0.143165 | val_recall@10=0.566378
+Epoch 001 | Step 1020 | lr=5.000000e-04 | loss=0.848464 | k_vals=[50, 20, 10, 50, 1]
+Epoch 001 | Batch 1030 | val_kld=0.898736 | val_ordacc@10=0.134035 | val_recall@10=0.554240
+Epoch 001 | Batch 1040 | val_kld=0.867984 | val_ordacc@10=0.139267 | val_recall@10=0.564160
+Epoch 001 | Batch 1050 | val_kld=0.867594 | val_ordacc@10=0.142301 | val_recall@10=0.568769
+Epoch 001 | Step 1050 | lr=5.000000e-04 | loss=0.949026 | k_vals=[100, 50, 100, 100, 50]
+Epoch 001 | Batch 1060 | val_kld=0.871096 | val_ordacc@10=0.141936 | val_recall@10=0.553943
+Epoch 001 | Batch 1070 | val_kld=0.870289 | val_ordacc@10=0.141152 | val_recall@10=0.563182
+Epoch 001 | Batch 1080 | val_kld=0.858952 | val_ordacc@10=0.142141 | val_recall@10=0.560514
+Epoch 001 | Step 1080 | lr=5.000000e-04 | loss=0.810311 | k_vals=[50, 10, 20, 50, 20]
+Epoch 001 | Batch 1090 | val_kld=0.866463 | val_ordacc@10=0.141765 | val_recall@10=0.569555
+Epoch 001 | Batch 1100 | val_kld=0.858313 | val_ordacc@10=0.144281 | val_recall@10=0.560717
+Epoch 001 | Batch 1110 | val_kld=0.869046 | val_ordacc@10=0.142052 | val_recall@10=0.553808
+Epoch 001 | Step 1110 | lr=5.000000e-04 | loss=0.927173 | k_vals=[50, 20, 1, 50, 1]
+Epoch 001 | Batch 1120 | val_kld=0.877141 | val_ordacc@10=0.141508 | val_recall@10=0.558316
+Epoch 001 | Batch 1130 | val_kld=0.859894 | val_ordacc@10=0.143410 | val_recall@10=0.566265
+Epoch 001 | Batch 1140 | val_kld=0.869677 | val_ordacc@10=0.139490 | val_recall@10=0.554299
+Epoch 001 | Step 1140 | lr=5.000000e-04 | loss=0.898834 | k_vals=[10, 50, 50, 10, 50]
+Epoch 001 | Batch 1150 | val_kld=0.859279 | val_ordacc@10=0.144115 | val_recall@10=0.563210
+Epoch 001 | Batch 1160 | val_kld=0.879700 | val_ordacc@10=0.138990 | val_recall@10=0.552034
+Epoch 001 | Batch 1170 | val_kld=0.855738 | val_ordacc@10=0.144604 | val_recall@10=0.570070
+Epoch 001 | Step 1170 | lr=5.000000e-04 | loss=0.783890 | k_vals=[10, 50, 1, 20, 1]
+Epoch 001 | Batch 1180 | val_kld=0.843998 | val_ordacc@10=0.147092 | val_recall@10=0.567311
+Epoch 001 | Batch 1190 | val_kld=0.836366 | val_ordacc@10=0.147308 | val_recall@10=0.560291
+Epoch 001 | Batch 1200 | val_kld=0.851170 | val_ordacc@10=0.146510 | val_recall@10=0.567022
+Epoch 001 | Step 1200 | lr=5.000000e-04 | loss=0.896006 | k_vals=[20, 50, 20, 1, 100]
+Epoch 001 | Batch 1210 | val_kld=0.857970 | val_ordacc@10=0.144567 | val_recall@10=0.566494
+Epoch 001 | Batch 1220 | val_kld=0.853700 | val_ordacc@10=0.144940 | val_recall@10=0.568170
+Epoch 001 | Batch 1230 | val_kld=0.849989 | val_ordacc@10=0.144023 | val_recall@10=0.564707
+Epoch 001 | Step 1230 | lr=5.000000e-04 | loss=1.001984 | k_vals=[50, 20, 1, 1, 1]
+Epoch 001 | Batch 1240 | val_kld=0.854372 | val_ordacc@10=0.141974 | val_recall@10=0.560385
+Epoch 001 | Batch 1250 | val_kld=0.841430 | val_ordacc@10=0.146292 | val_recall@10=0.562443
+Epoch 001 | Batch 1260 | val_kld=0.879542 | val_ordacc@10=0.141750 | val_recall@10=0.556255
+Epoch 001 | Step 1260 | lr=5.000000e-04 | loss=0.731949 | k_vals=[20, 100, 100, 1, 100]
+Epoch 001 | Batch 1270 | val_kld=0.857073 | val_ordacc@10=0.140931 | val_recall@10=0.555979
+Epoch 001 | Batch 1280 | val_kld=0.838717 | val_ordacc@10=0.147696 | val_recall@10=0.560325
+Epoch 001 | Batch 1290 | val_kld=0.851386 | val_ordacc@10=0.142732 | val_recall@10=0.560104
+Epoch 001 | Step 1290 | lr=5.000000e-04 | loss=0.878015 | k_vals=[10, 1, 20, 100, 50]
+Epoch 001 | Batch 1300 | val_kld=0.852333 | val_ordacc@10=0.144482 | val_recall@10=0.562867
+Epoch 001 | Batch 1310 | val_kld=0.867326 | val_ordacc@10=0.141781 | val_recall@10=0.563624
+Epoch 001 | Batch 1320 | val_kld=0.861023 | val_ordacc@10=0.142936 | val_recall@10=0.564246
+Epoch 001 | Step 1320 | lr=5.000000e-04 | loss=0.939052 | k_vals=[100, 50, 1, 1, 1]
+Epoch 001 | Batch 1330 | val_kld=0.853862 | val_ordacc@10=0.144747 | val_recall@10=0.563253
+Epoch 001 | Batch 1340 | val_kld=0.846020 | val_ordacc@10=0.144366 | val_recall@10=0.562995
+Epoch 001 | Batch 1350 | val_kld=0.836796 | val_ordacc@10=0.147760 | val_recall@10=0.559929
+Epoch 001 | Step 1350 | lr=5.000000e-04 | loss=0.947607 | k_vals=[100, 20, 100, 10, 10]
+Epoch 001 | Batch 1360 | val_kld=0.854899 | val_ordacc@10=0.142241 | val_recall@10=0.566610
+Epoch 001 | Batch 1370 | val_kld=0.829203 | val_ordacc@10=0.148718 | val_recall@10=0.568073
+Epoch 001 | Batch 1380 | val_kld=0.838261 | val_ordacc@10=0.146438 | val_recall@10=0.566839
+Epoch 001 | Step 1380 | lr=5.000000e-04 | loss=0.736864 | k_vals=[1, 20, 10, 100, 20]
+Epoch 001 | Batch 1390 | val_kld=0.826136 | val_ordacc@10=0.148834 | val_recall@10=0.563499
+Epoch 001 | Batch 1400 | val_kld=0.846836 | val_ordacc@10=0.145613 | val_recall@10=0.561946
+Epoch 001 | Batch 1410 | val_kld=0.846350 | val_ordacc@10=0.146847 | val_recall@10=0.564921
+Epoch 001 | Step 1410 | lr=5.000000e-04 | loss=0.710541 | k_vals=[10, 10, 50, 20, 20]
+Epoch 001 | Batch 1420 | val_kld=0.871402 | val_ordacc@10=0.143612 | val_recall@10=0.571156
+Epoch 001 | Batch 1430 | val_kld=0.857027 | val_ordacc@10=0.142126 | val_recall@10=0.564990
+Epoch 001 | Batch 1440 | val_kld=0.846050 | val_ordacc@10=0.143299 | val_recall@10=0.559254
+Epoch 001 | Step 1440 | lr=5.000000e-04 | loss=0.929797 | k_vals=[10, 50, 50, 100, 100]
+Epoch 001 | Batch 1450 | val_kld=0.838755 | val_ordacc@10=0.146486 | val_recall@10=0.559264
+Epoch 001 | Batch 1460 | val_kld=0.874155 | val_ordacc@10=0.137752 | val_recall@10=0.566528
+Epoch 001 | Batch 1470 | val_kld=0.857975 | val_ordacc@10=0.141346 | val_recall@10=0.571817
+Epoch 001 | Step 1470 | lr=5.000000e-04 | loss=0.915715 | k_vals=[20, 20, 20, 20, 10]
+Epoch 001 | Batch 1480 | val_kld=0.847623 | val_ordacc@10=0.144395 | val_recall@10=0.560770
+Epoch 001 | Batch 1490 | val_kld=0.831303 | val_ordacc@10=0.147108 | val_recall@10=0.559096
+Epoch 001 | Batch 1500 | val_kld=0.855949 | val_ordacc@10=0.139204 | val_recall@10=0.560220
+Epoch 001 | Step 1500 | lr=5.000000e-04 | loss=0.737166 | k_vals=[20, 10, 100, 100, 100]
+Epoch 001 | Batch 1510 | val_kld=0.857431 | val_ordacc@10=0.140466 | val_recall@10=0.562518
+Epoch 001 | Batch 1520 | val_kld=0.844677 | val_ordacc@10=0.145912 | val_recall@10=0.568136
+Epoch 001 | Batch 1530 | val_kld=0.858603 | val_ordacc@10=0.146302 | val_recall@10=0.559891
+Epoch 001 | Step 1530 | lr=5.000000e-04 | loss=0.874725 | k_vals=[100, 50, 20, 100, 50]
+Epoch 001 | Batch 1540 | val_kld=0.848629 | val_ordacc@10=0.145885 | val_recall@10=0.568150
+Epoch 001 | Batch 1550 | val_kld=0.852621 | val_ordacc@10=0.145843 | val_recall@10=0.567449
+Epoch 001 | Batch 1560 | val_kld=0.849415 | val_ordacc@10=0.144348 | val_recall@10=0.561720
+Epoch 001 | Step 1560 | lr=5.000000e-04 | loss=0.846467 | k_vals=[100, 20, 10, 100, 1]
+Epoch 001 | Batch 1570 | val_kld=0.863775 | val_ordacc@10=0.140765 | val_recall@10=0.567476
+Epoch 001 | Batch 1580 | val_kld=0.845235 | val_ordacc@10=0.144817 | val_recall@10=0.568099
+Epoch 001 | Batch 1590 | val_kld=0.844653 | val_ordacc@10=0.145862 | val_recall@10=0.569336
+Epoch 001 | Step 1590 | lr=5.000000e-04 | loss=0.856439 | k_vals=[50, 20, 100, 100, 100]
+Epoch 001 | Batch 1600 | val_kld=0.838922 | val_ordacc@10=0.147224 | val_recall@10=0.562975
+Epoch 001 | Batch 1610 | val_kld=0.825375 | val_ordacc@10=0.147515 | val_recall@10=0.564029
+Epoch 001 | Batch 1620 | val_kld=0.830084 | val_ordacc@10=0.146378 | val_recall@10=0.569682
+Epoch 001 | Step 1620 | lr=5.000000e-04 | loss=0.927369 | k_vals=[20, 1, 100, 50, 50]
+Epoch 001 | Batch 1630 | val_kld=0.839442 | val_ordacc@10=0.145615 | val_recall@10=0.559651
+Epoch 001 | Batch 1640 | val_kld=0.840770 | val_ordacc@10=0.143995 | val_recall@10=0.564914
+Epoch 001 | Batch 1650 | val_kld=0.832200 | val_ordacc@10=0.147556 | val_recall@10=0.561155
+Epoch 001 | Step 1650 | lr=5.000000e-04 | loss=0.783824 | k_vals=[100, 20, 100, 10, 1]
+Epoch 001 | Batch 1660 | val_kld=0.825225 | val_ordacc@10=0.148137 | val_recall@10=0.564592
+Epoch 001 | Batch 1670 | val_kld=0.837797 | val_ordacc@10=0.145870 | val_recall@10=0.570069
+Epoch 001 | Batch 1680 | val_kld=0.854684 | val_ordacc@10=0.140650 | val_recall@10=0.557583
+Epoch 001 | Step 1680 | lr=5.000000e-04 | loss=0.758012 | k_vals=[20, 100, 1, 10, 100]
+Epoch 001 | Batch 1690 | val_kld=0.826489 | val_ordacc@10=0.148466 | val_recall@10=0.558620
+Epoch 001 | Batch 1700 | val_kld=0.835549 | val_ordacc@10=0.145552 | val_recall@10=0.559342
+Epoch 001 | Batch 1710 | val_kld=0.831159 | val_ordacc@10=0.145702 | val_recall@10=0.561841
+Epoch 001 | Step 1710 | lr=5.000000e-04 | loss=0.822318 | k_vals=[10, 1, 50, 20, 20]
+Epoch 001 | Batch 1720 | val_kld=0.844890 | val_ordacc@10=0.142698 | val_recall@10=0.567827
+Epoch 001 | Batch 1730 | val_kld=0.844823 | val_ordacc@10=0.145374 | val_recall@10=0.559188
+Epoch 001 | Batch 1740 | val_kld=0.814163 | val_ordacc@10=0.151660 | val_recall@10=0.566314
+Epoch 001 | Step 1740 | lr=5.000000e-04 | loss=0.907488 | k_vals=[20, 20, 100, 50, 100]
+Epoch 001 | Batch 1750 | val_kld=0.829081 | val_ordacc@10=0.148512 | val_recall@10=0.564899
+Epoch 001 | Batch 1760 | val_kld=0.833866 | val_ordacc@10=0.149280 | val_recall@10=0.567553
+Epoch 001 | Batch 1770 | val_kld=0.847011 | val_ordacc@10=0.143106 | val_recall@10=0.555243
+Epoch 001 | Step 1770 | lr=5.000000e-04 | loss=0.766703 | k_vals=[1, 20, 20, 100, 1]
+Epoch 001 | Batch 1780 | val_kld=0.846905 | val_ordacc@10=0.142167 | val_recall@10=0.557764
+Epoch 001 | Batch 1790 | val_kld=0.838401 | val_ordacc@10=0.144083 | val_recall@10=0.568924
+Epoch 001 | Batch 1800 | val_kld=0.833336 | val_ordacc@10=0.147748 | val_recall@10=0.572776
+Epoch 001 | Step 1800 | lr=5.000000e-04 | loss=0.775612 | k_vals=[20, 10, 50, 10, 100]
+Epoch 001 | Batch 1810 | val_kld=0.867631 | val_ordacc@10=0.139238 | val_recall@10=0.564396
+Epoch 001 | Batch 1820 | val_kld=0.820855 | val_ordacc@10=0.150152 | val_recall@10=0.567542
+Epoch 001 | Batch 1830 | val_kld=0.811715 | val_ordacc@10=0.152352 | val_recall@10=0.564423
+Epoch 001 | Step 1830 | lr=5.000000e-04 | loss=0.861515 | k_vals=[100, 10, 20, 100, 20]
+Epoch 001 | Batch 1840 | val_kld=0.821766 | val_ordacc@10=0.149887 | val_recall@10=0.563540
+Epoch 001 | Batch 1850 | val_kld=0.833670 | val_ordacc@10=0.147856 | val_recall@10=0.556233
+Epoch 001 | Batch 1860 | val_kld=0.824548 | val_ordacc@10=0.149640 | val_recall@10=0.574296
+Epoch 001 | Step 1860 | lr=5.000000e-04 | loss=0.811157 | k_vals=[20, 100, 20, 20, 100]
+Epoch 001 | Batch 1870 | val_kld=0.835243 | val_ordacc@10=0.147842 | val_recall@10=0.557168
+Epoch 001 | Batch 1880 | val_kld=0.836950 | val_ordacc@10=0.143471 | val_recall@10=0.565668
+Epoch 001 | Batch 1890 | val_kld=0.834469 | val_ordacc@10=0.146652 | val_recall@10=0.567598
+Epoch 001 | Step 1890 | lr=5.000000e-04 | loss=1.035994 | k_vals=[1, 20, 1, 20, 1]
+Epoch 001 | Batch 1900 | val_kld=0.834315 | val_ordacc@10=0.147282 | val_recall@10=0.564405
+Epoch 001 | Batch 1910 | val_kld=0.854822 | val_ordacc@10=0.143302 | val_recall@10=0.569005
+Epoch 001 | Batch 1920 | val_kld=0.839131 | val_ordacc@10=0.146970 | val_recall@10=0.563493
+Epoch 001 | Step 1920 | lr=5.000000e-04 | loss=0.890526 | k_vals=[50, 20, 20, 20, 10]
+Epoch 001 | Batch 1930 | val_kld=0.850400 | val_ordacc@10=0.141949 | val_recall@10=0.556301
+Epoch 001 | Batch 1940 | val_kld=0.822217 | val_ordacc@10=0.148920 | val_recall@10=0.565271
+Epoch 001 | Batch 1950 | val_kld=0.827105 | val_ordacc@10=0.146639 | val_recall@10=0.571058
+Epoch 001 | Step 1950 | lr=5.000000e-04 | loss=0.927639 | k_vals=[10, 1, 100, 100, 100]
+Epoch 001 | Batch 1960 | val_kld=0.834074 | val_ordacc@10=0.148610 | val_recall@10=0.571347
+Epoch 001 | Batch 1970 | val_kld=0.835148 | val_ordacc@10=0.145981 | val_recall@10=0.573597
+Epoch 001 | Batch 1980 | val_kld=0.823638 | val_ordacc@10=0.148514 | val_recall@10=0.563199
+Epoch 001 | Step 1980 | lr=5.000000e-04 | loss=0.815478 | k_vals=[1, 100, 1, 20, 20]
+Epoch 001 | Batch 1990 | val_kld=0.822857 | val_ordacc@10=0.148083 | val_recall@10=0.560248
+Epoch 001 | Batch 2000 | val_kld=0.818789 | val_ordacc@10=0.148924 | val_recall@10=0.564813
+Epoch 001 | Batch 2010 | val_kld=0.836911 | val_ordacc@10=0.145512 | val_recall@10=0.560184
+Epoch 001 | Step 2010 | lr=5.000000e-04 | loss=0.874878 | k_vals=[20, 50, 10, 20, 50]
+Epoch 001 | Batch 2020 | val_kld=0.819615 | val_ordacc@10=0.149358 | val_recall@10=0.573184
+Epoch 001 | Batch 2030 | val_kld=0.825582 | val_ordacc@10=0.146763 | val_recall@10=0.568462
+Epoch 001 | Batch 2040 | val_kld=0.819783 | val_ordacc@10=0.148189 | val_recall@10=0.569287
+Epoch 001 | Step 2040 | lr=5.000000e-04 | loss=0.722275 | k_vals=[20, 100, 20, 100, 10]
+Epoch 001 | Batch 2050 | val_kld=0.812615 | val_ordacc@10=0.151934 | val_recall@10=0.567350
+Epoch 001 | Batch 2060 | val_kld=0.848125 | val_ordacc@10=0.142748 | val_recall@10=0.563576
+Epoch 001 | Batch 2070 | val_kld=0.817445 | val_ordacc@10=0.149956 | val_recall@10=0.564514
+Epoch 001 | Step 2070 | lr=5.000000e-04 | loss=0.777377 | k_vals=[100, 50, 100, 10, 1]
+Epoch 001 | Batch 2080 | val_kld=0.826116 | val_ordacc@10=0.147467 | val_recall@10=0.564554
+Epoch 001 | Batch 2090 | val_kld=0.819889 | val_ordacc@10=0.149881 | val_recall@10=0.571566
+Epoch 001 | Batch 2100 | val_kld=0.831984 | val_ordacc@10=0.143144 | val_recall@10=0.568954
+Epoch 001 | Step 2100 | lr=5.000000e-04 | loss=0.964601 | k_vals=[50, 10, 100, 1, 1]
+Epoch 001 | Batch 2110 | val_kld=0.818821 | val_ordacc@10=0.147667 | val_recall@10=0.561626
+Epoch 001 | Batch 2120 | val_kld=0.830338 | val_ordacc@10=0.146293 | val_recall@10=0.561668
+Epoch 001 | Batch 2130 | val_kld=0.860055 | val_ordacc@10=0.142337 | val_recall@10=0.562977
+Epoch 001 | Step 2130 | lr=5.000000e-04 | loss=0.682349 | k_vals=[10, 20, 10, 10, 20]
+Epoch 001 | Batch 2140 | val_kld=0.818933 | val_ordacc@10=0.148482 | val_recall@10=0.563813
+Epoch 001 | Batch 2150 | val_kld=0.825336 | val_ordacc@10=0.149739 | val_recall@10=0.563763
+Epoch 001 | Batch 2160 | val_kld=0.834099 | val_ordacc@10=0.148516 | val_recall@10=0.564370
+Epoch 001 | Step 2160 | lr=5.000000e-04 | loss=0.900455 | k_vals=[1, 1, 50, 100, 20]
+Epoch 001 | Batch 2170 | val_kld=0.830524 | val_ordacc@10=0.144026 | val_recall@10=0.564770
+Epoch 001 | Batch 2180 | val_kld=0.827536 | val_ordacc@10=0.146878 | val_recall@10=0.557085
+Epoch 001 | Batch 2190 | val_kld=0.837278 | val_ordacc@10=0.145414 | val_recall@10=0.554586
+Epoch 001 | Step 2190 | lr=5.000000e-04 | loss=0.937817 | k_vals=[20, 20, 100, 100, 10]
+Epoch 001 | Batch 2200 | val_kld=0.837365 | val_ordacc@10=0.144464 | val_recall@10=0.563267
+Epoch 001 | Batch 2210 | val_kld=0.829812 | val_ordacc@10=0.145789 | val_recall@10=0.570669
+Epoch 001 | Batch 2220 | val_kld=0.841417 | val_ordacc@10=0.143240 | val_recall@10=0.570699
+Epoch 001 | Step 2220 | lr=5.000000e-04 | loss=0.708241 | k_vals=[20, 50, 100, 10, 50]
+Epoch 001 | Batch 2230 | val_kld=0.817235 | val_ordacc@10=0.149771 | val_recall@10=0.572986
+Epoch 001 | Batch 2240 | val_kld=0.821305 | val_ordacc@10=0.149803 | val_recall@10=0.567279
+Epoch 001 | Batch 2250 | val_kld=0.829233 | val_ordacc@10=0.145807 | val_recall@10=0.558325
+Epoch 001 | Step 2250 | lr=5.000000e-04 | loss=0.802816 | k_vals=[50, 1, 20, 20, 50]
+Epoch 001 | Batch 2260 | val_kld=0.827130 | val_ordacc@10=0.149888 | val_recall@10=0.563503
+Epoch 001 | Batch 2270 | val_kld=0.818339 | val_ordacc@10=0.150372 | val_recall@10=0.572380
+Epoch 001 | Batch 2280 | val_kld=0.825818 | val_ordacc@10=0.146714 | val_recall@10=0.565986
+Epoch 001 | Step 2280 | lr=5.000000e-04 | loss=0.716208 | k_vals=[10, 50, 100, 50, 20]
+Epoch 001 | Batch 2290 | val_kld=0.830915 | val_ordacc@10=0.145564 | val_recall@10=0.561838
+Epoch 001 | Batch 2300 | val_kld=0.816039 | val_ordacc@10=0.150838 | val_recall@10=0.566114
+Epoch 001 | Batch 2310 | val_kld=0.824076 | val_ordacc@10=0.147543 | val_recall@10=0.566703
+Epoch 001 | Step 2310 | lr=5.000000e-04 | loss=0.760121 | k_vals=[20, 50, 50, 10, 10]
+Epoch 001 | Batch 2320 | val_kld=0.824586 | val_ordacc@10=0.147576 | val_recall@10=0.563920
+Epoch 001 | Batch 2330 | val_kld=0.819118 | val_ordacc@10=0.149380 | val_recall@10=0.564025
+Epoch 001 | Batch 2340 | val_kld=0.834892 | val_ordacc@10=0.143494 | val_recall@10=0.569232
+Epoch 001 | Step 2340 | lr=5.000000e-04 | loss=0.783275 | k_vals=[20, 20, 10, 20, 50]
+Epoch 001 | Batch 2350 | val_kld=0.823358 | val_ordacc@10=0.148724 | val_recall@10=0.568541
+Epoch 001 | Batch 2360 | val_kld=0.812410 | val_ordacc@10=0.150406 | val_recall@10=0.568108
+Epoch 001 | Batch 2370 | val_kld=0.820078 | val_ordacc@10=0.149487 | val_recall@10=0.572913
+Epoch 001 | Step 2370 | lr=5.000000e-04 | loss=0.654491 | k_vals=[1, 20, 100, 1, 10]
+Epoch 001 | Batch 2380 | val_kld=0.834329 | val_ordacc@10=0.148532 | val_recall@10=0.572309
+Epoch 001 | Batch 2390 | val_kld=0.820023 | val_ordacc@10=0.148210 | val_recall@10=0.569971
+Epoch 001 | Batch 2400 | val_kld=0.836432 | val_ordacc@10=0.144510 | val_recall@10=0.563179
+Epoch 001 | Step 2400 | lr=5.000000e-04 | loss=0.710423 | k_vals=[1, 1, 50, 20, 100]
+Epoch 001 | Batch 2410 | val_kld=0.819690 | val_ordacc@10=0.148619 | val_recall@10=0.562059
+Epoch 001 | Batch 2420 | val_kld=0.815786 | val_ordacc@10=0.148624 | val_recall@10=0.567944
+Epoch 001 | Batch 2430 | val_kld=0.823658 | val_ordacc@10=0.148130 | val_recall@10=0.570173
+Epoch 001 | Step 2430 | lr=5.000000e-04 | loss=0.863958 | k_vals=[50, 20, 1, 100, 20]
+Epoch 001 | Batch 2440 | val_kld=0.816283 | val_ordacc@10=0.150376 | val_recall@10=0.570174
+Epoch 001 | Batch 2450 | val_kld=0.818239 | val_ordacc@10=0.149303 | val_recall@10=0.569312
+Epoch 001 | Batch 2460 | val_kld=0.821991 | val_ordacc@10=0.149348 | val_recall@10=0.561038
+Epoch 001 | Step 2460 | lr=5.000000e-04 | loss=0.927014 | k_vals=[100, 10, 1, 10, 1]
+Epoch 001 | Batch 2470 | val_kld=0.823658 | val_ordacc@10=0.147010 | val_recall@10=0.559550
+Epoch 001 | Batch 2480 | val_kld=0.809629 | val_ordacc@10=0.151714 | val_recall@10=0.563968
+Epoch 001 | Batch 2490 | val_kld=0.822115 | val_ordacc@10=0.149716 | val_recall@10=0.574932
+Epoch 001 | Step 2490 | lr=5.000000e-04 | loss=0.885398 | k_vals=[10, 20, 10, 100, 1]
+Epoch 001 | Batch 2500 | val_kld=0.819902 | val_ordacc@10=0.149184 | val_recall@10=0.562813
+Epoch 001 | Batch 2510 | val_kld=0.815966 | val_ordacc@10=0.150827 | val_recall@10=0.567744
+Epoch 001 | Batch 2520 | val_kld=0.824198 | val_ordacc@10=0.148147 | val_recall@10=0.565370
+Epoch 001 | Step 2520 | lr=5.000000e-04 | loss=0.730734 | k_vals=[10, 10, 10, 20, 10]
+Epoch 001 | Batch 2530 | val_kld=0.825328 | val_ordacc@10=0.148301 | val_recall@10=0.570045
+Epoch 001 | Batch 2540 | val_kld=0.826900 | val_ordacc@10=0.147775 | val_recall@10=0.563516
+Epoch 001 | Batch 2550 | val_kld=0.829707 | val_ordacc@10=0.145158 | val_recall@10=0.563322
+Epoch 001 | Step 2550 | lr=5.000000e-04 | loss=0.855566 | k_vals=[100, 20, 10, 100, 50]
+Epoch 001 | Batch 2560 | val_kld=0.819510 | val_ordacc@10=0.148182 | val_recall@10=0.563964
+Epoch 001 | Batch 2570 | val_kld=0.812952 | val_ordacc@10=0.150617 | val_recall@10=0.569610
+Epoch 001 | Batch 2580 | val_kld=0.806910 | val_ordacc@10=0.151800 | val_recall@10=0.566854
+Epoch 001 | Step 2580 | lr=5.000000e-04 | loss=0.706809 | k_vals=[20, 10, 10, 100, 10]
+Epoch 001 | Batch 2590 | val_kld=0.815315 | val_ordacc@10=0.152836 | val_recall@10=0.563725
+Epoch 001 | Batch 2600 | val_kld=0.824887 | val_ordacc@10=0.149217 | val_recall@10=0.564120
+Epoch 001 | Batch 2610 | val_kld=0.833989 | val_ordacc@10=0.146444 | val_recall@10=0.569422
+Epoch 001 | Step 2610 | lr=5.000000e-04 | loss=0.892308 | k_vals=[50, 1, 1, 50, 20]
+Epoch 001 | Batch 2620 | val_kld=0.824910 | val_ordacc@10=0.146512 | val_recall@10=0.564295
+Epoch 001 | Batch 2630 | val_kld=0.818392 | val_ordacc@10=0.148590 | val_recall@10=0.565478
+Epoch 001 | Batch 2640 | val_kld=0.820120 | val_ordacc@10=0.146808 | val_recall@10=0.566276
+Epoch 001 | Step 2640 | lr=5.000000e-04 | loss=0.990630 | k_vals=[50, 50, 1, 1, 50]
+Epoch 001 | Batch 2650 | val_kld=0.816578 | val_ordacc@10=0.150997 | val_recall@10=0.575090
+Epoch 001 | Batch 2660 | val_kld=0.813106 | val_ordacc@10=0.150228 | val_recall@10=0.566362
+Epoch 001 | Batch 2670 | val_kld=0.823598 | val_ordacc@10=0.146579 | val_recall@10=0.564216
+Epoch 001 | Step 2670 | lr=5.000000e-04 | loss=0.953049 | k_vals=[1, 20, 1, 50, 50]
+Epoch 001 | Batch 2680 | val_kld=0.817434 | val_ordacc@10=0.149614 | val_recall@10=0.566030
+Epoch 001 | Batch 2690 | val_kld=0.813530 | val_ordacc@10=0.150726 | val_recall@10=0.574071
+Epoch 001 | Batch 2700 | val_kld=0.826713 | val_ordacc@10=0.147833 | val_recall@10=0.572762
+Epoch 001 | Step 2700 | lr=5.000000e-04 | loss=0.790014 | k_vals=[1, 50, 10, 1, 20]
+Epoch 001 | Batch 2710 | val_kld=0.823106 | val_ordacc@10=0.144441 | val_recall@10=0.568196
+Epoch 001 | Batch 2720 | val_kld=0.805196 | val_ordacc@10=0.152548 | val_recall@10=0.572230
+Epoch 001 | Batch 2730 | val_kld=0.809246 | val_ordacc@10=0.151618 | val_recall@10=0.567784
+Epoch 001 | Step 2730 | lr=5.000000e-04 | loss=0.876305 | k_vals=[10, 1, 50, 20, 50]
+Epoch 001 | Batch 2740 | val_kld=0.817723 | val_ordacc@10=0.149490 | val_recall@10=0.564973
+Epoch 001 | Batch 2750 | val_kld=0.820643 | val_ordacc@10=0.149078 | val_recall@10=0.564986
+Epoch 001 | Batch 2760 | val_kld=0.814591 | val_ordacc@10=0.150632 | val_recall@10=0.570232
+Epoch 001 | Step 2760 | lr=5.000000e-04 | loss=0.780607 | k_vals=[20, 100, 10, 100, 1]
+Epoch 001 | Batch 2770 | val_kld=0.810168 | val_ordacc@10=0.151845 | val_recall@10=0.568334
+Epoch 001 | Batch 2780 | val_kld=0.814814 | val_ordacc@10=0.151782 | val_recall@10=0.563832
+Epoch 001 | Batch 2790 | val_kld=0.817775 | val_ordacc@10=0.149203 | val_recall@10=0.568618
+Epoch 001 | Step 2790 | lr=5.000000e-04 | loss=0.771389 | k_vals=[100, 10, 20, 100, 100]
+Epoch 001 | Batch 2800 | val_kld=0.817228 | val_ordacc@10=0.147511 | val_recall@10=0.565198
+Epoch 001 | Batch 2810 | val_kld=0.834110 | val_ordacc@10=0.144743 | val_recall@10=0.561423
+Epoch 001 | Batch 2820 | val_kld=0.803562 | val_ordacc@10=0.153739 | val_recall@10=0.569081
+Epoch 001 | Step 2820 | lr=5.000000e-04 | loss=0.899203 | k_vals=[50, 50, 100, 100, 10]
+Epoch 001 | Batch 2830 | val_kld=0.808860 | val_ordacc@10=0.151968 | val_recall@10=0.564424
+Epoch 001 | Batch 2840 | val_kld=0.806588 | val_ordacc@10=0.150550 | val_recall@10=0.565449
+Epoch 001 | Batch 2850 | val_kld=0.808469 | val_ordacc@10=0.151529 | val_recall@10=0.571341
+Epoch 001 | Step 2850 | lr=5.000000e-04 | loss=0.777734 | k_vals=[100, 1, 1, 50, 100]
+Epoch 001 | Batch 2860 | val_kld=0.811461 | val_ordacc@10=0.150620 | val_recall@10=0.568088
+Epoch 001 | Batch 2870 | val_kld=0.811815 | val_ordacc@10=0.151314 | val_recall@10=0.572060
+Epoch 001 | Batch 2880 | val_kld=0.824915 | val_ordacc@10=0.147310 | val_recall@10=0.566904
+Epoch 001 | Step 2880 | lr=5.000000e-04 | loss=0.870613 | k_vals=[50, 50, 20, 1, 100]
+Epoch 001 | Batch 2890 | val_kld=0.809762 | val_ordacc@10=0.150488 | val_recall@10=0.564858
+Epoch 001 | Batch 2900 | val_kld=0.813596 | val_ordacc@10=0.149219 | val_recall@10=0.562864
+Epoch 001 | Batch 2910 | val_kld=0.808349 | val_ordacc@10=0.149703 | val_recall@10=0.571917
+Epoch 001 | Step 2910 | lr=5.000000e-04 | loss=0.831982 | k_vals=[50, 100, 50, 1, 100]
+Epoch 001 | Batch 2920 | val_kld=0.811835 | val_ordacc@10=0.150364 | val_recall@10=0.573574
+Epoch 001 | Batch 2930 | val_kld=0.820489 | val_ordacc@10=0.148922 | val_recall@10=0.569334
+Epoch 001 | Batch 2940 | val_kld=0.809171 | val_ordacc@10=0.150640 | val_recall@10=0.572776
+Epoch 001 | Step 2940 | lr=5.000000e-04 | loss=0.803986 | k_vals=[10, 10, 10, 1, 10]
+Epoch 001 | Batch 2950 | val_kld=0.817049 | val_ordacc@10=0.149312 | val_recall@10=0.567752
+Epoch 001 | Batch 2960 | val_kld=0.812790 | val_ordacc@10=0.149835 | val_recall@10=0.568358
+Epoch 001 | Batch 2970 | val_kld=0.812081 | val_ordacc@10=0.153166 | val_recall@10=0.571836
+Epoch 001 | Step 2970 | lr=5.000000e-04 | loss=0.675165 | k_vals=[10, 1, 100, 50, 50]
+Epoch 001 | Batch 2980 | val_kld=0.832116 | val_ordacc@10=0.144324 | val_recall@10=0.560699
+Epoch 001 | Batch 2990 | val_kld=0.826671 | val_ordacc@10=0.149001 | val_recall@10=0.571584
+Epoch 001 | Batch 3000 | val_kld=0.817758 | val_ordacc@10=0.150271 | val_recall@10=0.568044
+Epoch 001 | Step 3000 | lr=5.000000e-04 | loss=0.896466 | k_vals=[50, 10, 10, 50, 20]
+Epoch 001 | Batch 3010 | val_kld=0.825394 | val_ordacc@10=0.146879 | val_recall@10=0.562427
+Epoch 001 | Batch 3020 | val_kld=0.801725 | val_ordacc@10=0.152808 | val_recall@10=0.569992
+Epoch 001 | Batch 3030 | val_kld=0.818295 | val_ordacc@10=0.149369 | val_recall@10=0.568870
+Epoch 001 | Step 3030 | lr=5.000000e-04 | loss=0.970985 | k_vals=[20, 1, 20, 1, 20]
+Epoch 001 | Batch 3040 | val_kld=0.825967 | val_ordacc@10=0.146610 | val_recall@10=0.562192
+Epoch 001 | Batch 3050 | val_kld=0.806801 | val_ordacc@10=0.151193 | val_recall@10=0.562170
+Epoch 001 | Batch 3060 | val_kld=0.830644 | val_ordacc@10=0.147014 | val_recall@10=0.560912
+Epoch 001 | Step 3060 | lr=5.000000e-04 | loss=0.871294 | k_vals=[50, 20, 50, 1, 100]
+Epoch 001 | Batch 3070 | val_kld=0.810351 | val_ordacc@10=0.150100 | val_recall@10=0.564677
+Epoch 001 | Batch 3080 | val_kld=0.807049 | val_ordacc@10=0.152047 | val_recall@10=0.569782
+Epoch 001 | Batch 3090 | val_kld=0.817007 | val_ordacc@10=0.150041 | val_recall@10=0.568222
+Epoch 001 | Step 3090 | lr=5.000000e-04 | loss=0.769041 | k_vals=[50, 1, 1, 1, 100]
+Epoch 001 | Batch 3100 | val_kld=0.804257 | val_ordacc@10=0.153401 | val_recall@10=0.568377
+Epoch 001 | Batch 3110 | val_kld=0.812254 | val_ordacc@10=0.150560 | val_recall@10=0.570110
+Epoch 001 | Batch 3120 | val_kld=0.819978 | val_ordacc@10=0.150607 | val_recall@10=0.571581
+Epoch 001 | Step 3120 | lr=5.000000e-04 | loss=0.750527 | k_vals=[50, 100, 50, 10, 1]
+Epoch 001 | Batch 3130 | val_kld=0.800288 | val_ordacc@10=0.154869 | val_recall@10=0.576938
+Epoch 001 | Batch 3140 | val_kld=0.804007 | val_ordacc@10=0.152890 | val_recall@10=0.569357
+Epoch 001 | Batch 3150 | val_kld=0.813770 | val_ordacc@10=0.148515 | val_recall@10=0.566569
+Epoch 001 | Step 3150 | lr=5.000000e-04 | loss=0.728016 | k_vals=[20, 20, 100, 10, 10]
+Epoch 001 | Batch 3160 | val_kld=0.805556 | val_ordacc@10=0.152903 | val_recall@10=0.573043
+Epoch 001 | Batch 3170 | val_kld=0.799583 | val_ordacc@10=0.153140 | val_recall@10=0.574836
+Epoch 001 | Batch 3180 | val_kld=0.801952 | val_ordacc@10=0.153869 | val_recall@10=0.570434
+Epoch 001 | Step 3180 | lr=5.000000e-04 | loss=0.987766 | k_vals=[100, 10, 10, 1, 10]
+Epoch 001 | Batch 3190 | val_kld=0.803907 | val_ordacc@10=0.153046 | val_recall@10=0.573072
+Epoch 001 | Batch 3200 | val_kld=0.826397 | val_ordacc@10=0.149246 | val_recall@10=0.566781
+Epoch 001 | Batch 3210 | val_kld=0.809330 | val_ordacc@10=0.152811 | val_recall@10=0.568872
+Epoch 001 | Step 3210 | lr=5.000000e-04 | loss=0.736962 | k_vals=[50, 50, 20, 50, 10]
+Epoch 001 | Batch 3220 | val_kld=0.822609 | val_ordacc@10=0.148838 | val_recall@10=0.572384
+Epoch 001 | Batch 3230 | val_kld=0.818053 | val_ordacc@10=0.149678 | val_recall@10=0.571387
+Epoch 001 | Batch 3240 | val_kld=0.827125 | val_ordacc@10=0.146818 | val_recall@10=0.572818
+Epoch 001 | Step 3240 | lr=5.000000e-04 | loss=0.866176 | k_vals=[50, 100, 50, 1, 20]
+Epoch 001 | Batch 3250 | val_kld=0.826495 | val_ordacc@10=0.150570 | val_recall@10=0.574613
+Epoch 001 | Batch 3260 | val_kld=0.811099 | val_ordacc@10=0.152764 | val_recall@10=0.570223
+Epoch 001 | Batch 3270 | val_kld=0.819225 | val_ordacc@10=0.147224 | val_recall@10=0.571230
+Epoch 001 | Step 3270 | lr=5.000000e-04 | loss=0.861424 | k_vals=[100, 20, 50, 10, 100]
+Epoch 001 | Batch 3280 | val_kld=0.805721 | val_ordacc@10=0.152846 | val_recall@10=0.574231
+Epoch 001 | Batch 3290 | val_kld=0.809864 | val_ordacc@10=0.149265 | val_recall@10=0.568526
+Epoch 001 | Batch 3300 | val_kld=0.806163 | val_ordacc@10=0.151837 | val_recall@10=0.568189
+Epoch 001 | Step 3300 | lr=5.000000e-04 | loss=0.719910 | k_vals=[50, 50, 50, 10, 100]
+Epoch 001 | Batch 3310 | val_kld=0.807504 | val_ordacc@10=0.151300 | val_recall@10=0.570543
+Epoch 001 | Batch 3320 | val_kld=0.810833 | val_ordacc@10=0.151004 | val_recall@10=0.571851
+Epoch 001 | Batch 3330 | val_kld=0.802145 | val_ordacc@10=0.153777 | val_recall@10=0.574826
+Epoch 001 | Step 3330 | lr=5.000000e-04 | loss=0.708597 | k_vals=[100, 50, 100, 1, 50]
+Epoch 001 | Batch 3340 | val_kld=0.806921 | val_ordacc@10=0.150754 | val_recall@10=0.574172
+Epoch 001 | Batch 3350 | val_kld=0.809919 | val_ordacc@10=0.150760 | val_recall@10=0.575787
+Epoch 001 | Batch 3360 | val_kld=0.807097 | val_ordacc@10=0.151527 | val_recall@10=0.571682
+Epoch 001 | Step 3360 | lr=5.000000e-04 | loss=0.682922 | k_vals=[10, 50, 100, 100, 100]
+Epoch 001 | Batch 3370 | val_kld=0.807320 | val_ordacc@10=0.152419 | val_recall@10=0.576227
+Epoch 001 | Batch 3380 | val_kld=0.798826 | val_ordacc@10=0.154649 | val_recall@10=0.578477
+Epoch 001 | Batch 3390 | val_kld=0.813693 | val_ordacc@10=0.149430 | val_recall@10=0.570460
+Epoch 001 | Step 3390 | lr=5.000000e-04 | loss=0.807832 | k_vals=[50, 100, 10, 20, 100]
+Epoch 001 | Batch 3400 | val_kld=0.807823 | val_ordacc@10=0.151870 | val_recall@10=0.569832
+Epoch 001 | Batch 3410 | val_kld=0.802249 | val_ordacc@10=0.154097 | val_recall@10=0.569734
+Epoch 001 | Batch 3420 | val_kld=0.808382 | val_ordacc@10=0.151502 | val_recall@10=0.567266
+Epoch 001 | Step 3420 | lr=5.000000e-04 | loss=0.779438 | k_vals=[20, 100, 1, 100, 100]
+Epoch 001 | Batch 3430 | val_kld=0.813086 | val_ordacc@10=0.148616 | val_recall@10=0.569265
+Epoch 001 | Batch 3440 | val_kld=0.801768 | val_ordacc@10=0.153342 | val_recall@10=0.568445
+Epoch 001 | Batch 3450 | val_kld=0.803293 | val_ordacc@10=0.152366 | val_recall@10=0.565585
+Epoch 001 | Step 3450 | lr=5.000000e-04 | loss=0.828281 | k_vals=[10, 100, 1, 10, 20]
+Epoch 001 | Batch 3460 | val_kld=0.798603 | val_ordacc@10=0.153690 | val_recall@10=0.568542
+Epoch 001 | Batch 3470 | val_kld=0.807700 | val_ordacc@10=0.151373 | val_recall@10=0.567417
+Epoch 001 | Batch 3480 | val_kld=0.813743 | val_ordacc@10=0.149079 | val_recall@10=0.564960
+Epoch 001 | Step 3480 | lr=5.000000e-04 | loss=0.981546 | k_vals=[100, 10, 10, 10, 10]
+Epoch 001 | Batch 3490 | val_kld=0.806356 | val_ordacc@10=0.153448 | val_recall@10=0.573740
+Epoch 001 | Batch 3500 | val_kld=0.814279 | val_ordacc@10=0.148624 | val_recall@10=0.578188
+Epoch 001 | Batch 3510 | val_kld=0.791150 | val_ordacc@10=0.154594 | val_recall@10=0.564080
+Epoch 001 | Step 3510 | lr=5.000000e-04 | loss=0.663753 | k_vals=[50, 20, 50, 1, 1]
+Epoch 001 | Batch 3520 | val_kld=0.804625 | val_ordacc@10=0.153799 | val_recall@10=0.569394
+Epoch 001 | Batch 3530 | val_kld=0.804629 | val_ordacc@10=0.152136 | val_recall@10=0.570913
+Epoch 001 | Batch 3540 | val_kld=0.803779 | val_ordacc@10=0.153117 | val_recall@10=0.578377
+Epoch 001 | Step 3540 | lr=5.000000e-04 | loss=0.827673 | k_vals=[100, 50, 100, 20, 20]
+Epoch 001 | Batch 3550 | val_kld=0.801249 | val_ordacc@10=0.153266 | val_recall@10=0.576561
+Epoch 001 | Batch 3560 | val_kld=0.805457 | val_ordacc@10=0.152393 | val_recall@10=0.567796
+Epoch 001 | Batch 3570 | val_kld=0.817562 | val_ordacc@10=0.148721 | val_recall@10=0.572366
+Epoch 001 | Step 3570 | lr=5.000000e-04 | loss=0.818467 | k_vals=[50, 100, 100, 20, 10]
+Epoch 001 | Batch 3580 | val_kld=0.794372 | val_ordacc@10=0.155380 | val_recall@10=0.572908
+Epoch 001 | Batch 3590 | val_kld=0.807493 | val_ordacc@10=0.152736 | val_recall@10=0.564242
+Epoch 001 | Batch 3600 | val_kld=0.797383 | val_ordacc@10=0.154184 | val_recall@10=0.573264
+Epoch 001 | Step 3600 | lr=5.000000e-04 | loss=0.760503 | k_vals=[20, 100, 50, 100, 50]
+Epoch 001 | Batch 3610 | val_kld=0.808553 | val_ordacc@10=0.151758 | val_recall@10=0.573252
+Epoch 001 | Batch 3620 | val_kld=0.815107 | val_ordacc@10=0.150000 | val_recall@10=0.574204
+Epoch 001 | Batch 3630 | val_kld=0.792975 | val_ordacc@10=0.156258 | val_recall@10=0.572189
+Epoch 001 | Step 3630 | lr=5.000000e-04 | loss=0.769389 | k_vals=[1, 10, 1, 50, 10]
+Epoch 001 | Batch 3640 | val_kld=0.795509 | val_ordacc@10=0.155390 | val_recall@10=0.575497
+Epoch 001 | Batch 3650 | val_kld=0.799349 | val_ordacc@10=0.152125 | val_recall@10=0.572791
+Epoch 001 | Batch 3660 | val_kld=0.800384 | val_ordacc@10=0.152276 | val_recall@10=0.564758
+Epoch 001 | Step 3660 | lr=5.000000e-04 | loss=0.837396 | k_vals=[1, 1, 1, 20, 10]
+Epoch 001 | Batch 3670 | val_kld=0.807506 | val_ordacc@10=0.151712 | val_recall@10=0.566335
+Epoch 001 | Batch 3680 | val_kld=0.791878 | val_ordacc@10=0.153835 | val_recall@10=0.571407
+Epoch 001 | Batch 3690 | val_kld=0.792329 | val_ordacc@10=0.154326 | val_recall@10=0.573112
+Epoch 001 | Step 3690 | lr=5.000000e-04 | loss=0.754354 | k_vals=[20, 50, 10, 20, 20]
+Epoch 001 | Batch 3700 | val_kld=0.796149 | val_ordacc@10=0.154826 | val_recall@10=0.575674
+Epoch 001 | Batch 3710 | val_kld=0.790227 | val_ordacc@10=0.154104 | val_recall@10=0.572632
+Epoch 001 | Batch 3720 | val_kld=0.808128 | val_ordacc@10=0.151896 | val_recall@10=0.571124
+Epoch 001 | Step 3720 | lr=5.000000e-04 | loss=0.897592 | k_vals=[20, 10, 20, 20, 1]
+Epoch 001 | Batch 3730 | val_kld=0.812310 | val_ordacc@10=0.150523 | val_recall@10=0.570376
+Epoch 001 | Batch 3740 | val_kld=0.815215 | val_ordacc@10=0.149265 | val_recall@10=0.570157
+Epoch 001 | Batch 3750 | val_kld=0.801722 | val_ordacc@10=0.151686 | val_recall@10=0.574793
+Epoch 001 | Step 3750 | lr=5.000000e-04 | loss=0.770059 | k_vals=[10, 20, 10, 1, 1]
+Epoch 001 | Batch 3760 | val_kld=0.811962 | val_ordacc@10=0.149558 | val_recall@10=0.574990
+Epoch 001 | Batch 3770 | val_kld=0.796091 | val_ordacc@10=0.154128 | val_recall@10=0.570776
+Epoch 001 | Batch 3780 | val_kld=0.806866 | val_ordacc@10=0.152394 | val_recall@10=0.570140
+Epoch 001 | Step 3780 | lr=5.000000e-04 | loss=0.761005 | k_vals=[50, 50, 1, 20, 50]
+Epoch 001 | Batch 3790 | val_kld=0.814289 | val_ordacc@10=0.152949 | val_recall@10=0.576688
+Epoch 001 | Batch 3800 | val_kld=0.807511 | val_ordacc@10=0.150542 | val_recall@10=0.568210
+Epoch 001 | Batch 3810 | val_kld=0.801069 | val_ordacc@10=0.154752 | val_recall@10=0.572314
+Epoch 001 | Step 3810 | lr=5.000000e-04 | loss=0.752556 | k_vals=[100, 50, 1, 20, 20]
+Epoch 001 | Batch 3820 | val_kld=0.806081 | val_ordacc@10=0.152954 | val_recall@10=0.566359
+Epoch 001 | Batch 3830 | val_kld=0.804602 | val_ordacc@10=0.153924 | val_recall@10=0.574251
+Epoch 001 | Batch 3840 | val_kld=0.800921 | val_ordacc@10=0.152732 | val_recall@10=0.570374
+Epoch 001 | Step 3840 | lr=5.000000e-04 | loss=0.790714 | k_vals=[20, 50, 50, 100, 20]
+Epoch 001 | Batch 3850 | val_kld=0.810292 | val_ordacc@10=0.150428 | val_recall@10=0.571212
+Epoch 001 | Batch 3860 | val_kld=0.792665 | val_ordacc@10=0.154386 | val_recall@10=0.568892
+Epoch 001 | Batch 3870 | val_kld=0.795370 | val_ordacc@10=0.154068 | val_recall@10=0.571952
+Epoch 001 | Step 3870 | lr=5.000000e-04 | loss=0.877977 | k_vals=[20, 10, 50, 10, 10]
+Epoch 001 | Batch 3880 | val_kld=0.807820 | val_ordacc@10=0.153752 | val_recall@10=0.575028
+Epoch 001 | Batch 3890 | val_kld=0.808783 | val_ordacc@10=0.151834 | val_recall@10=0.574990
+Epoch 001 | Batch 3900 | val_kld=0.810258 | val_ordacc@10=0.148147 | val_recall@10=0.564706
+Epoch 001 | Step 3900 | lr=5.000000e-04 | loss=0.939885 | k_vals=[100, 10, 50, 10, 20]
+Epoch 001 | Batch 3910 | val_kld=0.806994 | val_ordacc@10=0.150675 | val_recall@10=0.566724
+Epoch 001 | Batch 3920 | val_kld=0.797512 | val_ordacc@10=0.152958 | val_recall@10=0.565483
+Epoch 001 | Batch 3930 | val_kld=0.788740 | val_ordacc@10=0.154567 | val_recall@10=0.569114
+Epoch 001 | Step 3930 | lr=5.000000e-04 | loss=0.761766 | k_vals=[10, 20, 1, 50, 100]
+Epoch 001 | Batch 3940 | val_kld=0.796518 | val_ordacc@10=0.155541 | val_recall@10=0.571796
+Epoch 001 | Batch 3950 | val_kld=0.789209 | val_ordacc@10=0.154665 | val_recall@10=0.568151
+Epoch 001 | Batch 3960 | val_kld=0.803842 | val_ordacc@10=0.152912 | val_recall@10=0.572948
+Epoch 001 | Step 3960 | lr=5.000000e-04 | loss=0.699069 | k_vals=[50, 50, 20, 10, 50]
+Epoch 001 | Batch 3970 | val_kld=0.799244 | val_ordacc@10=0.153293 | val_recall@10=0.569935
+Epoch 001 | Batch 3980 | val_kld=0.800289 | val_ordacc@10=0.152258 | val_recall@10=0.568569
+Epoch 001 | Batch 3990 | val_kld=0.803518 | val_ordacc@10=0.151438 | val_recall@10=0.564828
+Epoch 001 | Step 3990 | lr=5.000000e-04 | loss=0.781954 | k_vals=[100, 20, 50, 1, 10]
+Epoch 001 | Batch 4000 | val_kld=0.806943 | val_ordacc@10=0.150680 | val_recall@10=0.565799
+Epoch 001 | Batch 4010 | val_kld=0.817261 | val_ordacc@10=0.146360 | val_recall@10=0.557055
+Epoch 001 | Batch 4020 | val_kld=0.800182 | val_ordacc@10=0.154206 | val_recall@10=0.568951
+Epoch 001 | Step 4020 | lr=5.000000e-04 | loss=0.880980 | k_vals=[50, 10, 100, 20, 20]
+Epoch 001 | Batch 4030 | val_kld=0.788986 | val_ordacc@10=0.154526 | val_recall@10=0.569599
+Epoch 001 | Batch 4040 | val_kld=0.798331 | val_ordacc@10=0.151664 | val_recall@10=0.573411
+Epoch 001 | Batch 4050 | val_kld=0.795789 | val_ordacc@10=0.154198 | val_recall@10=0.571661
+Epoch 001 | Step 4050 | lr=5.000000e-04 | loss=0.870187 | k_vals=[100, 50, 20, 100, 50]
+Epoch 001 | Batch 4060 | val_kld=0.795235 | val_ordacc@10=0.153444 | val_recall@10=0.570634
+Epoch 001 | Batch 4070 | val_kld=0.801741 | val_ordacc@10=0.150450 | val_recall@10=0.573125
+Epoch 001 | Batch 4080 | val_kld=0.805736 | val_ordacc@10=0.151818 | val_recall@10=0.570586
+Epoch 001 | Step 4080 | lr=5.000000e-04 | loss=0.825578 | k_vals=[20, 20, 100, 50, 10]
+Epoch 001 | Batch 4090 | val_kld=0.798363 | val_ordacc@10=0.153509 | val_recall@10=0.569750
+Epoch 001 | Batch 4100 | val_kld=0.795089 | val_ordacc@10=0.154210 | val_recall@10=0.568775
+Epoch 001 | Batch 4110 | val_kld=0.797567 | val_ordacc@10=0.152085 | val_recall@10=0.567825
+Epoch 001 | Step 4110 | lr=5.000000e-04 | loss=0.824656 | k_vals=[50, 100, 20, 1, 20]
+Epoch 001 | Batch 4120 | val_kld=0.798340 | val_ordacc@10=0.152449 | val_recall@10=0.569982
+Epoch 001 | Batch 4130 | val_kld=0.798962 | val_ordacc@10=0.153044 | val_recall@10=0.568226
+Epoch 001 | Batch 4140 | val_kld=0.798800 | val_ordacc@10=0.153028 | val_recall@10=0.576976
+Epoch 001 | Step 4140 | lr=5.000000e-04 | loss=0.698751 | k_vals=[50, 50, 20, 100, 10]
+Epoch 001 | Batch 4150 | val_kld=0.801202 | val_ordacc@10=0.153097 | val_recall@10=0.570413
+Epoch 001 | Batch 4160 | val_kld=0.800343 | val_ordacc@10=0.156422 | val_recall@10=0.571088
+Epoch 001 | Batch 4170 | val_kld=0.789446 | val_ordacc@10=0.156593 | val_recall@10=0.573399
+Epoch 001 | Step 4170 | lr=5.000000e-04 | loss=0.830051 | k_vals=[50, 100, 1, 20, 50]
+Epoch 001 | Batch 4180 | val_kld=0.795798 | val_ordacc@10=0.154902 | val_recall@10=0.572895
+Epoch 001 | Batch 4190 | val_kld=0.798787 | val_ordacc@10=0.152229 | val_recall@10=0.573819
+Epoch 001 | Batch 4200 | val_kld=0.813759 | val_ordacc@10=0.149408 | val_recall@10=0.572799
+Epoch 001 | Step 4200 | lr=5.000000e-04 | loss=0.767751 | k_vals=[50, 10, 50, 50, 10]
+Epoch 001 | Batch 4210 | val_kld=0.801009 | val_ordacc@10=0.150950 | val_recall@10=0.570257
+Epoch 001 | Batch 4220 | val_kld=0.800967 | val_ordacc@10=0.153701 | val_recall@10=0.571474
+Epoch 001 | Batch 4230 | val_kld=0.790078 | val_ordacc@10=0.156617 | val_recall@10=0.578892
+Epoch 001 | Step 4230 | lr=5.000000e-04 | loss=0.910333 | k_vals=[10, 100, 10, 100, 1]
+Epoch 001 | Batch 4240 | val_kld=0.800173 | val_ordacc@10=0.152134 | val_recall@10=0.570215
+Epoch 001 | Batch 4250 | val_kld=0.809237 | val_ordacc@10=0.147686 | val_recall@10=0.569500
+Epoch 001 | Batch 4260 | val_kld=0.809366 | val_ordacc@10=0.149780 | val_recall@10=0.575124
+Epoch 001 | Step 4260 | lr=5.000000e-04 | loss=1.024089 | k_vals=[50, 100, 50, 100, 100]
+Epoch 001 | Batch 4270 | val_kld=0.801255 | val_ordacc@10=0.155100 | val_recall@10=0.575949
+Epoch 001 | Batch 4280 | val_kld=0.799628 | val_ordacc@10=0.154163 | val_recall@10=0.577656
+Epoch 001 | Batch 4290 | val_kld=0.793517 | val_ordacc@10=0.154109 | val_recall@10=0.574098
+Epoch 001 | Step 4290 | lr=5.000000e-04 | loss=0.807303 | k_vals=[1, 1, 20, 1, 10]
+Epoch 001 | Batch 4300 | val_kld=0.794464 | val_ordacc@10=0.154320 | val_recall@10=0.569028
+Epoch 001 | Batch 4310 | val_kld=0.790891 | val_ordacc@10=0.154613 | val_recall@10=0.573146
+Epoch 001 | Batch 4320 | val_kld=0.802132 | val_ordacc@10=0.151844 | val_recall@10=0.571183
+Epoch 001 | Step 4320 | lr=5.000000e-04 | loss=0.882857 | k_vals=[100, 1, 1, 10, 1]
+Epoch 001 | Batch 4330 | val_kld=0.787774 | val_ordacc@10=0.156588 | val_recall@10=0.574038
+Epoch 001 | Batch 4340 | val_kld=0.784914 | val_ordacc@10=0.156355 | val_recall@10=0.575631
+Epoch 001 | Batch 4350 | val_kld=0.806464 | val_ordacc@10=0.149389 | val_recall@10=0.572407
+Epoch 001 | Step 4350 | lr=5.000000e-04 | loss=0.767584 | k_vals=[10, 10, 100, 20, 20]
+Epoch 001 | Batch 4360 | val_kld=0.804297 | val_ordacc@10=0.152342 | val_recall@10=0.569224
+Epoch 001 | Batch 4370 | val_kld=0.806600 | val_ordacc@10=0.149363 | val_recall@10=0.573032
+Epoch 001 | Batch 4380 | val_kld=0.801017 | val_ordacc@10=0.153528 | val_recall@10=0.577154
+Epoch 001 | Step 4380 | lr=5.000000e-04 | loss=0.779746 | k_vals=[20, 10, 10, 1, 20]
+Epoch 001 | Batch 4390 | val_kld=0.795742 | val_ordacc@10=0.154260 | val_recall@10=0.576814
+Epoch 001 | Batch 4400 | val_kld=0.786182 | val_ordacc@10=0.154622 | val_recall@10=0.567580
+Epoch 001 | Batch 4410 | val_kld=0.797515 | val_ordacc@10=0.151850 | val_recall@10=0.567559
+Epoch 001 | Step 4410 | lr=5.000000e-04 | loss=0.768983 | k_vals=[50, 100, 1, 10, 20]
+Epoch 001 | Batch 4420 | val_kld=0.788777 | val_ordacc@10=0.154558 | val_recall@10=0.569925
+Epoch 001 | Batch 4430 | val_kld=0.794293 | val_ordacc@10=0.153864 | val_recall@10=0.569636
+Epoch 001 | Batch 4440 | val_kld=0.786050 | val_ordacc@10=0.156424 | val_recall@10=0.571868
+Epoch 001 | Step 4440 | lr=5.000000e-04 | loss=0.723021 | k_vals=[10, 10, 10, 20, 100]
+Epoch 001 | Batch 4450 | val_kld=0.789976 | val_ordacc@10=0.154959 | val_recall@10=0.571440
+Epoch 001 | Batch 4460 | val_kld=0.795166 | val_ordacc@10=0.155653 | val_recall@10=0.578830
+Epoch 001 | Batch 4470 | val_kld=0.792674 | val_ordacc@10=0.155316 | val_recall@10=0.571629
+Epoch 001 | Step 4470 | lr=5.000000e-04 | loss=0.856547 | k_vals=[10, 100, 100, 20, 50]
+Epoch 001 | Batch 4480 | val_kld=0.796855 | val_ordacc@10=0.153386 | val_recall@10=0.573223
+Epoch 001 | Batch 4490 | val_kld=0.796631 | val_ordacc@10=0.153635 | val_recall@10=0.571110
+Epoch 001 | Batch 4500 | val_kld=0.791756 | val_ordacc@10=0.155468 | val_recall@10=0.570262
+Epoch 001 | Step 4500 | lr=5.000000e-04 | loss=0.889542 | k_vals=[50, 1, 100, 1, 10]
+Epoch 001 | Batch 4510 | val_kld=0.815884 | val_ordacc@10=0.148136 | val_recall@10=0.565973
+Epoch 001 | Batch 4520 | val_kld=0.798246 | val_ordacc@10=0.153388 | val_recall@10=0.566852
+Epoch 001 | Batch 4530 | val_kld=0.808806 | val_ordacc@10=0.148092 | val_recall@10=0.569588
+Epoch 001 | Step 4530 | lr=5.000000e-04 | loss=0.831558 | k_vals=[1, 10, 20, 50, 10]
+Epoch 001 | Batch 4540 | val_kld=0.793347 | val_ordacc@10=0.153537 | val_recall@10=0.568761
+Epoch 001 | Batch 4550 | val_kld=0.794127 | val_ordacc@10=0.153747 | val_recall@10=0.567248
+Epoch 001 | Batch 4560 | val_kld=0.787497 | val_ordacc@10=0.154518 | val_recall@10=0.568049
+Epoch 001 | Step 4560 | lr=5.000000e-04 | loss=0.731037 | k_vals=[20, 1, 20, 20, 10]
+Epoch 001 | Batch 4570 | val_kld=0.792718 | val_ordacc@10=0.154815 | val_recall@10=0.569114
+Epoch 001 | Batch 4580 | val_kld=0.784848 | val_ordacc@10=0.155274 | val_recall@10=0.571788
+Epoch 001 | Batch 4590 | val_kld=0.793586 | val_ordacc@10=0.154480 | val_recall@10=0.572434
+Epoch 001 | Step 4590 | lr=5.000000e-04 | loss=0.820035 | k_vals=[20, 50, 100, 1, 1]
+Epoch 001 | Batch 4600 | val_kld=0.802944 | val_ordacc@10=0.152145 | val_recall@10=0.572954
+Epoch 001 | Batch 4610 | val_kld=0.803247 | val_ordacc@10=0.152728 | val_recall@10=0.575875
+Epoch 001 | Batch 4620 | val_kld=0.807081 | val_ordacc@10=0.151214 | val_recall@10=0.578119
+Epoch 001 | Step 4620 | lr=5.000000e-04 | loss=0.866627 | k_vals=[1, 50, 10, 10, 20]
+Epoch 001 | Batch 4630 | val_kld=0.786301 | val_ordacc@10=0.156812 | val_recall@10=0.579624
+Epoch 001 | Batch 4640 | val_kld=0.798168 | val_ordacc@10=0.152231 | val_recall@10=0.578308
+Epoch 001 | Batch 4650 | val_kld=0.801023 | val_ordacc@10=0.150564 | val_recall@10=0.579657
+Epoch 001 | Step 4650 | lr=5.000000e-04 | loss=0.758451 | k_vals=[20, 10, 50, 20, 10]
+Epoch 001 | Batch 4660 | val_kld=0.796197 | val_ordacc@10=0.154189 | val_recall@10=0.569702
+Epoch 001 | Batch 4670 | val_kld=0.788177 | val_ordacc@10=0.156318 | val_recall@10=0.571011
+Epoch 001 | Batch 4680 | val_kld=0.789355 | val_ordacc@10=0.155030 | val_recall@10=0.569476
+Epoch 001 | Step 4680 | lr=5.000000e-04 | loss=0.824614 | k_vals=[50, 20, 50, 50, 50]
+Epoch 001 | Batch 4690 | val_kld=0.787382 | val_ordacc@10=0.156181 | val_recall@10=0.572964
+Epoch 001 | Batch 4700 | val_kld=0.788682 | val_ordacc@10=0.154738 | val_recall@10=0.573750
+Epoch 001 | Batch 4710 | val_kld=0.790270 | val_ordacc@10=0.155170 | val_recall@10=0.570984
+Epoch 001 | Step 4710 | lr=5.000000e-04 | loss=0.964332 | k_vals=[10, 20, 50, 1, 100]
+Epoch 001 | Batch 4720 | val_kld=0.796794 | val_ordacc@10=0.154323 | val_recall@10=0.574026
+Epoch 001 | Batch 4730 | val_kld=0.793177 | val_ordacc@10=0.155791 | val_recall@10=0.572819
+Epoch 001 | Batch 4740 | val_kld=0.785330 | val_ordacc@10=0.157629 | val_recall@10=0.570799
+Epoch 001 | Step 4740 | lr=5.000000e-04 | loss=0.590195 | k_vals=[10, 50, 100, 100, 20]
+Epoch 001 | Batch 4750 | val_kld=0.787139 | val_ordacc@10=0.155020 | val_recall@10=0.566137
+Epoch 001 | Batch 4760 | val_kld=0.780019 | val_ordacc@10=0.157122 | val_recall@10=0.576450
+Epoch 001 | Batch 4770 | val_kld=0.785926 | val_ordacc@10=0.156319 | val_recall@10=0.575371
+Epoch 001 | Step 4770 | lr=5.000000e-04 | loss=0.721539 | k_vals=[10, 1, 1, 10, 1]
+Epoch 001 | Batch 4780 | val_kld=0.788453 | val_ordacc@10=0.156332 | val_recall@10=0.571773
+Epoch 001 | Batch 4790 | val_kld=0.796182 | val_ordacc@10=0.155568 | val_recall@10=0.571600
+Epoch 001 | Batch 4800 | val_kld=0.790191 | val_ordacc@10=0.155254 | val_recall@10=0.572855
+Epoch 001 | Step 4800 | lr=5.000000e-04 | loss=0.687823 | k_vals=[100, 10, 50, 50, 1]
+Epoch 001 | Batch 4810 | val_kld=0.797235 | val_ordacc@10=0.153018 | val_recall@10=0.573959
+Epoch 001 | Batch 4820 | val_kld=0.785347 | val_ordacc@10=0.155450 | val_recall@10=0.569145
+Epoch 001 | Batch 4830 | val_kld=0.798503 | val_ordacc@10=0.152061 | val_recall@10=0.565358
+Epoch 001 | Step 4830 | lr=5.000000e-04 | loss=0.865219 | k_vals=[50, 10, 20, 1, 10]
+Epoch 001 | Batch 4840 | val_kld=0.797734 | val_ordacc@10=0.153036 | val_recall@10=0.564676
+Epoch 001 | Batch 4850 | val_kld=0.800034 | val_ordacc@10=0.153269 | val_recall@10=0.574614
+Epoch 001 | Batch 4860 | val_kld=0.790285 | val_ordacc@10=0.156643 | val_recall@10=0.576199
+Epoch 001 | Step 4860 | lr=5.000000e-04 | loss=0.622785 | k_vals=[20, 20, 50, 10, 50]
+Epoch 001 | Batch 4870 | val_kld=0.806080 | val_ordacc@10=0.150416 | val_recall@10=0.579176
+Epoch 001 | Batch 4880 | val_kld=0.782667 | val_ordacc@10=0.157237 | val_recall@10=0.572841
+Epoch 001 | Batch 4890 | val_kld=0.782351 | val_ordacc@10=0.155664 | val_recall@10=0.572257
+Epoch 001 | Step 4890 | lr=5.000000e-04 | loss=0.834150 | k_vals=[100, 100, 20, 50, 100]
+Epoch 001 | Batch 4900 | val_kld=0.785614 | val_ordacc@10=0.156020 | val_recall@10=0.569562
+Epoch 001 | Batch 4910 | val_kld=0.783769 | val_ordacc@10=0.156071 | val_recall@10=0.573488
+Epoch 001 | Batch 4920 | val_kld=0.800419 | val_ordacc@10=0.154153 | val_recall@10=0.574147
+Epoch 001 | Step 4920 | lr=5.000000e-04 | loss=0.887547 | k_vals=[20, 50, 10, 10, 1]
+Epoch 001 | Batch 4930 | val_kld=0.787219 | val_ordacc@10=0.157180 | val_recall@10=0.571772
+Epoch 001 | Batch 4940 | val_kld=0.784907 | val_ordacc@10=0.157346 | val_recall@10=0.571334
+Epoch 001 | Batch 4950 | val_kld=0.786423 | val_ordacc@10=0.155210 | val_recall@10=0.569711
+Epoch 001 | Step 4950 | lr=5.000000e-04 | loss=0.835675 | k_vals=[20, 20, 20, 50, 100]
+Epoch 001 | Batch 4960 | val_kld=0.786011 | val_ordacc@10=0.156187 | val_recall@10=0.572596
+Epoch 001 | Batch 4970 | val_kld=0.780301 | val_ordacc@10=0.158081 | val_recall@10=0.575781
+Epoch 001 | Batch 4980 | val_kld=0.780296 | val_ordacc@10=0.158238 | val_recall@10=0.572433
+Epoch 001 | Step 4980 | lr=5.000000e-04 | loss=0.687408 | k_vals=[20, 50, 10, 10, 100]
+Epoch 001 | Batch 4990 | val_kld=0.785504 | val_ordacc@10=0.156761 | val_recall@10=0.579128
+Epoch 001 | Batch 5000 | val_kld=0.788491 | val_ordacc@10=0.157333 | val_recall@10=0.577554
+Epoch 001 | Batch 5010 | val_kld=0.811069 | val_ordacc@10=0.147850 | val_recall@10=0.559265
+Epoch 001 | Step 5010 | lr=5.000000e-04 | loss=0.879948 | k_vals=[20, 20, 100, 50, 100]
+Epoch 001 | Batch 5020 | val_kld=0.781629 | val_ordacc@10=0.157898 | val_recall@10=0.572366
+Epoch 001 | Batch 5030 | val_kld=0.786100 | val_ordacc@10=0.156227 | val_recall@10=0.575354
+Epoch 001 | Batch 5040 | val_kld=0.789750 | val_ordacc@10=0.155425 | val_recall@10=0.571728
+Epoch 001 | Step 5040 | lr=5.000000e-04 | loss=0.680480 | k_vals=[50, 20, 1, 1, 1]
+Epoch 001 | Batch 5050 | val_kld=0.790164 | val_ordacc@10=0.153552 | val_recall@10=0.577609
+Epoch 001 | Batch 5060 | val_kld=0.799720 | val_ordacc@10=0.152998 | val_recall@10=0.572536
+Epoch 001 | Batch 5070 | val_kld=0.784101 | val_ordacc@10=0.156816 | val_recall@10=0.575716
+Epoch 001 | Step 5070 | lr=5.000000e-04 | loss=0.709499 | k_vals=[50, 50, 50, 1, 1]
+Epoch 001 | Batch 5080 | val_kld=0.800372 | val_ordacc@10=0.154302 | val_recall@10=0.570667
+Epoch 001 | Batch 5090 | val_kld=0.790109 | val_ordacc@10=0.154397 | val_recall@10=0.574463
+Epoch 001 | Batch 5100 | val_kld=0.785830 | val_ordacc@10=0.153418 | val_recall@10=0.567610
+Epoch 001 | Step 5100 | lr=5.000000e-04 | loss=0.713982 | k_vals=[50, 10, 50, 20, 50]
+Epoch 001 | Batch 5110 | val_kld=0.780655 | val_ordacc@10=0.156842 | val_recall@10=0.571976
+Epoch 001 | Batch 5120 | val_kld=0.798267 | val_ordacc@10=0.153292 | val_recall@10=0.577260
+Epoch 001 | Batch 5130 | val_kld=0.789662 | val_ordacc@10=0.155132 | val_recall@10=0.568499
+Epoch 001 | Step 5130 | lr=5.000000e-04 | loss=0.845944 | k_vals=[20, 1, 50, 1, 10]
+Epoch 001 | Batch 5140 | val_kld=0.800588 | val_ordacc@10=0.154006 | val_recall@10=0.574150
+Epoch 001 | Batch 5150 | val_kld=0.785775 | val_ordacc@10=0.155738 | val_recall@10=0.580642
+Epoch 001 | Batch 5160 | val_kld=0.810129 | val_ordacc@10=0.148682 | val_recall@10=0.575107
+Epoch 001 | Step 5160 | lr=5.000000e-04 | loss=0.898207 | k_vals=[20, 10, 20, 50, 10]
+Epoch 001 | Batch 5170 | val_kld=0.778805 | val_ordacc@10=0.157730 | val_recall@10=0.573111
+Epoch 001 | Batch 5180 | val_kld=0.788993 | val_ordacc@10=0.153516 | val_recall@10=0.571351
+Epoch 001 | Batch 5190 | val_kld=0.793291 | val_ordacc@10=0.154539 | val_recall@10=0.571505
+Epoch 001 | Step 5190 | lr=5.000000e-04 | loss=0.749287 | k_vals=[50, 50, 100, 50, 50]
+Epoch 001 | Batch 5200 | val_kld=0.791143 | val_ordacc@10=0.153953 | val_recall@10=0.570596
+Epoch 001 | Batch 5210 | val_kld=0.780329 | val_ordacc@10=0.156918 | val_recall@10=0.570171
+Epoch 001 | Batch 5220 | val_kld=0.790218 | val_ordacc@10=0.155560 | val_recall@10=0.569213
+Epoch 001 | Step 5220 | lr=5.000000e-04 | loss=0.771102 | k_vals=[1, 10, 20, 100, 50]
+Epoch 001 | Batch 5230 | val_kld=0.782500 | val_ordacc@10=0.155532 | val_recall@10=0.573136
+Epoch 001 | Batch 5240 | val_kld=0.795190 | val_ordacc@10=0.154077 | val_recall@10=0.573011
+Epoch 001 | Batch 5250 | val_kld=0.803039 | val_ordacc@10=0.152064 | val_recall@10=0.571908
+Epoch 001 | Step 5250 | lr=5.000000e-04 | loss=0.864524 | k_vals=[100, 50, 100, 1, 10]
+Epoch 001 | Batch 5260 | val_kld=0.779982 | val_ordacc@10=0.158800 | val_recall@10=0.575401
+Epoch 001 | Batch 5270 | val_kld=0.785024 | val_ordacc@10=0.154900 | val_recall@10=0.573130
+Epoch 001 | Batch 5280 | val_kld=0.781566 | val_ordacc@10=0.157430 | val_recall@10=0.573542
+Epoch 001 | Step 5280 | lr=5.000000e-04 | loss=0.865773 | k_vals=[1, 1, 10, 1, 10]
+Epoch 001 | Batch 5290 | val_kld=0.789246 | val_ordacc@10=0.154656 | val_recall@10=0.565912
+Epoch 001 | Batch 5300 | val_kld=0.789417 | val_ordacc@10=0.154746 | val_recall@10=0.576246
+Epoch 001 | Batch 5310 | val_kld=0.788180 | val_ordacc@10=0.156014 | val_recall@10=0.575417
+Epoch 001 | Step 5310 | lr=5.000000e-04 | loss=0.604350 | k_vals=[50, 50, 50, 10, 50]
+Epoch 001 | Batch 5320 | val_kld=0.783114 | val_ordacc@10=0.157678 | val_recall@10=0.574328
+Epoch 001 | Batch 5330 | val_kld=0.789538 | val_ordacc@10=0.155210 | val_recall@10=0.572126
+Epoch 001 | Batch 5340 | val_kld=0.783130 | val_ordacc@10=0.155567 | val_recall@10=0.574709
+Epoch 001 | Step 5340 | lr=5.000000e-04 | loss=0.829155 | k_vals=[10, 1, 100, 50, 10]
+Epoch 001 | Batch 5350 | val_kld=0.771697 | val_ordacc@10=0.159154 | val_recall@10=0.577036
+Epoch 001 | Batch 5360 | val_kld=0.779459 | val_ordacc@10=0.158130 | val_recall@10=0.573123
+Epoch 001 | Batch 5370 | val_kld=0.788424 | val_ordacc@10=0.156787 | val_recall@10=0.576964
+Epoch 001 | Step 5370 | lr=5.000000e-04 | loss=0.732350 | k_vals=[10, 20, 100, 100, 10]
+Epoch 001 | Batch 5380 | val_kld=0.786542 | val_ordacc@10=0.156261 | val_recall@10=0.571438
+Epoch 001 | Batch 5390 | val_kld=0.779824 | val_ordacc@10=0.157856 | val_recall@10=0.569304
+Epoch 001 | Batch 5400 | val_kld=0.782135 | val_ordacc@10=0.156523 | val_recall@10=0.568544
+Epoch 001 | Step 5400 | lr=5.000000e-04 | loss=0.705482 | k_vals=[1, 1, 10, 10, 20]
+Epoch 001 | Batch 5410 | val_kld=0.784698 | val_ordacc@10=0.155440 | val_recall@10=0.571882
+Epoch 001 | Batch 5420 | val_kld=0.790984 | val_ordacc@10=0.154090 | val_recall@10=0.574627
+Epoch 001 | Batch 5430 | val_kld=0.783656 | val_ordacc@10=0.156888 | val_recall@10=0.573496
+Epoch 001 | Step 5430 | lr=5.000000e-04 | loss=0.772212 | k_vals=[1, 1, 1, 1, 20]
+Epoch 001 | Batch 5440 | val_kld=0.777688 | val_ordacc@10=0.157855 | val_recall@10=0.573181
+Epoch 001 | Batch 5450 | val_kld=0.782064 | val_ordacc@10=0.157420 | val_recall@10=0.576055
+Epoch 001 | Batch 5460 | val_kld=0.784589 | val_ordacc@10=0.158242 | val_recall@10=0.572438
+Epoch 001 | Step 5460 | lr=5.000000e-04 | loss=0.734637 | k_vals=[10, 100, 100, 50, 10]
+Epoch 001 | Batch 5470 | val_kld=0.777457 | val_ordacc@10=0.157916 | val_recall@10=0.573296
+Epoch 001 | Batch 5480 | val_kld=0.790004 | val_ordacc@10=0.153958 | val_recall@10=0.570084
+Epoch 001 | Batch 5490 | val_kld=0.783657 | val_ordacc@10=0.156184 | val_recall@10=0.575903
+Epoch 001 | Step 5490 | lr=5.000000e-04 | loss=0.724424 | k_vals=[20, 20, 10, 50, 20]
+Epoch 001 | Batch 5500 | val_kld=0.795439 | val_ordacc@10=0.153465 | val_recall@10=0.577262
+Epoch 001 | Batch 5510 | val_kld=0.777024 | val_ordacc@10=0.157822 | val_recall@10=0.573333
+Epoch 001 | Batch 5520 | val_kld=0.782193 | val_ordacc@10=0.158840 | val_recall@10=0.576339
+Epoch 001 | Step 5520 | lr=5.000000e-04 | loss=0.749581 | k_vals=[1, 1, 50, 50, 20]
+Epoch 001 | Batch 5530 | val_kld=0.786981 | val_ordacc@10=0.155307 | val_recall@10=0.574755
+Epoch 001 | Batch 5540 | val_kld=0.792927 | val_ordacc@10=0.151724 | val_recall@10=0.572038
+Epoch 001 | Batch 5550 | val_kld=0.791607 | val_ordacc@10=0.153046 | val_recall@10=0.571853
+Epoch 001 | Step 5550 | lr=5.000000e-04 | loss=0.734206 | k_vals=[50, 100, 50, 100, 20]
+Epoch 001 | Batch 5560 | val_kld=0.797892 | val_ordacc@10=0.153249 | val_recall@10=0.569477
+Epoch 001 | Batch 5570 | val_kld=0.777710 | val_ordacc@10=0.158111 | val_recall@10=0.574229
+Epoch 001 | Batch 5580 | val_kld=0.788892 | val_ordacc@10=0.154925 | val_recall@10=0.573051
+Epoch 001 | Step 5580 | lr=5.000000e-04 | loss=0.896195 | k_vals=[100, 50, 50, 10, 50]
+Epoch 001 | Batch 5590 | val_kld=0.787449 | val_ordacc@10=0.157010 | val_recall@10=0.571772
+Epoch 001 | Batch 5600 | val_kld=0.781104 | val_ordacc@10=0.157558 | val_recall@10=0.573789
+Epoch 001 | Batch 5610 | val_kld=0.777324 | val_ordacc@10=0.157460 | val_recall@10=0.574447
+Epoch 001 | Step 5610 | lr=5.000000e-04 | loss=0.736390 | k_vals=[10, 100, 100, 50, 50]
+Epoch 001 | Batch 5620 | val_kld=0.780602 | val_ordacc@10=0.157084 | val_recall@10=0.572694
+Epoch 001 | Batch 5630 | val_kld=0.777551 | val_ordacc@10=0.157821 | val_recall@10=0.573779
+Epoch 001 | Batch 5640 | val_kld=0.780869 | val_ordacc@10=0.158716 | val_recall@10=0.575365
+Epoch 001 | Step 5640 | lr=5.000000e-04 | loss=0.725583 | k_vals=[20, 1, 50, 50, 100]
+Epoch 001 | Batch 5650 | val_kld=0.795812 | val_ordacc@10=0.154081 | val_recall@10=0.571355
+Epoch 001 | Batch 5660 | val_kld=0.798907 | val_ordacc@10=0.152397 | val_recall@10=0.567525
+Epoch 001 | Batch 5670 | val_kld=0.792683 | val_ordacc@10=0.154052 | val_recall@10=0.567852
+Epoch 001 | Step 5670 | lr=5.000000e-04 | loss=0.820044 | k_vals=[10, 100, 10, 50, 1]
+Epoch 001 | Batch 5680 | val_kld=0.788166 | val_ordacc@10=0.155727 | val_recall@10=0.575784
+Epoch 001 | Batch 5690 | val_kld=0.780150 | val_ordacc@10=0.156362 | val_recall@10=0.571503
+Epoch 001 | Batch 5700 | val_kld=0.781872 | val_ordacc@10=0.155294 | val_recall@10=0.575529
+Epoch 001 | Step 5700 | lr=5.000000e-04 | loss=0.785189 | k_vals=[50, 100, 50, 1, 10]
+Epoch 001 | Batch 5710 | val_kld=0.780848 | val_ordacc@10=0.156436 | val_recall@10=0.575856
+Epoch 001 | Batch 5720 | val_kld=0.792583 | val_ordacc@10=0.155103 | val_recall@10=0.575661
+Epoch 001 | Batch 5730 | val_kld=0.778166 | val_ordacc@10=0.157770 | val_recall@10=0.576942
+Epoch 001 | Step 5730 | lr=5.000000e-04 | loss=0.770630 | k_vals=[10, 1, 10, 1, 10]
+Epoch 001 | Batch 5740 | val_kld=0.777417 | val_ordacc@10=0.157955 | val_recall@10=0.574856
+Epoch 001 | Batch 5750 | val_kld=0.782328 | val_ordacc@10=0.157268 | val_recall@10=0.571717
+Epoch 001 | Batch 5760 | val_kld=0.792490 | val_ordacc@10=0.152168 | val_recall@10=0.576594
+Epoch 001 | Step 5760 | lr=5.000000e-04 | loss=0.916196 | k_vals=[10, 1, 10, 1, 50]
+Epoch 001 | Batch 5770 | val_kld=0.786654 | val_ordacc@10=0.155193 | val_recall@10=0.575085
+Epoch 001 | Batch 5780 | val_kld=0.786145 | val_ordacc@10=0.153719 | val_recall@10=0.569944
+Epoch 001 | Batch 5790 | val_kld=0.774500 | val_ordacc@10=0.158381 | val_recall@10=0.573897
+Epoch 001 | Step 5790 | lr=5.000000e-04 | loss=0.666466 | k_vals=[20, 10, 1, 100, 100]
+Epoch 001 | Batch 5800 | val_kld=0.786421 | val_ordacc@10=0.154063 | val_recall@10=0.575368
+Epoch 001 | Batch 5810 | val_kld=0.778650 | val_ordacc@10=0.157269 | val_recall@10=0.574616
+Epoch 001 | Batch 5820 | val_kld=0.776214 | val_ordacc@10=0.158606 | val_recall@10=0.574915
+Epoch 001 | Step 5820 | lr=5.000000e-04 | loss=0.772106 | k_vals=[20, 10, 50, 20, 100]
+Epoch 001 | Batch 5830 | val_kld=0.806069 | val_ordacc@10=0.150135 | val_recall@10=0.579665
+Epoch 001 | Batch 5840 | val_kld=0.780472 | val_ordacc@10=0.156908 | val_recall@10=0.574784
+Epoch 001 | Batch 5850 | val_kld=0.778114 | val_ordacc@10=0.157617 | val_recall@10=0.570637
+Epoch 001 | Step 5850 | lr=5.000000e-04 | loss=0.795354 | k_vals=[100, 1, 20, 50, 50]
+Epoch 001 | Batch 5860 | val_kld=0.777874 | val_ordacc@10=0.157102 | val_recall@10=0.575252
+Epoch 001 | Batch 5870 | val_kld=0.790670 | val_ordacc@10=0.154376 | val_recall@10=0.576647
+Epoch 001 | Batch 5880 | val_kld=0.781048 | val_ordacc@10=0.157964 | val_recall@10=0.578723
+Epoch 001 | Step 5880 | lr=5.000000e-04 | loss=0.813265 | k_vals=[100, 20, 1, 50, 100]
+Epoch 001 | Batch 5890 | val_kld=0.789833 | val_ordacc@10=0.154281 | val_recall@10=0.571846
+Epoch 001 | Batch 5900 | val_kld=0.793642 | val_ordacc@10=0.152268 | val_recall@10=0.568062
+Epoch 001 | Batch 5910 | val_kld=0.779984 | val_ordacc@10=0.157818 | val_recall@10=0.574650
+Epoch 001 | Step 5910 | lr=5.000000e-04 | loss=0.726152 | k_vals=[100, 50, 10, 10, 50]
+Epoch 001 | Batch 5920 | val_kld=0.771725 | val_ordacc@10=0.159506 | val_recall@10=0.575442
+Epoch 001 | Batch 5930 | val_kld=0.775825 | val_ordacc@10=0.158246 | val_recall@10=0.575586
+Epoch 001 | Batch 5940 | val_kld=0.780600 | val_ordacc@10=0.156124 | val_recall@10=0.569603
+Epoch 001 | Step 5940 | lr=5.000000e-04 | loss=0.726580 | k_vals=[10, 50, 50, 50, 1]
+Epoch 001 | Batch 5950 | val_kld=0.779977 | val_ordacc@10=0.156438 | val_recall@10=0.578640
+Epoch 001 | Batch 5960 | val_kld=0.782566 | val_ordacc@10=0.157941 | val_recall@10=0.578587
+Epoch 001 | Batch 5970 | val_kld=0.771589 | val_ordacc@10=0.159028 | val_recall@10=0.575246
+Epoch 001 | Step 5970 | lr=5.000000e-04 | loss=0.910621 | k_vals=[1, 50, 1, 20, 1]
+Epoch 001 | Batch 5980 | val_kld=0.771065 | val_ordacc@10=0.158815 | val_recall@10=0.571461
+Epoch 001 | Batch 5990 | val_kld=0.775941 | val_ordacc@10=0.157802 | val_recall@10=0.572372
+Epoch 001 | Batch 6000 | val_kld=0.798296 | val_ordacc@10=0.154509 | val_recall@10=0.569351
+Epoch 001 | Step 6000 | lr=5.000000e-04 | loss=0.771996 | k_vals=[20, 50, 10, 50, 50]
+Epoch 001 | Batch 6010 | val_kld=0.793499 | val_ordacc@10=0.154070 | val_recall@10=0.572589
+Epoch 001 | Batch 6020 | val_kld=0.780260 | val_ordacc@10=0.158332 | val_recall@10=0.570840
+Epoch 001 | Batch 6030 | val_kld=0.785364 | val_ordacc@10=0.156317 | val_recall@10=0.573529
+Epoch 001 | Step 6030 | lr=5.000000e-04 | loss=1.022529 | k_vals=[50, 1, 1, 1, 1]
+Epoch 001 | Batch 6040 | val_kld=0.776664 | val_ordacc@10=0.158226 | val_recall@10=0.572335
+Epoch 001 | Batch 6050 | val_kld=0.782686 | val_ordacc@10=0.157862 | val_recall@10=0.576438
+Epoch 001 | Batch 6060 | val_kld=0.786014 | val_ordacc@10=0.155468 | val_recall@10=0.577258
+Epoch 001 | Step 6060 | lr=5.000000e-04 | loss=0.759788 | k_vals=[100, 20, 20, 50, 1]
+Epoch 001 | Batch 6070 | val_kld=0.788514 | val_ordacc@10=0.155284 | val_recall@10=0.578082
+Epoch 001 | Batch 6080 | val_kld=0.789862 | val_ordacc@10=0.153116 | val_recall@10=0.573041
+Epoch 001 | Batch 6090 | val_kld=0.781372 | val_ordacc@10=0.157416 | val_recall@10=0.570504
+Epoch 001 | Step 6090 | lr=5.000000e-04 | loss=0.905140 | k_vals=[10, 1, 50, 10, 1]
+Epoch 001 | Batch 6100 | val_kld=0.776320 | val_ordacc@10=0.157052 | val_recall@10=0.574716
+Epoch 001 | Batch 6110 | val_kld=0.784999 | val_ordacc@10=0.156676 | val_recall@10=0.570401
+Epoch 001 | Batch 6120 | val_kld=0.777528 | val_ordacc@10=0.157926 | val_recall@10=0.575296
+Epoch 001 | Step 6120 | lr=5.000000e-04 | loss=0.821687 | k_vals=[50, 50, 1, 10, 50]
+Epoch 001 | Batch 6130 | val_kld=0.774957 | val_ordacc@10=0.158854 | val_recall@10=0.574790
+Epoch 001 | Batch 6140 | val_kld=0.776627 | val_ordacc@10=0.157871 | val_recall@10=0.574046
+Epoch 001 | Batch 6150 | val_kld=0.787703 | val_ordacc@10=0.156556 | val_recall@10=0.578093
+Epoch 001 | Step 6150 | lr=5.000000e-04 | loss=0.773918 | k_vals=[20, 20, 1, 10, 1]
+Epoch 001 | Batch 6160 | val_kld=0.790013 | val_ordacc@10=0.154760 | val_recall@10=0.584235
+Epoch 001 | Batch 6170 | val_kld=0.782225 | val_ordacc@10=0.156189 | val_recall@10=0.575181
+Epoch 001 | Batch 6180 | val_kld=0.777198 | val_ordacc@10=0.157673 | val_recall@10=0.570575
+Epoch 001 | Step 6180 | lr=5.000000e-04 | loss=0.813696 | k_vals=[100, 100, 10, 1, 20]
+Epoch 001 | Batch 6190 | val_kld=0.777799 | val_ordacc@10=0.157819 | val_recall@10=0.572949
+Epoch 001 | Batch 6200 | val_kld=0.784340 | val_ordacc@10=0.157272 | val_recall@10=0.574726
+Epoch 001 | Batch 6210 | val_kld=0.788424 | val_ordacc@10=0.154069 | val_recall@10=0.570184
+Epoch 001 | Step 6210 | lr=5.000000e-04 | loss=0.796815 | k_vals=[100, 1, 50, 1, 50]
+Epoch 001 | Batch 6220 | val_kld=0.781918 | val_ordacc@10=0.155429 | val_recall@10=0.574304
+Epoch 001 | Batch 6230 | val_kld=0.786965 | val_ordacc@10=0.156700 | val_recall@10=0.577912
+Epoch 001 | Batch 6240 | val_kld=0.772727 | val_ordacc@10=0.157934 | val_recall@10=0.573059
+Epoch 001 | Step 6240 | lr=5.000000e-04 | loss=0.766460 | k_vals=[1, 10, 20, 50, 20]
+Epoch 001 | Batch 6250 | val_kld=0.779757 | val_ordacc@10=0.156012 | val_recall@10=0.571288
+Epoch 001 | Batch 6260 | val_kld=0.777389 | val_ordacc@10=0.157690 | val_recall@10=0.575435
+Epoch 001 | Batch 6270 | val_kld=0.779205 | val_ordacc@10=0.158391 | val_recall@10=0.578346
+Epoch 001 | Step 6270 | lr=5.000000e-04 | loss=0.817867 | k_vals=[1, 50, 10, 10, 1]
+Epoch 001 | Batch 6280 | val_kld=0.772968 | val_ordacc@10=0.158229 | val_recall@10=0.578166
+Epoch 001 | Batch 6290 | val_kld=0.782628 | val_ordacc@10=0.154178 | val_recall@10=0.566643
+Epoch 001 | Batch 6300 | val_kld=0.779124 | val_ordacc@10=0.157345 | val_recall@10=0.573956
+Epoch 001 | Step 6300 | lr=5.000000e-04 | loss=0.780843 | k_vals=[1, 50, 10, 50, 20]
+Epoch 001 | Batch 6310 | val_kld=0.789847 | val_ordacc@10=0.153922 | val_recall@10=0.573740
+Epoch 001 | Batch 6320 | val_kld=0.783887 | val_ordacc@10=0.155955 | val_recall@10=0.568864
+Epoch 001 | Batch 6330 | val_kld=0.776510 | val_ordacc@10=0.158879 | val_recall@10=0.575518
+Epoch 001 | Step 6330 | lr=5.000000e-04 | loss=0.703568 | k_vals=[50, 1, 10, 20, 20]
+Epoch 001 | Batch 6340 | val_kld=0.773242 | val_ordacc@10=0.159672 | val_recall@10=0.578892
+Epoch 001 | Batch 6350 | val_kld=0.782135 | val_ordacc@10=0.157192 | val_recall@10=0.575664
+Epoch 001 | Batch 6360 | val_kld=0.780288 | val_ordacc@10=0.157646 | val_recall@10=0.571528
+Epoch 001 | Step 6360 | lr=5.000000e-04 | loss=0.871447 | k_vals=[1, 20, 1, 100, 50]
+Epoch 001 | Batch 6370 | val_kld=0.793560 | val_ordacc@10=0.153408 | val_recall@10=0.572644
+Epoch 001 | Batch 6380 | val_kld=0.779012 | val_ordacc@10=0.156840 | val_recall@10=0.577502
+Epoch 001 | Batch 6390 | val_kld=0.775459 | val_ordacc@10=0.157168 | val_recall@10=0.578959
+Epoch 001 | Step 6390 | lr=5.000000e-04 | loss=0.893346 | k_vals=[1, 10, 20, 20, 100]
+Epoch 001 | Batch 6400 | val_kld=0.772071 | val_ordacc@10=0.159409 | val_recall@10=0.575491
+Epoch 001 | Batch 6410 | val_kld=0.767141 | val_ordacc@10=0.160014 | val_recall@10=0.574522
+Epoch 001 | Batch 6420 | val_kld=0.781553 | val_ordacc@10=0.157264 | val_recall@10=0.574378
+Epoch 001 | Step 6420 | lr=5.000000e-04 | loss=0.828800 | k_vals=[1, 10, 50, 10, 10]
+Epoch 001 | Batch 6430 | val_kld=0.774414 | val_ordacc@10=0.158596 | val_recall@10=0.577839
+Epoch 001 | Batch 6440 | val_kld=0.786721 | val_ordacc@10=0.155192 | val_recall@10=0.573418
+Epoch 001 | Batch 6450 | val_kld=0.778622 | val_ordacc@10=0.158653 | val_recall@10=0.573845
+Epoch 001 | Step 6450 | lr=5.000000e-04 | loss=0.798637 | k_vals=[1, 50, 10, 1, 100]
+Epoch 001 | Batch 6460 | val_kld=0.778138 | val_ordacc@10=0.159018 | val_recall@10=0.570644
+Epoch 001 | Batch 6470 | val_kld=0.785052 | val_ordacc@10=0.155943 | val_recall@10=0.581550
+Epoch 001 | Batch 6480 | val_kld=0.786025 | val_ordacc@10=0.154154 | val_recall@10=0.571982
+Epoch 001 | Step 6480 | lr=5.000000e-04 | loss=1.003706 | k_vals=[20, 50, 50, 100, 10]
+Epoch 001 | Batch 6490 | val_kld=0.786331 | val_ordacc@10=0.155422 | val_recall@10=0.572960
+Epoch 001 | Batch 6500 | val_kld=0.775367 | val_ordacc@10=0.157617 | val_recall@10=0.569852
+Epoch 001 | Batch 6510 | val_kld=0.776296 | val_ordacc@10=0.159154 | val_recall@10=0.573098
+Epoch 001 | Step 6510 | lr=5.000000e-04 | loss=0.755577 | k_vals=[1, 50, 100, 100, 20]
+Epoch 001 | Batch 6520 | val_kld=0.771011 | val_ordacc@10=0.159808 | val_recall@10=0.575557
+Epoch 001 | Batch 6530 | val_kld=0.781019 | val_ordacc@10=0.158359 | val_recall@10=0.578377
+Epoch 001 | Batch 6540 | val_kld=0.773775 | val_ordacc@10=0.158808 | val_recall@10=0.572248
+Epoch 001 | Step 6540 | lr=5.000000e-04 | loss=0.730113 | k_vals=[20, 20, 50, 50, 100]
+Epoch 001 | Batch 6550 | val_kld=0.776523 | val_ordacc@10=0.158265 | val_recall@10=0.572230
+Epoch 001 | Batch 6560 | val_kld=0.781086 | val_ordacc@10=0.156815 | val_recall@10=0.575278
+Epoch 001 | Batch 6570 | val_kld=0.796109 | val_ordacc@10=0.152898 | val_recall@10=0.567290
+Epoch 001 | Step 6570 | lr=5.000000e-04 | loss=0.814515 | k_vals=[1, 100, 50, 1, 20]
+Epoch 001 | Batch 6580 | val_kld=0.773853 | val_ordacc@10=0.157574 | val_recall@10=0.571849
+Epoch 001 | Batch 6590 | val_kld=0.773267 | val_ordacc@10=0.157709 | val_recall@10=0.577089
+Epoch 001 | Batch 6600 | val_kld=0.790128 | val_ordacc@10=0.156292 | val_recall@10=0.569903
+Epoch 001 | Step 6600 | lr=5.000000e-04 | loss=0.683599 | k_vals=[100, 100, 50, 20, 100]
+Epoch 001 | Batch 6610 | val_kld=0.774985 | val_ordacc@10=0.158289 | val_recall@10=0.572749
+Epoch 001 | Batch 6620 | val_kld=0.777865 | val_ordacc@10=0.158007 | val_recall@10=0.571286
+Epoch 001 | Batch 6630 | val_kld=0.776239 | val_ordacc@10=0.157924 | val_recall@10=0.572561
+Epoch 001 | Step 6630 | lr=5.000000e-04 | loss=0.712933 | k_vals=[20, 10, 50, 1, 1]
+Epoch 001 | Batch 6640 | val_kld=0.776553 | val_ordacc@10=0.156638 | val_recall@10=0.575258
+Epoch 001 | Batch 6650 | val_kld=0.779478 | val_ordacc@10=0.158247 | val_recall@10=0.576858
+Epoch 001 | Batch 6660 | val_kld=0.774456 | val_ordacc@10=0.158070 | val_recall@10=0.576759
+Epoch 001 | Step 6660 | lr=5.000000e-04 | loss=0.782034 | k_vals=[1, 1, 20, 100, 1]
+Epoch 001 | Batch 6670 | val_kld=0.787110 | val_ordacc@10=0.152839 | val_recall@10=0.570752
+Epoch 001 | Batch 6680 | val_kld=0.779824 | val_ordacc@10=0.156071 | val_recall@10=0.569693
+Epoch 001 | Batch 6690 | val_kld=0.774429 | val_ordacc@10=0.158769 | val_recall@10=0.571014
+Epoch 001 | Step 6690 | lr=5.000000e-04 | loss=0.825794 | k_vals=[100, 100, 10, 1, 100]
+Epoch 001 | Batch 6700 | val_kld=0.774613 | val_ordacc@10=0.159634 | val_recall@10=0.583215
+Epoch 001 | Batch 6710 | val_kld=0.776578 | val_ordacc@10=0.158266 | val_recall@10=0.579875
+Epoch 001 | Batch 6720 | val_kld=0.776989 | val_ordacc@10=0.158949 | val_recall@10=0.576248
+Epoch 001 | Step 6720 | lr=5.000000e-04 | loss=0.739880 | k_vals=[1, 100, 100, 20, 50]
+Epoch 001 | Batch 6730 | val_kld=0.772490 | val_ordacc@10=0.158418 | val_recall@10=0.577834
+Epoch 001 | Batch 6740 | val_kld=0.770306 | val_ordacc@10=0.160702 | val_recall@10=0.578542
+Epoch 001 | Batch 6750 | val_kld=0.769388 | val_ordacc@10=0.160813 | val_recall@10=0.575893
+Epoch 001 | Step 6750 | lr=5.000000e-04 | loss=0.818430 | k_vals=[20, 50, 50, 50, 10]
+Epoch 001 | Batch 6760 | val_kld=0.781211 | val_ordacc@10=0.156495 | val_recall@10=0.579921
+Epoch 001 | Batch 6770 | val_kld=0.777536 | val_ordacc@10=0.157514 | val_recall@10=0.573596
+Epoch 001 | Batch 6780 | val_kld=0.794499 | val_ordacc@10=0.153707 | val_recall@10=0.572434
+Epoch 001 | Step 6780 | lr=5.000000e-04 | loss=0.817266 | k_vals=[50, 1, 1, 50, 10]
+Epoch 001 | Batch 6790 | val_kld=0.791786 | val_ordacc@10=0.154881 | val_recall@10=0.574662
+Epoch 001 | Batch 6800 | val_kld=0.779035 | val_ordacc@10=0.157805 | val_recall@10=0.575862
+Epoch 001 | Batch 6810 | val_kld=0.772905 | val_ordacc@10=0.159260 | val_recall@10=0.574630
+Epoch 001 | Step 6810 | lr=5.000000e-04 | loss=0.719875 | k_vals=[50, 100, 50, 50, 10]
+Epoch 001 | Batch 6820 | val_kld=0.770075 | val_ordacc@10=0.157893 | val_recall@10=0.573673
+Epoch 001 | Batch 6830 | val_kld=0.772796 | val_ordacc@10=0.158851 | val_recall@10=0.574780
+Epoch 001 | Batch 6840 | val_kld=0.777696 | val_ordacc@10=0.156592 | val_recall@10=0.571280
+Epoch 001 | Step 6840 | lr=5.000000e-04 | loss=0.775059 | k_vals=[100, 10, 50, 20, 100]
+Epoch 001 | Batch 6850 | val_kld=0.774033 | val_ordacc@10=0.157893 | val_recall@10=0.572834
+Epoch 001 | Batch 6860 | val_kld=0.771348 | val_ordacc@10=0.158160 | val_recall@10=0.573416
+Epoch 001 | Batch 6870 | val_kld=0.778224 | val_ordacc@10=0.156460 | val_recall@10=0.574777
+Epoch 001 | Step 6870 | lr=5.000000e-04 | loss=0.858228 | k_vals=[100, 1, 20, 10, 20]
+Epoch 001 | Batch 6880 | val_kld=0.776939 | val_ordacc@10=0.157847 | val_recall@10=0.572067
+Epoch 001 | Batch 6890 | val_kld=0.785381 | val_ordacc@10=0.155496 | val_recall@10=0.569719
+Epoch 001 | Batch 6900 | val_kld=0.773487 | val_ordacc@10=0.158551 | val_recall@10=0.578635
+Epoch 001 | Step 6900 | lr=5.000000e-04 | loss=0.742620 | k_vals=[20, 50, 50, 10, 100]
+Epoch 001 | Batch 6910 | val_kld=0.775468 | val_ordacc@10=0.158978 | val_recall@10=0.580568
+Epoch 001 | Batch 6920 | val_kld=0.773089 | val_ordacc@10=0.158990 | val_recall@10=0.578911
+Epoch 001 | Batch 6930 | val_kld=0.768070 | val_ordacc@10=0.159503 | val_recall@10=0.577306
+Epoch 001 | Step 6930 | lr=5.000000e-04 | loss=0.855212 | k_vals=[100, 1, 1, 1, 10]
+Epoch 001 | Batch 6940 | val_kld=0.774348 | val_ordacc@10=0.157824 | val_recall@10=0.573638
+Epoch 001 | Batch 6950 | val_kld=0.771447 | val_ordacc@10=0.159491 | val_recall@10=0.579288
+Epoch 001 | Batch 6960 | val_kld=0.774262 | val_ordacc@10=0.157812 | val_recall@10=0.577187
+Epoch 001 | Step 6960 | lr=5.000000e-04 | loss=0.763920 | k_vals=[100, 50, 100, 50, 100]
+Epoch 001 | Batch 6970 | val_kld=0.772614 | val_ordacc@10=0.158964 | val_recall@10=0.578932
+Epoch 001 | Batch 6980 | val_kld=0.780873 | val_ordacc@10=0.160121 | val_recall@10=0.579075
+Epoch 001 | Batch 6990 | val_kld=0.778918 | val_ordacc@10=0.157290 | val_recall@10=0.569491
+Epoch 001 | Step 6990 | lr=5.000000e-04 | loss=0.658255 | k_vals=[20, 10, 10, 20, 100]
+Epoch 001 | Batch 7000 | val_kld=0.776075 | val_ordacc@10=0.157565 | val_recall@10=0.572370
+Epoch 001 | Batch 7010 | val_kld=0.776426 | val_ordacc@10=0.157167 | val_recall@10=0.577431
+Epoch 001 | Batch 7020 | val_kld=0.776107 | val_ordacc@10=0.157880 | val_recall@10=0.576018
+Epoch 001 | Step 7020 | lr=5.000000e-04 | loss=0.788071 | k_vals=[20, 10, 10, 20, 20]
+Epoch 001 | Batch 7030 | val_kld=0.776165 | val_ordacc@10=0.156060 | val_recall@10=0.572908
+Epoch 001 | Batch 7040 | val_kld=0.769403 | val_ordacc@10=0.161936 | val_recall@10=0.577509
+Epoch 001 | Batch 7050 | val_kld=0.784339 | val_ordacc@10=0.156061 | val_recall@10=0.574419
+Epoch 001 | Step 7050 | lr=5.000000e-04 | loss=0.821347 | k_vals=[50, 100, 50, 1, 50]
+Epoch 001 | Batch 7060 | val_kld=0.778080 | val_ordacc@10=0.157893 | val_recall@10=0.576353
+Epoch 001 | Batch 7070 | val_kld=0.784765 | val_ordacc@10=0.154613 | val_recall@10=0.576864
+Epoch 001 | Batch 7080 | val_kld=0.764724 | val_ordacc@10=0.160605 | val_recall@10=0.575922
+Epoch 001 | Step 7080 | lr=5.000000e-04 | loss=0.842253 | k_vals=[50, 10, 100, 10, 10]
+Epoch 001 | Batch 7090 | val_kld=0.783238 | val_ordacc@10=0.155297 | val_recall@10=0.582612
+Epoch 001 | Batch 7100 | val_kld=0.776176 | val_ordacc@10=0.159088 | val_recall@10=0.574264
+Epoch 001 | Batch 7110 | val_kld=0.772826 | val_ordacc@10=0.158794 | val_recall@10=0.567901
+Epoch 001 | Step 7110 | lr=5.000000e-04 | loss=0.896391 | k_vals=[50, 1, 20, 1, 100]
+Epoch 001 | Batch 7120 | val_kld=0.775655 | val_ordacc@10=0.157689 | val_recall@10=0.570614
+Epoch 001 | Batch 7130 | val_kld=0.770829 | val_ordacc@10=0.159116 | val_recall@10=0.574284
+Epoch 001 | Batch 7140 | val_kld=0.772798 | val_ordacc@10=0.158412 | val_recall@10=0.576069
+Epoch 001 | Step 7140 | lr=5.000000e-04 | loss=0.785927 | k_vals=[10, 100, 1, 50, 1]
+Epoch 001 | Batch 7150 | val_kld=0.783293 | val_ordacc@10=0.157518 | val_recall@10=0.574467
+Epoch 001 | Batch 7160 | val_kld=0.783944 | val_ordacc@10=0.155544 | val_recall@10=0.574848
+Epoch 001 | Batch 7170 | val_kld=0.785879 | val_ordacc@10=0.156315 | val_recall@10=0.573818
+Epoch 001 | Step 7170 | lr=5.000000e-04 | loss=0.849925 | k_vals=[10, 10, 20, 10, 10]
+Epoch 001 | Batch 7180 | val_kld=0.771223 | val_ordacc@10=0.159680 | val_recall@10=0.573099
+Epoch 001 | Batch 7190 | val_kld=0.767629 | val_ordacc@10=0.160728 | val_recall@10=0.576630
+Epoch 001 | Batch 7200 | val_kld=0.772987 | val_ordacc@10=0.160138 | val_recall@10=0.576367
+Epoch 001 | Step 7200 | lr=5.000000e-04 | loss=0.784060 | k_vals=[100, 100, 100, 1, 1]
+Epoch 001 | Batch 7210 | val_kld=0.773734 | val_ordacc@10=0.158907 | val_recall@10=0.574392
+Epoch 001 | Batch 7220 | val_kld=0.786550 | val_ordacc@10=0.156872 | val_recall@10=0.574816
+Epoch 001 | Batch 7230 | val_kld=0.785405 | val_ordacc@10=0.155149 | val_recall@10=0.572725
+Epoch 001 | Step 7230 | lr=5.000000e-04 | loss=0.733440 | k_vals=[100, 10, 50, 1, 1]
+Epoch 001 | Batch 7240 | val_kld=0.782971 | val_ordacc@10=0.157908 | val_recall@10=0.579290
+Epoch 001 | Batch 7250 | val_kld=0.779520 | val_ordacc@10=0.156997 | val_recall@10=0.574384
+Epoch 001 | Batch 7260 | val_kld=0.776016 | val_ordacc@10=0.157260 | val_recall@10=0.572409
+Epoch 001 | Step 7260 | lr=5.000000e-04 | loss=0.799304 | k_vals=[1, 50, 100, 20, 1]
+Epoch 001 | Batch 7270 | val_kld=0.773831 | val_ordacc@10=0.158420 | val_recall@10=0.579342
+Epoch 001 | Batch 7280 | val_kld=0.768502 | val_ordacc@10=0.159610 | val_recall@10=0.576008
+Epoch 001 | Batch 7290 | val_kld=0.773157 | val_ordacc@10=0.159324 | val_recall@10=0.578829
+Epoch 001 | Step 7290 | lr=5.000000e-04 | loss=0.940951 | k_vals=[1, 20, 10, 100, 50]
+Epoch 001 | Batch 7300 | val_kld=0.782637 | val_ordacc@10=0.155888 | val_recall@10=0.570088
+Epoch 001 | Batch 7310 | val_kld=0.779647 | val_ordacc@10=0.155904 | val_recall@10=0.574929
+Epoch 001 | Batch 7320 | val_kld=0.775654 | val_ordacc@10=0.158835 | val_recall@10=0.575794
+Epoch 001 | Step 7320 | lr=5.000000e-04 | loss=0.712584 | k_vals=[50, 10, 50, 20, 10]
+Epoch 001 | Batch 7330 | val_kld=0.771969 | val_ordacc@10=0.159372 | val_recall@10=0.574640
+Epoch 001 | Batch 7340 | val_kld=0.782030 | val_ordacc@10=0.157968 | val_recall@10=0.574916
+Epoch 001 | Batch 7350 | val_kld=0.776995 | val_ordacc@10=0.156854 | val_recall@10=0.575403
+Epoch 001 | Step 7350 | lr=5.000000e-04 | loss=0.818912 | k_vals=[10, 1, 10, 50, 50]
+Epoch 001 | Batch 7360 | val_kld=0.770496 | val_ordacc@10=0.158652 | val_recall@10=0.578737
+Epoch 001 | Batch 7370 | val_kld=0.774117 | val_ordacc@10=0.158443 | val_recall@10=0.573510
+Epoch 001 | Batch 7380 | val_kld=0.774644 | val_ordacc@10=0.157559 | val_recall@10=0.571440
+Epoch 001 | Step 7380 | lr=5.000000e-04 | loss=0.737932 | k_vals=[10, 100, 1, 20, 1]
+Epoch 001 | Batch 7390 | val_kld=0.769819 | val_ordacc@10=0.160001 | val_recall@10=0.575757
+Epoch 001 | Batch 7400 | val_kld=0.786748 | val_ordacc@10=0.153284 | val_recall@10=0.564543
+Epoch 001 | Batch 7410 | val_kld=0.772737 | val_ordacc@10=0.157140 | val_recall@10=0.569401
+Epoch 001 | Step 7410 | lr=5.000000e-04 | loss=0.740402 | k_vals=[10, 100, 1, 10, 50]
+Epoch 001 | Batch 7420 | val_kld=0.770048 | val_ordacc@10=0.160358 | val_recall@10=0.575030
+Epoch 001 | Batch 7430 | val_kld=0.776818 | val_ordacc@10=0.155660 | val_recall@10=0.576082
+Epoch 001 | Batch 7440 | val_kld=0.780408 | val_ordacc@10=0.155346 | val_recall@10=0.570833
+Epoch 001 | Step 7440 | lr=5.000000e-04 | loss=0.786384 | k_vals=[1, 50, 100, 50, 20]
+Epoch 001 | Batch 7450 | val_kld=0.766199 | val_ordacc@10=0.160928 | val_recall@10=0.573363
+Epoch 001 | Batch 7460 | val_kld=0.780803 | val_ordacc@10=0.156150 | val_recall@10=0.576366
+Epoch 001 | Batch 7470 | val_kld=0.775797 | val_ordacc@10=0.157588 | val_recall@10=0.576761
+Epoch 001 | Step 7470 | lr=5.000000e-04 | loss=0.840731 | k_vals=[10, 20, 50, 1, 20]
+Epoch 001 | Batch 7480 | val_kld=0.769813 | val_ordacc@10=0.158500 | val_recall@10=0.572828
+Epoch 001 | Batch 7490 | val_kld=0.787458 | val_ordacc@10=0.155296 | val_recall@10=0.573500
+Epoch 001 | Batch 7500 | val_kld=0.775542 | val_ordacc@10=0.158009 | val_recall@10=0.577321
+Epoch 001 | Step 7500 | lr=5.000000e-04 | loss=0.936950 | k_vals=[1, 10, 1, 1, 50]
+Epoch 001 | Batch 7510 | val_kld=0.769356 | val_ordacc@10=0.157552 | val_recall@10=0.575666
+Epoch 001 | Batch 7520 | val_kld=0.770022 | val_ordacc@10=0.159695 | val_recall@10=0.576710
+Epoch 001 | Batch 7530 | val_kld=0.770366 | val_ordacc@10=0.160128 | val_recall@10=0.577117
+Epoch 001 | Step 7530 | lr=5.000000e-04 | loss=0.863432 | k_vals=[10, 100, 50, 100, 50]
+Epoch 001 | Batch 7540 | val_kld=0.779460 | val_ordacc@10=0.156143 | val_recall@10=0.577333
+Epoch 001 | Batch 7550 | val_kld=0.772899 | val_ordacc@10=0.159779 | val_recall@10=0.581004
+Epoch 001 | Batch 7560 | val_kld=0.781261 | val_ordacc@10=0.156948 | val_recall@10=0.573797
+Epoch 001 | Step 7560 | lr=5.000000e-04 | loss=0.838692 | k_vals=[50, 20, 1, 50, 10]
+Epoch 001 | Batch 7570 | val_kld=0.783650 | val_ordacc@10=0.157269 | val_recall@10=0.570706
+Epoch 001 | Batch 7580 | val_kld=0.770476 | val_ordacc@10=0.158179 | val_recall@10=0.573189
+Epoch 001 | Batch 7590 | val_kld=0.779684 | val_ordacc@10=0.157538 | val_recall@10=0.577558
+Epoch 001 | Step 7590 | lr=5.000000e-04 | loss=0.845783 | k_vals=[20, 100, 100, 20, 20]
+Epoch 001 | Batch 7600 | val_kld=0.784561 | val_ordacc@10=0.156803 | val_recall@10=0.574850
+Epoch 001 | Batch 7610 | val_kld=0.780186 | val_ordacc@10=0.156210 | val_recall@10=0.571902
+Epoch 001 | Batch 7620 | val_kld=0.770274 | val_ordacc@10=0.159412 | val_recall@10=0.577123
+Epoch 001 | Step 7620 | lr=5.000000e-04 | loss=0.736723 | k_vals=[50, 1, 10, 100, 1]
+Epoch 001 | Batch 7630 | val_kld=0.773736 | val_ordacc@10=0.156968 | val_recall@10=0.574320
+Epoch 001 | Batch 7640 | val_kld=0.771414 | val_ordacc@10=0.160206 | val_recall@10=0.577918
+Epoch 001 | Batch 7650 | val_kld=0.775683 | val_ordacc@10=0.159387 | val_recall@10=0.576359
+Epoch 001 | Step 7650 | lr=5.000000e-04 | loss=0.736908 | k_vals=[100, 50, 20, 50, 20]
+Epoch 001 | Batch 7660 | val_kld=0.773702 | val_ordacc@10=0.158586 | val_recall@10=0.569247
+Epoch 001 | Batch 7670 | val_kld=0.777134 | val_ordacc@10=0.159016 | val_recall@10=0.577300
+Epoch 001 | Batch 7680 | val_kld=0.778636 | val_ordacc@10=0.155326 | val_recall@10=0.572952
+Epoch 001 | Step 7680 | lr=5.000000e-04 | loss=0.639409 | k_vals=[20, 10, 100, 100, 50]
+Epoch 001 | Batch 7690 | val_kld=0.767538 | val_ordacc@10=0.159326 | val_recall@10=0.578076
+Epoch 001 | Batch 7700 | val_kld=0.767192 | val_ordacc@10=0.160486 | val_recall@10=0.577526
+Epoch 001 | Batch 7710 | val_kld=0.778983 | val_ordacc@10=0.156263 | val_recall@10=0.580298
+Epoch 001 | Step 7710 | lr=5.000000e-04 | loss=0.794164 | k_vals=[20, 100, 10, 50, 10]
+Epoch 001 | Batch 7720 | val_kld=0.772447 | val_ordacc@10=0.159983 | val_recall@10=0.574730
+Epoch 001 | Batch 7730 | val_kld=0.762701 | val_ordacc@10=0.160142 | val_recall@10=0.574170
+Epoch 001 | Batch 7740 | val_kld=0.783602 | val_ordacc@10=0.155008 | val_recall@10=0.582226
+Epoch 001 | Step 7740 | lr=5.000000e-04 | loss=0.848940 | k_vals=[20, 50, 1, 1, 50]
+Epoch 001 | Batch 7750 | val_kld=0.771041 | val_ordacc@10=0.157942 | val_recall@10=0.578692
+Epoch 001 | Batch 7760 | val_kld=0.771080 | val_ordacc@10=0.160396 | val_recall@10=0.578505
+Epoch 001 | Batch 7770 | val_kld=0.760844 | val_ordacc@10=0.163090 | val_recall@10=0.579389
+Epoch 001 | Step 7770 | lr=5.000000e-04 | loss=0.791345 | k_vals=[50, 20, 50, 1, 10]
+Epoch 001 | Batch 7780 | val_kld=0.773059 | val_ordacc@10=0.159559 | val_recall@10=0.577824
+Epoch 001 | Batch 7790 | val_kld=0.770430 | val_ordacc@10=0.159399 | val_recall@10=0.575549
+Epoch 001 | Batch 7800 | val_kld=0.771898 | val_ordacc@10=0.159184 | val_recall@10=0.572384
+Epoch 001 | Step 7800 | lr=5.000000e-04 | loss=0.936628 | k_vals=[10, 50, 1, 100, 20]
+Epoch 001 | Batch 7810 | val_kld=0.777698 | val_ordacc@10=0.156655 | val_recall@10=0.571484
+Epoch 001 | Batch 7820 | val_kld=0.767434 | val_ordacc@10=0.159988 | val_recall@10=0.576954
+Epoch 001 | Batch 7830 | val_kld=0.767668 | val_ordacc@10=0.159910 | val_recall@10=0.574375
+Epoch 001 | Step 7830 | lr=5.000000e-04 | loss=0.686615 | k_vals=[1, 50, 20, 20, 1]
+Epoch 001 | Batch 7840 | val_kld=0.777586 | val_ordacc@10=0.158120 | val_recall@10=0.571790
+Epoch 001 | Batch 7850 | val_kld=0.780644 | val_ordacc@10=0.156708 | val_recall@10=0.578654
+Epoch 001 | Batch 7860 | val_kld=0.782152 | val_ordacc@10=0.154965 | val_recall@10=0.574334
+Epoch 001 | Step 7860 | lr=5.000000e-04 | loss=0.812471 | k_vals=[1, 100, 1, 1, 100]
+Epoch 001 | Batch 7870 | val_kld=0.778823 | val_ordacc@10=0.157562 | val_recall@10=0.572697
+Epoch 001 | Batch 7880 | val_kld=0.774690 | val_ordacc@10=0.159232 | val_recall@10=0.574117
+Epoch 001 | Batch 7890 | val_kld=0.763753 | val_ordacc@10=0.160700 | val_recall@10=0.577280
+Epoch 001 | Step 7890 | lr=5.000000e-04 | loss=0.802987 | k_vals=[20, 1, 1, 1, 100]
+Epoch 001 | Batch 7900 | val_kld=0.763578 | val_ordacc@10=0.160843 | val_recall@10=0.577736
+Epoch 001 | Batch 7910 | val_kld=0.776043 | val_ordacc@10=0.158455 | val_recall@10=0.578513
+Epoch 001 | Batch 7920 | val_kld=0.780266 | val_ordacc@10=0.158554 | val_recall@10=0.578244
+Epoch 001 | Step 7920 | lr=5.000000e-04 | loss=0.984602 | k_vals=[1, 50, 10, 10, 20]
+Epoch 001 | Batch 7930 | val_kld=0.770882 | val_ordacc@10=0.159799 | val_recall@10=0.578617
+Epoch 001 | Batch 7940 | val_kld=0.766736 | val_ordacc@10=0.160954 | val_recall@10=0.578930
+Epoch 001 | Batch 7950 | val_kld=0.761805 | val_ordacc@10=0.162289 | val_recall@10=0.575463
+Epoch 001 | Step 7950 | lr=5.000000e-04 | loss=0.786022 | k_vals=[50, 20, 1, 50, 50]
+Epoch 001 | Batch 7960 | val_kld=0.772706 | val_ordacc@10=0.159168 | val_recall@10=0.577041
+Epoch 001 | Batch 7970 | val_kld=0.777620 | val_ordacc@10=0.156143 | val_recall@10=0.570078
+Epoch 001 | Batch 7980 | val_kld=0.763779 | val_ordacc@10=0.161862 | val_recall@10=0.578546
+Epoch 001 | Step 7980 | lr=5.000000e-04 | loss=0.887347 | k_vals=[50, 50, 100, 50, 10]
+Epoch 001 | Batch 7990 | val_kld=0.772975 | val_ordacc@10=0.155998 | val_recall@10=0.576678
+Epoch 001 | Batch 8000 | val_kld=0.764846 | val_ordacc@10=0.161610 | val_recall@10=0.578302
+Epoch 001 | Batch 8010 | val_kld=0.766077 | val_ordacc@10=0.160791 | val_recall@10=0.575974
+Epoch 001 | Step 8010 | lr=5.000000e-04 | loss=0.847315 | k_vals=[50, 1, 10, 50, 1]
+Epoch 001 | Batch 8020 | val_kld=0.763769 | val_ordacc@10=0.161006 | val_recall@10=0.573924
+Epoch 001 | Batch 8030 | val_kld=0.765807 | val_ordacc@10=0.159884 | val_recall@10=0.576402
+Epoch 001 | Batch 8040 | val_kld=0.773514 | val_ordacc@10=0.158838 | val_recall@10=0.577485
+Epoch 001 | Step 8040 | lr=5.000000e-04 | loss=0.857310 | k_vals=[20, 1, 20, 1, 1]
+Epoch 001 | Batch 8050 | val_kld=0.766734 | val_ordacc@10=0.160883 | val_recall@10=0.577252
+Epoch 001 | Batch 8060 | val_kld=0.786654 | val_ordacc@10=0.156070 | val_recall@10=0.574774
+Epoch 001 | Batch 8070 | val_kld=0.784021 | val_ordacc@10=0.154332 | val_recall@10=0.578713
+Epoch 001 | Step 8070 | lr=5.000000e-04 | loss=0.849611 | k_vals=[20, 20, 1, 1, 100]
+Epoch 001 | Batch 8080 | val_kld=0.777540 | val_ordacc@10=0.156725 | val_recall@10=0.571379
+Epoch 001 | Batch 8090 | val_kld=0.765042 | val_ordacc@10=0.160760 | val_recall@10=0.577705
+Epoch 001 | Batch 8100 | val_kld=0.767084 | val_ordacc@10=0.159744 | val_recall@10=0.577947
+Epoch 001 | Step 8100 | lr=5.000000e-04 | loss=0.746003 | k_vals=[100, 1, 1, 1, 20]
+Epoch 001 | Batch 8110 | val_kld=0.762895 | val_ordacc@10=0.160414 | val_recall@10=0.575326
+Epoch 001 | Batch 8120 | val_kld=0.763013 | val_ordacc@10=0.161564 | val_recall@10=0.574732
+Epoch 001 | Batch 8130 | val_kld=0.764541 | val_ordacc@10=0.161135 | val_recall@10=0.581049
+Epoch 001 | Step 8130 | lr=5.000000e-04 | loss=0.735745 | k_vals=[20, 100, 20, 20, 20]
+Epoch 001 | Batch 8140 | val_kld=0.775324 | val_ordacc@10=0.158629 | val_recall@10=0.578772
+Epoch 001 | Batch 8150 | val_kld=0.769744 | val_ordacc@10=0.158442 | val_recall@10=0.577757
+Epoch 001 | Batch 8160 | val_kld=0.771943 | val_ordacc@10=0.158892 | val_recall@10=0.581722
+Epoch 001 | Step 8160 | lr=5.000000e-04 | loss=0.867847 | k_vals=[10, 50, 50, 100, 10]
+Epoch 001 | Batch 8170 | val_kld=0.766457 | val_ordacc@10=0.159404 | val_recall@10=0.575136
+Epoch 001 | Batch 8180 | val_kld=0.772095 | val_ordacc@10=0.159294 | val_recall@10=0.577453
+Epoch 001 | Batch 8190 | val_kld=0.766825 | val_ordacc@10=0.159718 | val_recall@10=0.577516
+Epoch 001 | Step 8190 | lr=5.000000e-04 | loss=0.746775 | k_vals=[1, 50, 10, 100, 100]
+Epoch 001 | Batch 8200 | val_kld=0.774088 | val_ordacc@10=0.157180 | val_recall@10=0.569809
+Epoch 001 | Batch 8210 | val_kld=0.773818 | val_ordacc@10=0.157188 | val_recall@10=0.572667
+Epoch 001 | Batch 8220 | val_kld=0.776251 | val_ordacc@10=0.158920 | val_recall@10=0.577693
+Epoch 001 | Step 8220 | lr=5.000000e-04 | loss=0.764374 | k_vals=[50, 1, 1, 10, 1]
+Epoch 001 | Batch 8230 | val_kld=0.768765 | val_ordacc@10=0.159410 | val_recall@10=0.578417
+Epoch 001 | Batch 8240 | val_kld=0.770000 | val_ordacc@10=0.158792 | val_recall@10=0.573648
+Epoch 001 | Batch 8250 | val_kld=0.776000 | val_ordacc@10=0.157353 | val_recall@10=0.572931
+Epoch 001 | Step 8250 | lr=5.000000e-04 | loss=0.905677 | k_vals=[20, 20, 20, 100, 20]
+Epoch 001 | Batch 8260 | val_kld=0.769565 | val_ordacc@10=0.160238 | val_recall@10=0.571178
+Epoch 001 | Batch 8270 | val_kld=0.772108 | val_ordacc@10=0.159108 | val_recall@10=0.570880
+Epoch 001 | Batch 8280 | val_kld=0.767185 | val_ordacc@10=0.159456 | val_recall@10=0.575451
+Epoch 001 | Step 8280 | lr=5.000000e-04 | loss=0.919794 | k_vals=[1, 1, 100, 50, 10]
+Epoch 001 | Batch 8290 | val_kld=0.772006 | val_ordacc@10=0.158504 | val_recall@10=0.578167
+Epoch 001 | Batch 8300 | val_kld=0.774958 | val_ordacc@10=0.158923 | val_recall@10=0.575788
+Epoch 001 | Batch 8310 | val_kld=0.774419 | val_ordacc@10=0.157235 | val_recall@10=0.576380
+Epoch 001 | Step 8310 | lr=5.000000e-04 | loss=0.733800 | k_vals=[50, 20, 10, 1, 1]
+Epoch 001 | Batch 8320 | val_kld=0.772857 | val_ordacc@10=0.158994 | val_recall@10=0.573565
+Epoch 001 | Batch 8330 | val_kld=0.768380 | val_ordacc@10=0.159428 | val_recall@10=0.577951
+Epoch 001 | Batch 8340 | val_kld=0.763918 | val_ordacc@10=0.162432 | val_recall@10=0.579020
+Epoch 001 | Step 8340 | lr=5.000000e-04 | loss=0.737430 | k_vals=[100, 10, 1, 100, 10]
+Epoch 001 | Batch 8350 | val_kld=0.775885 | val_ordacc@10=0.157278 | val_recall@10=0.571246
+Epoch 001 | Batch 8360 | val_kld=0.766858 | val_ordacc@10=0.160482 | val_recall@10=0.574744
+Epoch 001 | Batch 8370 | val_kld=0.775450 | val_ordacc@10=0.157585 | val_recall@10=0.571887
+Epoch 001 | Step 8370 | lr=5.000000e-04 | loss=0.829929 | k_vals=[1, 1, 50, 10, 50]
+Epoch 001 | Batch 8380 | val_kld=0.768144 | val_ordacc@10=0.161066 | val_recall@10=0.577976
+Epoch 001 | Batch 8390 | val_kld=0.758124 | val_ordacc@10=0.162246 | val_recall@10=0.578035
+Epoch 001 | Batch 8400 | val_kld=0.761027 | val_ordacc@10=0.162355 | val_recall@10=0.578300
+Epoch 001 | Step 8400 | lr=5.000000e-04 | loss=0.767172 | k_vals=[50, 20, 1, 10, 100]
+Epoch 001 | Batch 8410 | val_kld=0.762869 | val_ordacc@10=0.161499 | val_recall@10=0.578760
+Epoch 001 | Batch 8420 | val_kld=0.766411 | val_ordacc@10=0.160214 | val_recall@10=0.576522
+Epoch 001 | Batch 8430 | val_kld=0.774103 | val_ordacc@10=0.158490 | val_recall@10=0.579092
+Epoch 001 | Step 8430 | lr=5.000000e-04 | loss=0.831365 | k_vals=[10, 100, 50, 100, 100]
+Epoch 001 | Batch 8440 | val_kld=0.771466 | val_ordacc@10=0.161079 | val_recall@10=0.580528
+Epoch 001 | Batch 8450 | val_kld=0.768433 | val_ordacc@10=0.160193 | val_recall@10=0.575985
+Epoch 001 | Batch 8460 | val_kld=0.770647 | val_ordacc@10=0.158341 | val_recall@10=0.572961
+Epoch 001 | Step 8460 | lr=5.000000e-04 | loss=0.865653 | k_vals=[100, 50, 1, 50, 50]
+Epoch 001 | Batch 8470 | val_kld=0.766403 | val_ordacc@10=0.161924 | val_recall@10=0.578031
+Epoch 001 | Batch 8480 | val_kld=0.771516 | val_ordacc@10=0.158540 | val_recall@10=0.579037
+Epoch 001 | Batch 8490 | val_kld=0.765642 | val_ordacc@10=0.161700 | val_recall@10=0.580068
+Epoch 001 | Step 8490 | lr=5.000000e-04 | loss=0.723131 | k_vals=[50, 100, 50, 50, 50]
+Epoch 001 | Batch 8500 | val_kld=0.776025 | val_ordacc@10=0.157592 | val_recall@10=0.572550
+Epoch 001 | Batch 8510 | val_kld=0.771422 | val_ordacc@10=0.158902 | val_recall@10=0.578766
+Epoch 001 | Batch 8520 | val_kld=0.768252 | val_ordacc@10=0.159881 | val_recall@10=0.575063
+Epoch 001 | Step 8520 | lr=5.000000e-04 | loss=0.675950 | k_vals=[100, 1, 100, 50, 1]
+Epoch 001 | Batch 8530 | val_kld=0.764141 | val_ordacc@10=0.158386 | val_recall@10=0.573968
+Epoch 001 | Batch 8540 | val_kld=0.768060 | val_ordacc@10=0.160036 | val_recall@10=0.578685
+Epoch 001 | Batch 8550 | val_kld=0.769455 | val_ordacc@10=0.160508 | val_recall@10=0.577100
+Epoch 001 | Step 8550 | lr=5.000000e-04 | loss=0.842699 | k_vals=[100, 1, 100, 100, 1]
+Epoch 001 | Batch 8560 | val_kld=0.762568 | val_ordacc@10=0.161229 | val_recall@10=0.576623
+Epoch 001 | Batch 8570 | val_kld=0.772221 | val_ordacc@10=0.158637 | val_recall@10=0.572868
+Epoch 001 | Batch 8580 | val_kld=0.767608 | val_ordacc@10=0.159098 | val_recall@10=0.572288
+Epoch 001 | Step 8580 | lr=5.000000e-04 | loss=0.862631 | k_vals=[20, 10, 10, 1, 10]
+Epoch 001 | Batch 8590 | val_kld=0.757056 | val_ordacc@10=0.163268 | val_recall@10=0.578365
+Epoch 001 | Batch 8600 | val_kld=0.767626 | val_ordacc@10=0.159855 | val_recall@10=0.576538
+Epoch 001 | Batch 8610 | val_kld=0.766667 | val_ordacc@10=0.158995 | val_recall@10=0.577528
+Epoch 001 | Step 8610 | lr=5.000000e-04 | loss=0.748829 | k_vals=[10, 10, 1, 20, 50]
+Epoch 001 | Batch 8620 | val_kld=0.768379 | val_ordacc@10=0.159738 | val_recall@10=0.575926
+Epoch 001 | Batch 8630 | val_kld=0.773872 | val_ordacc@10=0.156332 | val_recall@10=0.575182
+Epoch 001 | Batch 8640 | val_kld=0.772214 | val_ordacc@10=0.159637 | val_recall@10=0.576164
+Epoch 001 | Step 8640 | lr=5.000000e-04 | loss=0.785353 | k_vals=[50, 50, 1, 100, 50]
+Epoch 001 | Batch 8650 | val_kld=0.765760 | val_ordacc@10=0.160217 | val_recall@10=0.576324
+Epoch 001 | Batch 8660 | val_kld=0.773654 | val_ordacc@10=0.156778 | val_recall@10=0.574067
+Epoch 001 | Batch 8670 | val_kld=0.773371 | val_ordacc@10=0.159444 | val_recall@10=0.577832
+Epoch 001 | Step 8670 | lr=5.000000e-04 | loss=0.842757 | k_vals=[50, 100, 50, 10, 100]
+Epoch 001 | Batch 8680 | val_kld=0.764439 | val_ordacc@10=0.161369 | val_recall@10=0.579123
+Epoch 001 | Batch 8690 | val_kld=0.773708 | val_ordacc@10=0.157927 | val_recall@10=0.577353
+Epoch 001 | Batch 8700 | val_kld=0.768508 | val_ordacc@10=0.158956 | val_recall@10=0.575989
+Epoch 001 | Step 8700 | lr=5.000000e-04 | loss=0.841189 | k_vals=[50, 50, 100, 1, 10]
+Epoch 001 | Batch 8710 | val_kld=0.778938 | val_ordacc@10=0.155094 | val_recall@10=0.575625
+Epoch 001 | Batch 8720 | val_kld=0.765711 | val_ordacc@10=0.162014 | val_recall@10=0.575205
+Epoch 001 | Batch 8730 | val_kld=0.779628 | val_ordacc@10=0.157001 | val_recall@10=0.575004
+Epoch 001 | Step 8730 | lr=5.000000e-04 | loss=0.650187 | k_vals=[50, 20, 10, 20, 50]
+Epoch 001 | Batch 8740 | val_kld=0.766600 | val_ordacc@10=0.160677 | val_recall@10=0.575366
+Epoch 001 | Batch 8750 | val_kld=0.764709 | val_ordacc@10=0.160460 | val_recall@10=0.573510
+Epoch 001 | Batch 8760 | val_kld=0.764728 | val_ordacc@10=0.160961 | val_recall@10=0.578457
+Epoch 001 | Step 8760 | lr=5.000000e-04 | loss=0.777772 | k_vals=[20, 20, 1, 20, 100]
+Epoch 001 | Batch 8770 | val_kld=0.764632 | val_ordacc@10=0.160930 | val_recall@10=0.576890
+Epoch 001 | Batch 8780 | val_kld=0.771811 | val_ordacc@10=0.160087 | val_recall@10=0.575706
+Epoch 001 | Batch 8790 | val_kld=0.766669 | val_ordacc@10=0.159662 | val_recall@10=0.578992
+Epoch 001 | Step 8790 | lr=5.000000e-04 | loss=0.810848 | k_vals=[10, 20, 10, 20, 20]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/mnt/hdd/xln/PycharmProjects/PredictLeafNode/src/model/dynamic_k/cluster_dist_transformer_dynamic_k.py", line 1573, in <module>
+    main()
+  File "/mnt/hdd/xln/PycharmProjects/PredictLeafNode/src/model/dynamic_k/cluster_dist_transformer_dynamic_k.py", line 1419, in main
+    train_dynamic_k(
+  File "/mnt/hdd/xln/PycharmProjects/PredictLeafNode/src/model/dynamic_k/cluster_dist_transformer_dynamic_k.py", line 1139, in train_dynamic_k
+    val_kld, val_mae, val_mse, val_ordacc, val_recall = evaluate_dynamic_k(
+                                                        ^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/hdd/xln/PycharmProjects/PredictLeafNode/src/model/dynamic_k/cluster_dist_transformer_dynamic_k.py", line 986, in evaluate_dynamic_k
+    logits = model(x, k_vals)
+             ^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 465, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/hdd/xln/PycharmProjects/PredictLeafNode/src/model/dynamic_k/cluster_dist_transformer_dynamic_k.py", line 596, in forward
+    def forward(self, x: torch.Tensor, k_values: torch.Tensor = None) -> torch.Tensor:
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/transformer.py", line 511, in forward
+    output = mod(
+             ^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/nn/modules/transformer.py", line 871, in forward
+    return torch._transformer_encoder_layer_fwd(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Exception in thread Thread-4 (_pin_memory_loop):
+Traceback (most recent call last):
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
+    self.run()
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/threading.py", line 1010, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/utils/data/_utils/pin_memory.py", line 59, in _pin_memory_loop
+    do_one_step()
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/utils/data/_utils/pin_memory.py", line 35, in do_one_step
+    r = in_queue.get(timeout=MP_STATUS_CHECK_INTERVAL)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/multiprocessing/queues.py", line 122, in get
+    return _ForkingPickler.loads(res)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/site-packages/torch/multiprocessing/reductions.py", line 541, in rebuild_storage_fd
+    fd = df.detach()
+         ^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/multiprocessing/resource_sharer.py", line 57, in detach
+    with _resource_sharer.get_connection(self._id) as conn:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/multiprocessing/resource_sharer.py", line 86, in get_connection
+    c = Client(address, authkey=process.current_process().authkey)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/multiprocessing/connection.py", line 519, in Client
+    c = SocketClient(address)
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xln/miniconda3/envs/elpis_torch/lib/python3.12/multiprocessing/connection.py", line 647, in SocketClient
+    s.connect(address)
+FileNotFoundError: [Errno 2] No such file or directory
+Epoch 001 | Batch 8800 | val_kld=0.761260 | val_ordacc@10=0.163016 | val_recall@10=0.578837
+Epoch 001 | Batch 8810 | val_kld=0.768547 | val_ordacc@10=0.158202 | val_recall@10=0.575246
+Epoch 001 | Batch 8820 | val_kld=0.764940 | val_ordacc@10=0.161223 | val_recall@10=0.578085
+Epoch 001 | Step 8820 | lr=5.000000e-04 | loss=0.766599 | k_vals=[100, 20, 1, 100, 1]
+Epoch 001 | Batch 8830 | val_kld=0.762941 | val_ordacc@10=0.161476 | val_recall@10=0.576917
+Epoch 001 | Batch 8840 | val_kld=0.773441 | val_ordacc@10=0.157455 | val_recall@10=0.577723
+Epoch 001 | Batch 8850 | val_kld=0.769197 | val_ordacc@10=0.159373 | val_recall@10=0.578077
+Epoch 001 | Step 8850 | lr=5.000000e-04 | loss=0.928491 | k_vals=[1, 10, 1, 50, 20]

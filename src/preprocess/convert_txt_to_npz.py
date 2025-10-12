@@ -75,13 +75,13 @@ conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.preprocess.convert_txt_to_npz \
   --learn_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/gist_learn.txt \
-  --learn_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/knn_distributions.txt \
+  --learn_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/dynamicK/knn_distributions_k50.txt \
   --query_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/gist_query.txt \
-  --query_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/knn_distributions_query.txt \
+  --query_labels_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/knn_distributions_query_k50.txt \
   --centroids_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/leaf_center.txt \
-  --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
-  --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/test_gist.npz \
-  --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/centroids.npy
+  --out_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/train_gist_top50.npz \
+  --out_test_npz /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/test_gist_top50.npz \
+  --out_centroids /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/leafsize20K/centroids_top50.npy
 
 python -m src.preprocess.convert_txt_to_npz \
   --learn_txt /home/xln/PycharmProjects/PredictLeafNode/input/Training_data/gist1M_learn/gist_learn.txt \

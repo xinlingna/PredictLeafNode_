@@ -887,10 +887,11 @@ if __name__ == "__main__":
 conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.model.cluster_dist_transformer_original \
-  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
+  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist_top1.npz \
   --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
+  --test_npz input/Training_data/gist1M_learn/leafsize20K/test_gist_top1.npz \
   --val_split 0.01 \
-  --topk 10 \
+  --topk 1 \
   --epochs 10 \
   --batch_size 512 \
   --lr 1e-3 \
@@ -904,79 +905,8 @@ python -m src.model.cluster_dist_transformer_original \
   --log_interval 10 \
   --pos_exist \
   --use_gating \
-  --loss_type kld_reverse
-
-# ListMLE损失函数版本 - 基于最大似然估计的列表排序损失
-python -m src.model.cluster_dist_transformer_original \
-  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
-  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
-  --val_split 0.01 \
-  --topk 10 \
-  --epochs 10 \
-  --batch_size 512 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
-  --d_model 256 \
-  --nhead 8 \
-  --num_layers 4 \
-  --dim_ff 512 \
-  --dropout 0.1 \
-  --score_type bilinear \
-  --log_interval 10 \
-  --pos_exist \
-  --use_gating \
-  --loss_type listmle \
-  --listmle_topm 20
-
-# ListNet损失函数版本 - 基于概率分布的排序损失，支持温度参数
-python -m src.model.cluster_dist_transformer_original \
-  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
-  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
-  --val_split 0.01 \
-  --topk 10 \
-  --epochs 10 \
-  --batch_size 512 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
-  --d_model 256 \
-  --nhead 8 \
-  --num_layers 4 \
-  --dim_ff 512 \
-  --dropout 0.1 \
-  --score_type bilinear \
-  --log_interval 10 \
-  --pos_exist \
-  --use_gating \
-  --loss_type listnet \
-  --listnet_pred_temp 1.5 \
-  --listnet_tgt_temp 1.0
-
-# Pairwise Hinge损失函数版本 - 成对比较的铰链损失，适用于排序任务
-python -m src.model.cluster_dist_transformer_original \
-  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
-  --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
-  --test_npz input/Training_data/gist1M_learn/leafsize20K/test_gist.npz \
-  --val_split 0.01 \
-  --topk 10 \
-  --epochs 10 \
-  --batch_size 256 \
-  --lr 1e-3 \
-  --weight_decay 1e-2 \
-  --d_model 256 \
-  --nhead 8 \
-  --num_layers 4 \
-  --dim_ff 512 \
-  --dropout 0.1 \
-  --score_type bilinear \
-  --log_interval 10 \
-  --pos_exist \
-  --use_gating \
-  --pair_num_pos 2 \
-  --pair_num_neg 15 \
-  --pair_margin 0.2 \
-  --loss_type pairwise_hinge \
-  --experiment_id A
-
+  --loss_type kld \
+  --experiment_id Top1
 '''
 
 '''

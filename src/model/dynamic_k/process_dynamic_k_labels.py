@@ -135,7 +135,7 @@ def process_query_vectors_txt_to_npz(
     Args:
         input_txt_path: 输入txt文件路径，每行为一个查询向量，维度值用空格分隔
         output_npz_path: 输出npz文件路径
-        array_name: npz文件中数组的键名，默认为"query_vectors"
+        array_name: npz文件中数组的键名，默认为"queries"
         dtype: 数据类型，默认为"float32"
         max_vectors: 最大向量数量限制（用于测试）
     
@@ -347,7 +347,7 @@ def main():
     # 向量处理相关参数
     parser.add_argument("--input_txt", type=str,
                        help="Input txt file containing query vectors (for vectors mode)")
-    parser.add_argument("--array_name", type=str, default="query_vectors",
+    parser.add_argument("--array_name", type=str, default="queries",
                        help="Array name in NPZ file (for vectors mode)")
     parser.add_argument("--dtype", type=str, default="float32",
                        help="Data type for vectors (for vectors mode)")
@@ -396,12 +396,17 @@ conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python src/model/dynamic_k/process_dynamic_k_labels.py \
     --mode labels \
-    --input_dir input/Training_data/gist1M_learn/leafsize20K/dynamicK \
-    --output_path input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_labels.npz \
+    --input_dir input/Training_data/siftsmall/siftsmall5H/query \
+    --output_path input/Training_data/siftsmall/siftsmall5H/query/train_labels.npz \
     --k_values 1 10 20 50 100
 
 python src/model/dynamic_k/process_dynamic_k_labels.py \
     --mode vectors \
     --input_txt input/Training_data/gist1M_learn/gist_learn.txt \
     --output_path input/Training_data/gist1M_learn/leafsize20K/dynamicK/train_queries.npz
+
+python src/model/dynamic_k/process_dynamic_k_labels.py \
+    --mode vectors \
+    --input_txt input/Training_data/gist1M_learn/gist_query.txt \
+    --output_path input/Training_data/gist1M_learn/leafsize20K/dynamicK/test_queries.npz
 '''
