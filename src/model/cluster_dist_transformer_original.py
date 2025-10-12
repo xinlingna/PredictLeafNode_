@@ -1,20 +1,23 @@
-import argparse
-import math
 import os
+import math
 import random
+import argparse
 from typing import Optional, Tuple
 
 import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader, random_split
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from src.model.plot import plot_epoch1_batch_metrics, plot_epoch_metrics
+
+from src.model.plot   import plot_epoch1_batch_metrics, plot_epoch_metrics
 from src.model.allLoss import *
 
 
+# 设置随机种子以确保实验可重复
 def set_seed(seed: int = 42):
     random.seed(seed)
     np.random.seed(seed)
@@ -23,14 +26,14 @@ def set_seed(seed: int = 42):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-# (K, D)
+# 加载质心，质心形状(K, D)
 def load_centroids(centroids_path: str) -> np.ndarray:
     arr = np.load(centroids_path, allow_pickle=False)
     if isinstance(arr, np.lib.npyio.NpzFile):  # npz file
-        if "centroids" in arr.files:
+        if "centroids" in arr.files:           # prefer "centroids" key if exists
             c = arr["centroids"]
         else:
-            key = arr.files[0]  # use the first array in npz if key not specified
+            key = arr.files[0]                 # use the first array in npz if key not specified
             c = arr[key]
     else:
         c = arr
@@ -39,25 +42,25 @@ def load_centroids(centroids_path: str) -> np.ndarray:
     return c
 
 def build_loaders(
-    train_npz: str,  # (queries, targets)
+    train_npz: str,                       # train_npz: (queries, targets)
     val_npz: Optional[str],
     batch_size: int,
     num_workers: int,
     normalize: bool,
-    val_split: float,
+    val_split: float,                    # when val_npz is None
     seed: int,
-    centroids: Optional[np.ndarray],  # centroids: (K, D)
+    centroids: Optional[np.ndarray],     # centroids: (K, D)
 ):
     full_train = NPZClusterDataset(train_npz, normalize=normalize, centroids=centroids)
-    if val_npz is None and val_split > 0:
+    if val_npz is None and val_split > 0:           # split training set into train/val
         n_total = len(full_train)
         n_val = int(n_total * val_split)
         n_train = n_total - n_val
         g = torch.Generator().manual_seed(seed)
         train_ds, val_ds = random_split(full_train, [n_train, n_val], generator=g)
-    elif val_npz is None:
+    elif val_npz is None:                          # no validation
         train_ds, val_ds = full_train, None
-    else:
+    else:                                          # train/val from separate files
         train_ds = full_train
         mean, std = (None, None)
         if full_train.norm_stats is not None:
@@ -124,10 +127,15 @@ def topk_ordered_accuracy(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: 
     return float(per_sample_acc.mean().item())
 
 class NPZClusterDataset(Dataset):
+    """ 
+    Each dataset consists of:
+        Training set: concatenate the query with all centroids along the row dimension, resulting in a shape of (K+1, D)
+        Labels: the distribution of the query's top 100 among all centroids
+    """
     def __init__(
         self,
         npz_path: str,
-        normalize: bool = False,
+        normalize: bool = False,                 # normalize queries and centroids if True
         mean: Optional[np.ndarray] = None,
         std: Optional[np.ndarray] = None,
         centroids: Optional[np.ndarray] = None,  # global shared centroids [K, D], required
@@ -203,7 +211,7 @@ class ClusterDistTransformer(nn.Module):
         use_type_embed: bool = True,
         score_type: str = "bilinear",  # ["bilinear", "mlp"]
         pos_exist: bool = False,
-        use_gating: bool = False  # 是否使用门控机制
+        use_gating: bool = False       # gating mechanism
     ):
         super().__init__()
         self.pos_exist = pos_exist
@@ -212,11 +220,16 @@ class ClusterDistTransformer(nn.Module):
         self.input_proj = nn.Linear(input_dim, d_model)
         self.pos_enc = PositionalEncoding(d_model, max_len) # （max_len, d_model）
         self.type_embed = nn.Embedding(2, d_model) if use_type_embed else None
-        
-        # 门控机制层
+
+        # Gating mechanism layer
+        # 为了 TorchScript 兼容性，总是初始化这些层
         if use_gating:
             self.gate_linear = nn.Linear(d_model, d_model)
             self.gate_activation = nn.Sigmoid()
+        else:
+            # 占位符，不会被使用
+            self.gate_linear = nn.Identity()
+            self.gate_activation = nn.Identity()
 
         encoder_layer = nn.TransformerEncoderLayer(
             d_model=d_model,
@@ -233,38 +246,43 @@ class ClusterDistTransformer(nn.Module):
         if score_type == "bilinear":
             self.query_head = nn.Linear(d_model, d_model, bias=False)
             self.centroid_head = nn.Linear(d_model, d_model, bias=False)
+            # 为了 TorchScript 兼容性，即使不使用也要初始化 scorer
+            self.scorer = nn.Identity()  # 占位符
         elif score_type == "mlp":
             self.scorer = nn.Sequential(
                 nn.Linear(2 * d_model, d_model),
                 nn.GELU(),
                 nn.Linear(d_model, 1),
             )
+            # 为了 TorchScript 兼容性，即使不使用也要初始化 query_head 和 centroid_head
+            self.query_head = nn.Identity()  # 占位符
+            self.centroid_head = nn.Identity()  # 占位符
         else:
             raise ValueError("score_type must be 'bilinear' or 'mlp'")
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # x: [B, K+1, D]
         bsz, seqlen, _ = x.size()
-        t = self.input_proj(x)  # [B, L, d_model]
-        if self.type_embed is not None:
+        t = self.input_proj(x)                   # [B, L, d_model]
+        if self.type_embed is not None:          # add type embeddings if used
             type_ids = torch.zeros((bsz, seqlen), dtype=torch.long, device=x.device)
             if seqlen > 1:
                 type_ids[:, 1:] = 1
             t = t + self.type_embed(type_ids)
-        if self.pos_exist:
+        if self.pos_exist:                        # add positional encodings if used
             t = self.pos_enc(t)
         h = self.encoder(t)  # [B, L, d_model]
 
-        # 应用门控机制
+        # Apply gating mechanism if enabled
         if self.use_gating:
             gate = self.gate_activation(self.gate_linear(h))  # [B, L, d_model]
-            h = h * gate  # 元素级别相乘，门控输出
+            h = h * gate  # Element-wise multiplication, gated output
 
         q = h[:, 0, :]  # [B, d_model]
         c = h[:, 1:, :]  # [B, K, d_model]
 
         if self.score_type == "bilinear":
-            qh = self.query_head(q)  # [B, d_model]
+            qh = self.query_head(q)     # [B, d_model]
             ch = self.centroid_head(c)  # [B, K, d_model]
             logits = torch.einsum("bd,bkd->bk", qh, ch) / math.sqrt(self.d_model) # [B, K]
         else:
@@ -516,8 +534,8 @@ def train(
         
 
         for x, y in train_loader:
-            x = x.to(device)  # query的拼接方式：
-            y = y.to(device)
+            x = x.to(device)  # query
+            y = y.to(device)  # target distribution
             opt.zero_grad(set_to_none=True)
             with torch.amp.autocast(device_type="cuda", enabled=amp and device.type == "cuda"):
                 logits = model(x)
@@ -649,10 +667,18 @@ def train(
             print(f"epoch {ep:03d} | train_kld={train_loss:.6f} | val_kld={val_kld:.6f} | val_mae={val_mae:.6f} | val_mse={val_mse:.6f} | ord_acc@{eval_topk}={val_ordacc:.4f} | recall@{eval_topk}={val_recall:.4f}")
             if val_kld < best_val and save_dir: # 保存最好的模型：最小化KL散度
                 best_val = val_kld
+                # 保存 state_dict
                 torch.save(
                     {"model": model.state_dict(), "epoch": ep, "val_kld": val_kld},
                     os.path.join(save_dir, save_name),
                 )
+                # 保存 TorchScript 版本
+                model.eval()
+                scripted_model = torch.jit.script(model)
+                script_name = save_name.rsplit('.', 1)[0] + "_scripted.pt"
+                scripted_model.save(os.path.join(save_dir, script_name))
+                print(f"Saved TorchScript model to {os.path.join(save_dir, script_name)}")
+                model.train()  # 恢复训练模式
 
     # 绘制epoch=1时每个batch的验证准确率变化图
     if len(epoch1_batch_metrics) > 0 and save_dir:
@@ -665,61 +691,68 @@ def train(
 
 def parse_args():
     p = argparse.ArgumentParser(description="Transformer for predicting NN cluster distribution")
-    # data
-    p.add_argument("--train_npz", type=str, default=None, help="Training npz (contains queries and targets)")
-    p.add_argument("--val_npz", type=str, default=None, help="Validation npz (optional)")
-    p.add_argument("--test_npz", type=str, default=None, help="Test npz (optional)")
-    p.add_argument("--centroids_path", type=str, default=None, help="Global shared centroids (.npy or .npz), shape [K, D]")
-    p.add_argument("--val_split", type=float, default=0.1, help="Split ratio from training set when no val_npz is provided")
-    p.add_argument("--normalize", action="store_true", help="Apply feature-wise standardization")
-    # synth
-    p.add_argument("--gen_synth", action="store_true", help="Generate and use synthetic data to validate the pipeline")
-    p.add_argument("--synth_n", type=int, default=20000, help="Number of synthetic samples")
-    p.add_argument("--synth_K", type=int, default=64, help="Number of clusters (K) for synthetic data")
-    p.add_argument("--synth_D", type=int, default=128, help="Feature dimension (D) for synthetic data")
-    # train
-    p.add_argument("--epochs", type=int, default=20, help="Number of training epochs")
-    p.add_argument("--batch_size", type=int, default=256, help="Batch size")
-    p.add_argument("--lr", type=float, default=1e-3, help="Learning rate")
-    p.add_argument("--weight_decay", type=float, default=1e-2, help="Weight decay")
-    p.add_argument("--grad_clip", type=float, default=1.0, help="Gradient clipping (max norm)")
-    p.add_argument("--num_workers", type=int, default=4, help="DataLoader workers")
-    p.add_argument("--seed", type=int, default=42, help="Random seed")
-    p.add_argument("--save_dir", type=str, default="./results", help="Directory to save synthetic data and models")
-    
-    # ===== 新增：实验标识符 =====
-    p.add_argument("--experiment_id", type=str, default=None, 
-                   help="Experiment identifier prefix for result directories (e.g., 'A', 'exp1', 'batch1')")
-    
-    # model
-    p.add_argument("--d_model", type=int, default=256, help="Transformer hidden size")
-    p.add_argument("--nhead", type=int, default=8, help="Number of attention heads")
-    p.add_argument("--num_layers", type=int, default=4, help="Number of Transformer encoder layers")
-    p.add_argument("--dim_ff", type=int, default=512, help="Feedforward hidden size")
-    p.add_argument("--dropout", type=float, default=0.1, help="Dropout probability")
-    p.add_argument("--max_len", type=int, default=4096, help="Maximum supported sequence length")
-    p.add_argument("--score_type", type=str, default="bilinear", choices=["bilinear", "mlp"], help="Scoring function type")
-    p.add_argument("--no_amp", action="store_true", help="Disable mixed precision")
-    p.add_argument("--topk", type=int, default=10, help="Top-K for recall metric")
-    p.add_argument("--log_interval", type=int, default=100, help="Steps between batch logs (0 to disable)")
 
-    p.add_argument("--pos_exist", action="store_true", help="Whether to use positional encoding")
-    p.add_argument("--use_type_embed", action="store_true", help="Whether to use type embedding")
-    p.add_argument("--use_gating", action="store_true", help="Whether to use gating mechanism in transformer")
-    p.add_argument("--loss_type", type=str,
-                   choices=["kld","kld_reverse","mse","hybrid","recall_focused_loss",
-                            "listnet","listmle","pairwise_hinge"],
-                   default="kld")
-    
-    # 与新 loss 相关的超参（可选）
-    p.add_argument("--listmle_topm", type=int, default=None, help="ListMLE 仅用前 m 个目标")
-    p.add_argument("--listnet_pred_temp", type=float, default=1.0)
-    p.add_argument("--listnet_tgt_temp", type=float, default=None)
-    p.add_argument("--pair_num_pos", type=int, default=1)
-    p.add_argument("--pair_num_neg", type=int, default=20)
-    p.add_argument("--pair_margin", type=float, default=0.1)
-    
+    # ===================== Data =====================
+    p.add_argument("--train_npz",         type=str,   default=None, help="Training npz (contains queries and targets)")
+    p.add_argument("--val_npz",           type=str,   default=None, help="Validation npz (optional)")
+    p.add_argument("--test_npz",          type=str,   default=None, help="Test npz (optional)")
+    p.add_argument("--centroids_path",    type=str,   default=None, help="Global shared centroids (.npy or .npz), shape [K, D]")
+    p.add_argument("--val_split",         type=float, default=0.1,  help="Split ratio from training set when no val_npz is provided")
+    p.add_argument("--normalize",         action="store_true",      help="Apply feature-wise standardization")
+
+    # ===================== Synthetic Data =====================
+    p.add_argument("--gen_synth",         action="store_true",      help="Generate and use synthetic data to validate the pipeline")
+    p.add_argument("--synth_n",           type=int,   default=20000, help="Number of synthetic samples")
+    p.add_argument("--synth_K",           type=int,   default=64,    help="Number of clusters (K) for synthetic data")
+    p.add_argument("--synth_D",           type=int,   default=128,   help="Feature dimension (D) for synthetic data")
+    p.add_argument("--save_dir",          type=str,   default="./results", help="Directory to save synthetic data and models")
+
+    # ===================== Training =====================
+    p.add_argument("--epochs",            type=int,   default=20,    help="Number of training epochs")
+    p.add_argument("--batch_size",        type=int,   default=256,   help="Batch size")
+    p.add_argument("--lr",                type=float, default=1e-3,  help="Learning rate")
+    p.add_argument("--weight_decay",      type=float, default=1e-2,  help="Weight decay")
+    p.add_argument("--grad_clip",         type=float, default=1.0,   help="Gradient clipping (max norm)")
+    p.add_argument("--num_workers",       type=int,   default=4,     help="DataLoader workers")
+    p.add_argument("--seed",              type=int,   default=42,    help="Random seed")
+
+    # ===================== Experiment ID =====================
+    p.add_argument("--experiment_id",     type=str,   default=None,
+                   help="Experiment identifier prefix for result directories (e.g., 'A', 'exp1', 'batch1')")
+
+    # ===================== Model =====================
+    p.add_argument("--d_model",           type=int,   default=256,   help="Transformer hidden size")
+    p.add_argument("--nhead",             type=int,   default=8,     help="Number of attention heads")
+    p.add_argument("--num_layers",        type=int,   default=4,     help="Number of Transformer encoder layers")
+    p.add_argument("--dim_ff",            type=int,   default=512,   help="Feedforward hidden size")
+    p.add_argument("--dropout",           type=float, default=0.1,   help="Dropout probability")
+    p.add_argument("--max_len",           type=int,   default=4096,  help="Maximum supported sequence length")
+    p.add_argument("--score_type",        type=str,   default="bilinear",
+                   choices=["bilinear", "mlp"], help="Scoring function type")
+    p.add_argument("--no_amp",            action="store_true",      help="Disable mixed precision")
+    p.add_argument("--topk",              type=int,   default=10,    help="Top-K for recall metric")
+    p.add_argument("--log_interval",      type=int,   default=100,   help="Steps between batch logs (0 to disable)")
+
+    p.add_argument("--pos_exist",         action="store_true",      help="Whether to use positional encoding")
+    p.add_argument("--use_type_embed",    action="store_true",      help="Whether to use type embedding")
+    p.add_argument("--use_gating",        action="store_true",      help="Whether to use gating mechanism in transformer")
+    p.add_argument("--loss_type",         type=str,   default="kld",
+                   choices=["kld", "kld_reverse", "mse", "hybrid", "recall_focused_loss",
+                            "listnet", "listmle", "pairwise_hinge"],
+                   help="Loss function type")
+
+    # ===================== ListMLE / ListNet =====================
+    p.add_argument("--listmle_topm",      type=int,   default=None,  help="ListMLE 仅用前 m 个目标")
+    p.add_argument("--listnet_pred_temp", type=float, default=1.0,   help="Temperature for predicted distribution (ListNet)")
+    p.add_argument("--listnet_tgt_temp",  type=float, default=None,  help="Temperature for target distribution (ListNet)")
+
+    # ===================== Pairwise Hinge =====================
+    p.add_argument("--pair_num_pos",      type=int,   default=1,     help="Number of positive pairs per sample")
+    p.add_argument("--pair_num_neg",      type=int,   default=20,    help="Number of negative pairs per sample")
+    p.add_argument("--pair_margin",       type=float, default=0.1,   help="Margin for pairwise hinge loss")
+
     return p.parse_args()
+
 
 
 def main():
@@ -745,6 +778,7 @@ def main():
         args.train_npz, args.val_npz, args.test_npz = train_npz, val_npz, test_npz
         args.centroids_path = centroids_path
 
+    # Ensure required data inputs are provided
     if args.train_npz is None:
         raise ValueError("You must provide --train_npz or use --gen_synth")
     
@@ -756,9 +790,7 @@ def main():
     # Determine dimensions solely from centroids
     K, D = C.shape
     print(f"Detected K={K}, D={D}")
-    # Save checkpoints next to the centroids file
-    ckpt_dir = os.path.dirname(args.centroids_path)
-    os.makedirs(ckpt_dir, exist_ok=True)
+
     
     # Build a descriptive checkpoint name using key hyperparameters
     ckpt_name = (
@@ -767,14 +799,14 @@ def main():
         f"_pos{args.pos_exist}_gating{args.use_gating}_loss_type{args.loss_type}_use_type_embed{args.use_type_embed}.pt"
     )
     
-    # Create a subdirectory under ckpt_dir named after ckpt_name without the .pt suffix
+    # 实验标识符前缀 : centroids_path_dir + experiment_id + ckpt_name
     subdir_name = os.path.splitext(ckpt_name)[0]
-    
-    # ===== 新增：添加实验标识符前缀 =====
     if args.experiment_id:
         subdir_name = f"{args.experiment_id}_{subdir_name}"
         print(f"Using experiment ID: {args.experiment_id}")
     
+    ckpt_dir = os.path.dirname(args.centroids_path)
+    os.makedirs(ckpt_dir, exist_ok=True)
     result_dir = os.path.join(ckpt_dir, subdir_name)
     os.makedirs(result_dir, exist_ok=True)
 
@@ -800,11 +832,12 @@ def main():
         score_type=args.score_type, # bilinear or mlp
         pos_exist=args.pos_exist,
         use_type_embed=args.use_type_embed,
-        use_gating=args.use_gating  # 门控机制参数
+        use_gating=args.use_gating  # gating mechanism
     ).to(device)
 
-    # epoch=0,保存模型参数（未训练的随机初始化模型）
+    # saved untrained model
     if args.epochs == 0:
+        # 保存 state_dict
         torch.save(
             {"model": model.state_dict(), "epoch": args.epochs},
             os.path.join(result_dir, ckpt_name),
@@ -814,23 +847,26 @@ def main():
         # 正常训练
         train(
             model=model,
-            train_loader=train_loader,
-            val_loader=val_loader,
+            train_loader=train_loader,      # training data loader
+            val_loader=val_loader,          # validation data loader (optional)
             device=device,
             epochs=args.epochs,
             lr=args.lr,
             weight_decay=args.weight_decay,
-            grad_clip=args.grad_clip, # gradient clipping
-            amp=not args.no_amp, # mixed precision training
+            grad_clip=args.grad_clip,       # gradient clipping
+            amp=not args.no_amp,            # mixed precision training
             save_dir=result_dir,
             save_name=ckpt_name,
             eval_topk=args.topk,
             log_interval=args.log_interval,
             loss_type=args.loss_type,
-            # 新增损失函数相关参数
+            
+            # listmle / listnet
             listmle_topm=args.listmle_topm,
             listnet_pred_temp=args.listnet_pred_temp,
             listnet_tgt_temp=args.listnet_tgt_temp,
+            
+            # pairwise hinge
             pair_num_pos=args.pair_num_pos,
             pair_num_neg=args.pair_num_neg,
             pair_margin=args.pair_margin
@@ -857,7 +893,11 @@ def main():
         test_ds = NPZClusterDataset(args.test_npz, normalize=args.normalize, mean=mean, std=std, centroids=C)
         test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers, pin_memory=True)
         kld, mae, mse, ordacc, recall = evaluate(
-            model, test_loader, device, topk=args.topk, loss_type=args.loss_type,
+            model, 
+            test_loader, 
+            device, 
+            topk=args.topk, 
+            loss_type=args.loss_type,
             listmle_topm=args.listmle_topm,
             listnet_pred_temp=args.listnet_pred_temp,
             listnet_tgt_temp=args.listnet_tgt_temp,
@@ -887,9 +927,8 @@ if __name__ == "__main__":
 conda activate elpis_torch
 cd /home/xln/PycharmProjects/PredictLeafNode/
 python -m src.model.cluster_dist_transformer_original \
-  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist_top1.npz \
+  --train_npz input/Training_data/gist1M_learn/leafsize20K/train_gist.npz \
   --centroids_path input/Training_data/gist1M_learn/leafsize20K/centroids.npy \
-  --test_npz input/Training_data/gist1M_learn/leafsize20K/test_gist_top1.npz \
   --val_split 0.01 \
   --topk 1 \
   --epochs 10 \
@@ -910,7 +949,7 @@ python -m src.model.cluster_dist_transformer_original \
 '''
 
 '''
-python -m src.model.cluster_dist_transformer \
+python -m src.model.cluster_dist_transformer_original \
   --train_npz input/Training_data/sift1M_learn/leafsize10K/train_sift.npz \
   --centroids_path input/Training_data/sift1M_learn/leafsize10K/centroids.npy \
   --val_split 0.1 \
@@ -926,7 +965,7 @@ python -m src.model.cluster_dist_transformer \
   --dropout 0.1 \
   --score_type bilinear
 
-python -m src.model.cluster_dist_transformer \
+python -m src.model.cluster_dist_transformer_original \
   --train_npz input/Training_data/sift1M_learn/leafsize20K/train_sift.npz \
   --centroids_path input/Training_data/sift1M_learn/leafsize20K/centroids.npy \
   --val_split 0.1 \
