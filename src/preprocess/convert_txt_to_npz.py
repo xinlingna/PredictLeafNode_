@@ -437,3 +437,18 @@ python -m src.preprocess.convert_txt_to_npz \
   --out_test_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize20W/test_deep50M.npz \
   --out_centroids /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize20W/centroids.npy
 """
+# deep50M leafsize10W_leanr5M
+""" 
+conda activate elpis_torch
+python -m src.preprocess.convert_txt_to_npz \
+  --learn_txt /mnt/hdd1/xln/elpis/data/real/Deep50M/deep50M_learn_5M.bin \
+  --learn_n 5000000 --learn_d 96 \
+  --learn_labels_txt /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/learn_knn_distributions_k100.txt \
+  --query_txt /home/xln/PredictLeafNode/input/Training_data/deep50M/deep50M_query.bin \
+  --query_n 10000 --query_d 96 \
+  --query_labels_txt /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/query_knn_distributions_k100.txt \
+  --centroids_txt /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/leaf_centroid.txt \
+  --out_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/train_deep50M.npz \
+  --out_test_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/test_deep50M.npz \
+  --out_centroids /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/centroids.npy
+"""

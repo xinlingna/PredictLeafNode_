@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3)",
+      "Bash(awk -F, 'NR>1{print $NF}' /mnt/hdd/xln/elpis/results/full_recall_qps/sift1M_results/query_performance_metrics_all.csv)",
+      "Bash(chmod +x /mnt/hdd/xln/elpis/code/scripts/run_tau_sensitivity_large.sh)",
+      "Bash(chmod +x /mnt/hdd/xln/elpis/code/scripts/run_tau_sensitivity_small.sh)",
+      "Bash(python3 -c ' *)",
+      "Bash(awk 'NR>=8')",
+      "Bash(awk 'NR>=35')"
+    ]
+  }
+}

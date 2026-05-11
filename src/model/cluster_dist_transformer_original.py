@@ -8,6 +8,7 @@ import copy
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.quantization
 from torch.utils.data import Dataset, DataLoader, random_split
 
 import matplotlib
@@ -109,6 +110,53 @@ def save_npz(path: str, queries: np.ndarray, targets: np.ndarray):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     np.savez_compressed(path, queries=queries, targets=targets)
 
+def build_optuna_param_filename(train_npz_path: str) -> str:
+    """
+    从 train_npz 路径中解析 dataset 和 leafsize 信息
+    e.g.
+    /xxx/sift10M/leafsize40W/train_xxx.npz
+    -> sift10M_leafsize40W_optuna_best_params.txt
+    """
+    parts = os.path.normpath(train_npz_path).split(os.sep)
+
+    dataset = None
+    leafsize = None
+
+    for i, p in enumerate(parts):
+        if p.lower().startswith("sift") or p.lower().startswith("deep"):
+            dataset = p
+            if i + 1 < len(parts) and parts[i + 1].lower().startswith("leafsize"):
+                leafsize = parts[i + 1]
+            break
+
+    if dataset is None or leafsize is None:
+        raise ValueError(f"Cannot parse dataset/leafsize from path: {train_npz_path}")
+
+    return f"{dataset}_{leafsize}_optuna_best_params.txt"
+
+def build_csv_param_filename(train_npz_path: str) -> str:
+    """
+    从 train_npz 路径中解析 dataset 和 leafsize 信息
+    e.g.
+    /xxx/sift10M/leafsize40W/train_xxx.npz
+    -> sift10M_leafsize40W_optuna_best_params.txt
+    """
+    parts = os.path.normpath(train_npz_path).split(os.sep)
+
+    dataset = None
+    leafsize = None
+
+    for i, p in enumerate(parts):
+        if p.lower().startswith("sift") or p.lower().startswith("deep"):
+            dataset = p
+            if i + 1 < len(parts) and parts[i + 1].lower().startswith("leafsize"):
+                leafsize = parts[i + 1]
+            break
+
+    if dataset is None or leafsize is None:
+        raise ValueError(f"Cannot parse dataset/leafsize from path: {train_npz_path}")
+
+    return f"{dataset}_{leafsize}_optuna_all_trials.csv"
 
 def topk_recall(pred_prob: torch.Tensor, label_prob: torch.Tensor, k: int = 10) -> float:
     """
@@ -706,20 +754,21 @@ def optuna_objective(trial, args, base_centroids, device):
     
     # dim_ff: Feed Forward 层的维度
     param_dim_ff = trial.suggest_categorical("dim_ff", [256, 512])
-    
-    # dropout: 固定为 0.1, 0.2, 0.3 等特定档位
-    param_dropout = trial.suggest_categorical("dropout", [0.1, 0.2, 0.3])
+
+    # dropout: 固定为 0.05, 0.1, 0.2 等特定档位
+    param_dropout = trial.suggest_categorical("dropout", [0.05, 0.1, 0.2])
     
     # === 2. 训练超参数 ===
     
     # lr: 学习率通常按对数标度取离散点
-    param_lr = trial.suggest_categorical("lr", [1e-2, 1e-3, 5e-4])
+    param_lr = trial.suggest_categorical("lr", [1e-2, 1e-3, 5e-3])
     
     # batch_size: 显存允许范围内的离散值
-    param_batch_size = trial.suggest_categorical("batch_size", [512, 1024])
+    param_batch_size = trial.suggest_categorical("batch_size", [128, 256, 512])
+    # param_batch_size = trial.suggest_categorical("batch_size", [2048])
     
     # weight_decay: 几个常见的权重衰减值
-    param_weight_decay = trial.suggest_categorical("weight_decay", [1e-2, 1e-3, 1e-4, 0.0])
+    param_weight_decay = trial.suggest_categorical("weight_decay", [1e-2, 1e-3])
     
     # === 3. 损失函数 (保持命令行输入，或者也在这里离散化) ===
     # param_loss_type = trial.suggest_categorical("loss_type", ["kld", "mse"])
@@ -908,7 +957,9 @@ def main():
                 
                 # 立即写入 Best Params 文件
                 os.makedirs(args.save_dir, exist_ok=True)
-                txt_path = os.path.join(args.save_dir, "optuna_best_params.txt")
+                fname = build_optuna_param_filename(args.train_npz)
+                txt_path = os.path.join(args.save_dir, fname)
+
                 with open(txt_path, "w") as f:
                     f.write(f"Best Trial ID: {frozen_trial.number}\n")
                     f.write(f"Best Loss: {frozen_trial.value}\n")
@@ -931,7 +982,9 @@ def main():
         # ================= [新增] 结束后保存所有 Trial 的详细记录 =================
         if len(study.trials) > 0:
             df = study.trials_dataframe()
-            csv_path = os.path.join(args.save_dir, "optuna_all_trials.csv")
+            csv_fname = build_csv_param_filename(args.train_npz)
+            csv_path = os.path.join(args.save_dir, csv_fname)
+            # csv_path = os.path.join(args.save_dir, "optuna_all_trials.csv")
             df.to_csv(csv_path, index=False)
             print(f"All trials saved to {csv_path}")
 
@@ -943,7 +996,10 @@ def main():
                 print(f"    {key}: {value}")
             
             # 双重保险：结束后再次保存最佳参数（防止 callback 漏掉最后一次）
-            txt_path = os.path.join(args.save_dir, "optuna_best_params.txt")
+            # txt_path = os.path.join(args.save_dir, "optuna_best_params.txt")
+            fname = build_optuna_param_filename(args.train_npz)
+            txt_path = os.path.join(args.save_dir, fname)
+
             with open(txt_path, "w") as f:
                 f.write(f"Best Trial ID: {trial.number}\n")
                 f.write(f"Best Loss: {trial.value}\n")
@@ -1037,7 +1093,31 @@ def main():
                     f.write(" ".join(f"{v.item():.6f}" for v in row) + "\n")
         print(f"Saved predictions -> {out_pred}")
 
+        print("Exporting INT8 quantized TorchScript model for LibTorch...")
+        
+        # ==========================================================
+        # --- 新增绝杀逻辑：导出 INT8 动态量化 TorchScript 模型给 C++ ---
+        # ==========================================================
+        # 1. 强制将模型转移到 CPU (极其重要：动态量化是针对 CPU 指令集优化的)
+        model_cpu = model.cpu()
+        
+        # 2. 执行 INT8 动态量化 (仅量化 Linear 层，压缩 75% 内存带宽)
+        quantized_model = torch.quantization.quantize_dynamic(
+            model_cpu, 
+            {torch.nn.Linear}, 
+            dtype=torch.qint8
+        )
+        
+        # 3. 序列化为 C++ LibTorch 可读的 TorchScript 格式
+        scripted_model = torch.jit.script(quantized_model)
+        
+        # 4. 保存模型，强制加上 _int8.pt 后缀以作区分
+        out_pt_int8 = os.path.join(result_dir, base_ckpt_name + "_int8.pt")
+        scripted_model.save(out_pt_int8)
+        print(f"[Success] INT8 极速版模型已保存至 -> {out_pt_int8}")
+
 if __name__ == "__main__":
+    
     main()
 
 """
@@ -1292,16 +1372,50 @@ python -m src.model.cluster_dist_transformer_original \
 
 """ 
 python -m src.model.cluster_dist_transformer_original \
-  --train_npz /home/xln/PredictLeafNode/input/Training_data/sift10M/leafsize40W/train_sift10M.npz \
-  --test_npz /home/xln/PredictLeafNode/input/Training_data/sift10M/leafsize40W/test_sift10M.npz \
-  --centroids_path /home/xln/PredictLeafNode/input/Training_data/sift10M/leafsize40W/centroids.npy \
+  --train_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W/train_deep50M.npz \
+  --test_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W/test_deep50M.npz \
+  --centroids_path /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W/centroids.npy \
   --val_split 0.05 \
   --topk 20 \
-  --epochs 2 \
+  --epochs 4 \
   --pos_exist \
   --use_gating \
   --loss_type kld \
-  --experiment_id 20260115_sift10M_leaf40W_OPTUNA \
+  --experiment_id 20260115_deep50M_leaf10W_OPTUNA \
+  --use_optuna \
+  --optuna_trials 500
+"""
+
+# deep50M leafsize=50W
+""" 
+python -m src.model.cluster_dist_transformer_original \
+  --train_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize50W/train_deep50M.npz \
+  --test_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize50W/test_deep50M.npz \
+  --centroids_path /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize50W/centroids.npy \
+  --val_split 0.05 \
+  --topk 20 \
+  --epochs 4 \
+  --pos_exist \
+  --use_gating \
+  --loss_type kld \
+  --experiment_id 20260503_deep50M_leaf50W_OPTUNA \
+  --use_optuna \
+  --optuna_trials 500
+"""
+
+
+""" 
+python -m src.model.cluster_dist_transformer_original \
+  --train_npz   /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/train_deep50M.npz \
+  --test_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/test_deep50M.npz \
+  --centroids_path /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/centroids.npy \
+  --val_split 0.05 \
+  --topk 200 \
+  --epochs 4 \
+  --pos_exist \
+  --use_gating \
+  --loss_type kld \
+  --experiment_id 20260115_deep50M_leaf10W_learn5M_OPTUNA \
   --use_optuna \
   --optuna_trials 500
 """

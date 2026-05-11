@@ -1,0 +1,11 @@
+Best Trial ID: 3
+Best Loss: 0.85098489818573
+Params:
+  d_model: 128
+  nhead: 4
+  num_layers: 6
+  dim_ff: 256
+  dropout: 0.05
+  lr: 0.001
+  batch_size: 256
+  weight_decay: 0.01

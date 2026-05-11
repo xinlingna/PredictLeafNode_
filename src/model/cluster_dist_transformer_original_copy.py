@@ -1169,7 +1169,7 @@ python -m src.model.cluster_dist_transformer_original_copy \
   --nhead 4 \
   --num_layers 8 \
   --dim_ff 512 \
-  --dropout 0.3 \
+  --dropout 0.1 \
   --score_type bilinear \
   --log_interval 200 \
   --pos_exist \
@@ -1228,4 +1228,29 @@ python -m src.model.cluster_dist_transformer_original_copy \
   --use_gating \
   --loss_type kld \
   --experiment_id 20251118_deep50M_leaf20W
+"""
+
+# deep50M leafsize=10W learn5M
+""" 
+python -m src.model.cluster_dist_transformer_original_copy \
+  --train_npz   /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/train_deep50M.npz \
+  --test_npz /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/test_deep50M.npz \
+  --centroids_path /home/xln/PredictLeafNode/input/Training_data/deep50M/leafsize10W_learn5M/centroids.npy \
+  --val_split 0.05 \
+  --topk 200 \
+  --epochs 1 \
+  --batch_size 256 \
+  --lr 1e-3 \
+  --weight_decay 1e-2 \
+  --d_model 128 \
+  --nhead 8 \
+  --num_layers 6 \
+  --dim_ff 256 \
+  --dropout 0.05 \
+  --score_type bilinear \
+  --log_interval 100 \
+  --pos_exist \
+  --use_gating \
+  --loss_type kld \
+  --experiment_id 20251118_deep50M_leaf10W
 """
